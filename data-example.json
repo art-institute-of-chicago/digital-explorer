@@ -1,0 +1,49 @@
+{
+  "mode": "3d",
+  "asset": "https://www.artic.edu/files/839bf219-83e9-4543-98d7-237ce5ba0e85/1964.88_armor_for_man_and_horse.glb",
+  "graphic_settings": {
+    "antialiasing": true,
+    "toneMapping": "THREE.ACESFilmicToneMapping",
+    "toneMappingExposure": 1.2,
+    "outputColorSpace": "THREE.SRGBColorSpace"
+  },
+  "scene_settings": {
+    "shadows": true
+  },
+  "camera_settings": {
+    "position": [0, 5, -5],
+    "rotation": [0, 0, 0]
+  },
+  "explorer_annotations": [
+    {
+      "blocks": [
+        {
+          "id": 2030519,
+          "blockable_id": 223,
+          "blockable_type": "digitalExplorer",
+          "position": 1,
+          "content": "type: 2-across",
+          "type": "layout",
+          "child_key": "digitalExplorer",
+          "parent_id": 1,
+          "editor_name": "default",
+          "medias": [],
+          "children": []
+        },
+        {
+          "id": 2030520,
+          "blockable_id": 224,
+          "blockable_type": "digitalExplorer",
+          "position": 1,
+          "content": "type: 2-across",
+          "type": "layout",
+          "child_key": "digitalExplorer",
+          "parent_id": 1,
+          "editor_name": "default",
+          "medias": [],
+          "children": []
+        }
+      ]
+    }
+  ]
+}
