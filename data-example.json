@@ -1,47 +1,109 @@
 {
-  "mode": "3d",
-  "asset": "https://www.artic.edu/files/839bf219-83e9-4543-98d7-237ce5ba0e85/1964.88_armor_for_man_and_horse.glb",
-  "graphic_settings": {
-    "antialiasing": true,
-    "toneMapping": "THREE.ACESFilmicToneMapping",
-    "toneMappingExposure": 1.2,
-    "outputColorSpace": "THREE.SRGBColorSpace"
+  "type": "3d",
+  "settings": {
+    "sceneSettings": {
+      "antialiasing": true,
+      "shadows": true
+    },
+    "toneMapping": "ACESFilmicToneMapping",
+    "colorSpace": "SRGB",
+    "toneMappingExposure": 1,
+    "backgroundColor": "#1a1a1a",
+    "environmentPreset": "sunset",
+    "orbitControls": {
+      "target": [0, 0, 0],
+      "makeDefault": true
+    },
+    "camera": {
+      "position": [0, 5, 15],
+      "fov": 75,
+      "near": 0.1,
+      "far": 2000
+    }
   },
-  "scene_settings": {
-    "shadows": true
-  },
-  "camera_settings": {
-    "position": [0, 5, -5],
-    "rotation": [0, 0, 0]
-  },
-  "explorer_annotations": [
+  "models": [
     {
-      "blocks": [
-        {
-          "id": 2030519,
-          "blockable_id": 223,
-          "blockable_type": "digitalExplorer",
-          "position": 1,
-          "content": "type: 2-across",
-          "type": "layout",
-          "child_key": "digitalExplorer",
-          "parent_id": 1,
-          "editor_name": "default",
-          "medias": [],
-          "children": []
+      "id": "model-1",
+      "type": "explorer_model",
+      "modelPath": "/abandoned_mansion_bedroom.glb",
+      "position": [-66.6, 0, 69],
+      "rotation": [0, 4.75, 0],
+      "scale": 4,
+      "content": {
+        "settings": ["castShadow", "receiveShadow"],
+        "model": {
+          "en": "/abandoned_mansion_bedroom.glb"
         },
+        "coordinate": "[-66.6, 0, 69]",
+        "rotation": "[0, 4.75, 0]",
+        "scale": "4"
+      },
+      "children": [
         {
-          "id": 2030520,
-          "blockable_id": 224,
-          "blockable_type": "digitalExplorer",
-          "position": 1,
-          "content": "type: 2-across",
-          "type": "layout",
-          "child_key": "digitalExplorer",
-          "parent_id": 1,
-          "editor_name": "default",
-          "medias": [],
-          "children": []
+          "id": "light-1",
+          "type": "explorer_light",
+          "content": {
+            "lightType": "point",
+            "coordinate": "[-66.6, 5, 69]",
+            "color": "#ff9900",
+            "intensity": "2",
+            "settings": ["castShadow"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "model-2",
+      "type": "explorer_model",
+      "modelPath": "/painting.glb",
+      "position": [0, 5.5, 0],
+      "rotation": [0, 1.6, 0],
+      "scale": 0.02,
+      "content": {
+        "settings": ["castShadow", "receiveShadow", "enableControls"],
+        "model": {
+          "en": "/painting.glb"
+        },
+        "coordinate": "[0, 5.5, 0]",
+        "rotation": "[0, 1.6, 0]",
+        "scale": "0.02"
+      }
+    }
+  ],
+  "lights": [
+    {
+      "id": "ambient-1",
+      "type": "explorer_light",
+      "content": {
+        "lightType": "ambient",
+        "color": "#ffffff",
+        "intensity": "0.5"
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "id": "annotation-1",
+      "type": "explorer_annotation",
+      "content": {
+        "coordinate": "[5, 3, 5]",
+        "rotation": "[0, 0, 0]",
+        "scale": "1",
+        "color": "#ff6b6b",
+        "size": "0.5",
+        "annotationSettings": ["showLabel"],
+        "labelText": "Main Entrance"
+      },
+      "children": [
+        {
+          "id": "annotation-2",
+          "type": "explorer_annotation",
+          "content": {
+            "coordinate": "[5, 4, 5]",
+            "color": "#4CAF50",
+            "size": "0.3",
+            "labelText": "Detail Point"
+          }
         }
       ]
     }
