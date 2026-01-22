@@ -20,7 +20,6 @@ export class ModelLoader {
     const modelPosition = toVector3Array(content?.position || position, [0, 0, 0]);
     const modelRotation = toVector3Array(content?.rotation || rotation, [0, 0, 0]);
 
-    console.log(modelPosition, modelRotation, ' model pos and rot')
     const modelScale = toVector3Array(content?.scale || scale, [1, 1, 1]);
 
     if (modelType === '2d') {
@@ -46,7 +45,6 @@ export class ModelLoader {
           sprite.scale.set(scale[0], scale[1], scale[2]);
 
           this.getTarget().add(sprite);
-          console.log('🖼️ Loaded 2D sprite:', imageUrl);
 
           if (children) {
             children.forEach(child => {
@@ -59,9 +57,6 @@ export class ModelLoader {
           const maxDim = Math.max(scale[0], scale[1], scale[2]);
 
           resolve({ model: sprite, maxDim, is2D: true });
-        },
-        (progress) => {
-          console.log(`Loading sprite ${imageUrl}: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
         },
         (error) => {
           console.error(`❌ Failed to load sprite ${imageUrl}:`, error);
@@ -82,14 +77,10 @@ export class ModelLoader {
           model.scale.set(scale[0], scale[1], scale[2]);
 
           this.getTarget().add(model);
-          console.log('🎨 Loaded 3D model:', modelUrl);
-          console.log('📍 Model position:', [position[0], position[1], position[2]]);
-          console.log('🎯 Added to:', this.parentContainer ? 'SceneContainer' : 'Scene');
 
           const box = new THREE.Box3().setFromObject(model);
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
-          console.log('📐 Model dimensions:', { size, maxDim });
 
           if (children) {
             children.forEach(child => {
@@ -101,13 +92,6 @@ export class ModelLoader {
 
           resolve({ model, maxDim, is2D: false });
         },
-        (progress) => {
-          console.log(`Loading ${modelUrl}: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
-        },
-        (error) => {
-          console.error(`❌ Failed to load model ${modelUrl}:`, error);
-          reject(error);
-        }
       );
     });
   }
@@ -126,9 +110,6 @@ export class ModelLoader {
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
 
-          console.log('📐 Model size:', size);
-          console.log('📍 Model position:', model.position);
-
           controls.minDistance = maxDim * 0.6;
           controls.maxDistance = maxDim * 10;
 
@@ -139,14 +120,6 @@ export class ModelLoader {
           controls.target.set(0, 0, 0);
           controls.update();
 
-          console.log('📷 Camera position:', camera.position);
-          console.log('🎯 Controls target:', controls.target);
-          console.log('🎮 Controls distances:', {
-            minDistance: controls.minDistance,
-            maxDistance: controls.maxDistance
-          });
-
-          console.log('✅ Fallback cube loaded and centered');
           resolve({ model, maxDim, is2D: false });
         },
         (progress) => {

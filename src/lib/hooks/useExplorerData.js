@@ -11,7 +11,8 @@ export function useExplorerData(
   propLights,
   propAnnotations,
   propSettings,
-  propTitleData
+  propTitleData,
+  propInfoData
 ) {
   const [explorerData, setExplorerData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,12 +21,9 @@ export function useExplorerData(
     const data = parseExplorerDataFromDOM();
     if (data) {
       setExplorerData(data);
-      console.log('✨ Explorer data successfully loaded:', data);
-      console.log('📦 Models array:', data.models);
-      console.log('📊 Models count:', data.models?.length || 0);
-      console.log('🎬 Title data:', data.title_data);
+      console.log('✨ Explorer data successfully loaded:');
     } else {
-      console.warn('⚠️ No explorer data found, falling back to props');
+      console.warn('No explorer data found, falling back to props');
     }
     setIsLoading(false);
   }, []);
@@ -35,6 +33,7 @@ export function useExplorerData(
   const annotations = explorerData?.annotations || propAnnotations || [];
   const settings = explorerData?.settings || propSettings || {};
   const title_data = explorerData?.title_data || propTitleData || null;
+  const info_card_data = explorerData?.info_data || propInfoData || null;
 
   return {
     models,
@@ -42,6 +41,7 @@ export function useExplorerData(
     annotations,
     settings,
     title_data,
+    info_card_data,
     isLoading
   };
 }

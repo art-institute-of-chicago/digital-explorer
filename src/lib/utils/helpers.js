@@ -41,8 +41,7 @@ export function parseExplorerDataFromDOM() {
 
   try {
     const data = JSON.parse(scriptTag.textContent);
-    console.log('📦 Parsed explorer data from DOM:', data);
-    console.log('🎬 Title data found:', data.title_data);
+    console.log('📦 Parsed explorer data from DOM:');
 
     // Return data with explicit title_data field
     // (it's probably already in data, but making it explicit for clarity)

@@ -19,11 +19,11 @@ export default function TitleScreen({
   const titleMedia = titleData?.title_media;
 
   const RIPPLE_COUNT = rippleConfig?.RIPPLE_COUNT ?? 3;
-  const RIPPLE_CYCLE_DURATION = rippleConfig?.RIPPLE_CYCLE_DURATION ?? 3;
-  const RIPPLE_MAX_SCALE = rippleConfig?.RIPPLE_MAX_SCALE ?? 2.0;
-  const RIPPLE_SPACING = rippleConfig?.RIPPLE_SPACING ?? 0.5;
+  const RIPPLE_CYCLE_DURATION = rippleConfig?.RIPPLE_CYCLE_DURATION ?? 4;
+  const RIPPLE_MAX_SCALE = rippleConfig?.RIPPLE_MAX_SCALE ?? 3.2;
+  const RIPPLE_SPACING = rippleConfig?.RIPPLE_SPACING ?? 0.34;
   const WAVE_GROUP_DELAY = rippleConfig?.WAVE_GROUP_DELAY ?? 0;
-  const RIPPLE_BASE_OPACITY = rippleConfig?.RIPPLE_BASE_OPACITY ?? 0.8;
+  const RIPPLE_BASE_OPACITY = rippleConfig?.RIPPLE_BASE_OPACITY ?? 1;
 
   useEffect(() => {
     if (!canvasRef.current || !isVisible) return;
@@ -36,11 +36,12 @@ export default function TitleScreen({
       powerPreference: "high-performance"
     });
 
-    const size = 200;
+    const size = 275;
     renderer.setSize(size, size);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
+    // The camera bounds match a square aspect ratio - this keeps things centered
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 1;
 
@@ -71,7 +72,7 @@ export default function TitleScreen({
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    ctx.fillStyle = '#4ecdc4';
+    ctx.fillStyle = '#4B9CA3';
     ctx.beginPath();
     ctx.arc(128, 128, 120, 0, Math.PI * 2);
     ctx.fill();
@@ -89,8 +90,9 @@ export default function TitleScreen({
     });
 
     const buttonMesh = new THREE.Mesh(buttonGeometry, buttonMaterial);
-    buttonMesh.userData.baseScale = 0.7;
-    buttonMesh.userData.targetScale = 0.7;
+    buttonMesh.position.set(0, 0, 0); // Explicitly centered
+    buttonMesh.userData.baseScale = 2;
+    buttonMesh.userData.targetScale = 2;
     scene.add(buttonMesh);
 
     let startTime = performance.now();
@@ -152,9 +154,6 @@ export default function TitleScreen({
   }, [isVisible, rippleConfig, RIPPLE_COUNT, RIPPLE_CYCLE_DURATION, RIPPLE_MAX_SCALE, RIPPLE_SPACING, WAVE_GROUP_DELAY, RIPPLE_BASE_OPACITY]);
 
   const handleExplore = () => {
-    console.log('🚀 User clicked explore button');
-    console.log('📊 Scene ready status:', isSceneReady);
-
     setIsExiting(true);
 
     setTimeout(() => {
@@ -188,7 +187,7 @@ export default function TitleScreen({
   return (
     <div
       style={{
-        position: 'fixed',
+        position: 'relative',
         top: 0,
         left: 0,
         width: '100vw',
@@ -266,38 +265,39 @@ export default function TitleScreen({
           <div
             dangerouslySetInnerHTML={{ __html: titleDisplay }}
             style={{
-              marginBottom: '3rem',
               animation: 'fadeInUp 1s ease-out',
-              fontSize: '4rem',
-              fontWeight: '700',
-              letterSpacing: '-0.02em',
-              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-              maxWidth: '90vw'
-            }}
-          />
-        ) : (
-          <h1
-            style={{
-              marginBottom: '3rem',
-              animation: 'fadeInUp 1s ease-out',
-              fontSize: '4rem',
-              fontWeight: '700',
+              fontSize: '4.2rem',
+              fontWeight: '400',
               letterSpacing: '-0.02em',
               textShadow: '0 4px 24px rgba(0,0,0,0.5)',
               maxWidth: '90vw',
-              fontFamily: '"Helvetica Neue", Arial, sans-serif'
+              fontFamily: "'Sabon Next LT Pro'"
+            }}
+          />
+        ) : (
+          <h2
+            style={{
+              animation: 'fadeInUp 1s ease-out',
+              fontSize: '4.2rem',
+              fontWeight: '400',
+              letterSpacing: '-0.02em',
+              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
+              maxWidth: '90vw',
+              fontFamily: "'Sabon Next LT Pro'"
             }}
           >
             {title}
-          </h1>
+          </h2>
         )}
 
         <div
           style={{
             position: 'relative',
-            width: '200px',
-            height: '200px',
-            animation: 'fadeInUp 1s ease-out 0.3s backwards',
+            width: '525px',
+            height: '525px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             cursor: 'pointer',
             opacity: isSceneReady ? 1 : 0.7,
             transition: 'opacity 0.3s ease'
@@ -309,8 +309,7 @@ export default function TitleScreen({
           <canvas
             ref={canvasRef}
             style={{
-              width: '100%',
-              height: '100%',
+              display: 'block',
               transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
             }}
           />
@@ -321,14 +320,15 @@ export default function TitleScreen({
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
+              animation: 'fadeInUp 1s ease-out 0.3s backwards',
               fontSize: '1.25rem',
-              fontWeight: '700',
-              letterSpacing: '0.1em',
+              fontWeight: '400',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: '#ffffff',
               pointerEvents: 'none',
               textShadow: '0 2px 8px rgba(0,0,0,0.2)',
-              fontFamily: '"Helvetica Neue", Arial, sans-serif'
+              fontFamily: '"Ideal Sans", "Helvetica Neue", Arial, sans-serif',
             }}
           >
             Explore
@@ -354,11 +354,9 @@ export default function TitleScreen({
         @keyframes fadeInUp {
           from {
             opacity: 0;
-            transform: translateY(30px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
           }
         }
 

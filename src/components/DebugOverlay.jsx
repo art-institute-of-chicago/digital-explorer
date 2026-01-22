@@ -124,8 +124,6 @@ export default function DebugOverlay({
     } else if (type === 'scale') {
       model.scale[axis] = numValue;
     }
-
-    console.log(`🔧 Updated ${model.name} ${type}.${axis} = ${numValue}`);
   };
 
   // Handle annotation position changes
@@ -134,8 +132,6 @@ export default function DebugOverlay({
 
     const numValue = parseFloat(value);
     annotation.group.position[axis] = numValue;
-
-    console.log(`📍 Updated annotation ${axis} = ${numValue}`);
   };
 
   // Apply preset

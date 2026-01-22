@@ -27,11 +27,7 @@ export function useControls(containerRef, renderer, settings, models) {
     if (settings.orbitControls?.target) {
       const targetArray = toVector3Array(settings.orbitControls.target, [0, 0, 0]);
       orbitTarget.set(targetArray[0], targetArray[1], targetArray[2]);
-      console.log('🎯 Using explicit orbit target from settings:', targetArray);
     }
-
-    console.log('🎯 Camera target set to:', [orbitTarget.x, orbitTarget.y, orbitTarget.z]);
-
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.copy(orbitTarget);
 
@@ -51,7 +47,6 @@ export function useControls(containerRef, renderer, settings, models) {
     controls.update();
     controlsRef.current = controls;
     setIsReady(true);
-    console.log('✅ Controls ready');
 
     function handleResize() {
       if (!containerRef.current) return;

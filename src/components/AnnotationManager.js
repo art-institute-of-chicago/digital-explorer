@@ -38,6 +38,7 @@ export class AnnotationManager {
     this.overlayContainer.style.pointerEvents = 'none';
     this.overlayContainer.style.width = '100%';
     this.overlayContainer.style.height = '100%';
+    this.overlayContainer.style.zIndex = '20000'; // Above canvas
     parentContainer.appendChild(this.overlayContainer);
 
     this.iconContainer = document.createElement('div');
@@ -90,8 +91,8 @@ export class AnnotationManager {
   }
 
   /**
-   * Calculate camera position to move annotation to 15% from top-left
-   * Uses inverse projection (unproject) for precise positioning
+   * Calculate camera position to move annotation to `12.8% from top-left
+   * Uses canvas dimensions, not viewport
    */
   calculateAnnotationCameraPosition(annotation) {
     const annotationPos = new THREE.Vector3();
@@ -104,9 +105,21 @@ export class AnnotationManager {
 
     console.log('🎯 Annotation depth:', depth.toFixed(2));
 
+    // Get canvas dimensions (not viewport)
+    const canvas = this.domElement;
+    const canvasWidth = canvas.clientWidth;
+    const canvasHeight = canvas.clientHeight;
+
+    console.log('📐 Canvas dimensions:', canvasWidth, 'x', canvasHeight);
+
+    // Calculate 12.8% position in pixels on canvas
+    const targetX = canvasWidth * 0.128;
+    const targetY = canvasHeight * 0.128;
+
+    // Convert to NDC based on canvas dimensions
     const targetNDC = new THREE.Vector3(
-      -1 + (0.15 * 2),
-      1 - (0.15 * 2),
+      (targetX / canvasWidth) * 2 - 1,  // Convert canvas pixel to NDC
+      -((targetY / canvasHeight) * 2 - 1), // Convert canvas pixel to NDC (flip Y)
       0
     );
 
@@ -225,35 +238,26 @@ export class AnnotationManager {
     this.isToggling = true;
 
     if (annotation.overlay.style.display === 'block') {
+      // CLOSING THE ANNOTATION
       const allClones = document.querySelectorAll('.annotation-css-clone');
       allClones.forEach(clone => clone.remove());
 
       annotation.cssClone = null;
       annotation.overlay.style.display = 'none';
       annotation.isActive = false;
+
+      // Reset occlusion state - let updateBillboards recalculate visibility from scratch
       annotation.occlusionState = null;
 
+      // Re-add circle to scene if it was removed
       if (annotation._circleRemovedFromScene && annotation.circle) {
         annotation.group.add(annotation.circle);
         annotation._circleRemovedFromScene = false;
         console.log(`🟢 CLOSING: Re-added circle to scene`);
+      }
 
-        annotation.circle.visible = false;
-        if (annotation.circle.userData.sprite) {
-          annotation.circle.userData.sprite.visible = false;
-        }
-      } else if (annotation.circle) {
-        annotation.circle.visible = true;
-        if (annotation.circle.userData.sprite) {
-          annotation.circle.userData.sprite.visible = true;
-        }
-      }
-      if (annotation.circle && annotation.circle.userData.sprite) {
-        annotation.circle.userData.sprite.material.opacity = 1.0;
-      }
-      if (annotation.rippleSprites) {
-        annotation.rippleSprites.forEach(ripple => ripple.visible = true);
-      }
+      // DO NOT manually set visibility here!
+      // Let updateBillboards() handle ALL visibility logic based on occlusion detection
 
       if (this.cameraAnimation.controls) {
         this.cameraAnimation.active = true;
@@ -277,11 +281,13 @@ export class AnnotationManager {
       }
 
     } else {
+      // OPENING THE ANNOTATION
       console.log(`📊 Total annotations: ${this.annotations.length}`);
 
       const existingClones = document.querySelectorAll('.annotation-css-clone');
       existingClones.forEach(clone => clone.remove());
 
+      // Close all other annotations and reset their state
       this.annotations.forEach(a => {
         a.cssClone = null;
         a.overlay.style.display = 'none';
@@ -289,34 +295,21 @@ export class AnnotationManager {
         if (a === annotation) return;
 
         a.isActive = false;
-        if (a.circle) {
-          a.circle.visible = true;
-          if (a.circle.userData.sprite) {
-            a.circle.userData.sprite.visible = true;
-          }
-        }
-        if (a.circle && a.circle.userData.sprite) {
-          a.circle.userData.sprite.material.opacity = 1.0;
-        }
-        if (a.rippleSprites) {
-          a.rippleSprites.forEach(ripple => ripple.visible = true);
-        }
+        // Let updateBillboards handle visibility for inactive annotations
       });
 
       const annotationId = this.annotations.indexOf(annotation);
       annotation.isActive = true;
       console.log(`🟢 OPENING: Annotation #${annotationId}, Setting isActive = true`);
 
+      // Remove circle from scene so it doesn't show while overlay is open
       if (annotation.circle && annotation.circle.parent) {
         annotation.circle.parent.remove(annotation.circle);
         annotation._circleRemovedFromScene = true;
         console.log(`🟢 OPENING: Annotation #${annotationId}, REMOVED circle from scene`);
       }
 
-      if (annotation.rippleSprites) {
-        annotation.rippleSprites.forEach(ripple => ripple.visible = false);
-      }
-
+      // Reset occlusion state since we're hiding this annotation anyway
       annotation.occlusionState = null;
 
       this.createCSSClone(annotation);
@@ -327,13 +320,14 @@ export class AnnotationManager {
       }
 
       annotation.overlay.style.display = 'block';
+
       requestAnimationFrame(() => {
-        annotation.overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
         if (annotation.overlay.contentContainer) {
           annotation.overlay.contentContainer.style.opacity = '1';
         }
       });
 
+      // Store camera position for return animation
       if (this.cameraAnimation.controls) {
         annotation.userData = annotation.userData || {};
         annotation.userData.orbitPosition = this.camera.position.clone();
@@ -368,9 +362,11 @@ export class AnnotationManager {
 
     const cssClone = document.createElement('div');
     cssClone.className = 'annotation-css-clone';
-    cssClone.style.position = 'fixed';
-    cssClone.style.top = '15%';
-    cssClone.style.left = '15%';
+
+    // Use absolute positioning relative to overlay container (not viewport)
+    cssClone.style.position = 'absolute';
+    cssClone.style.left = '12.8%';
+    cssClone.style.top = '12.8%';
     cssClone.style.width = '48px';
     cssClone.style.height = '48px';
     cssClone.style.transform = 'translate(-50%, -50%) rotate(45deg)';
@@ -385,7 +381,6 @@ export class AnnotationManager {
     cssClone.style.zIndex = '25000';
     cssClone.style.pointerEvents = 'auto';
     cssClone.style.cursor = 'pointer';
-    cssClone.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.4)';
     cssClone.style.transition = 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out';
     cssClone.innerHTML = '+';
 
@@ -409,7 +404,8 @@ export class AnnotationManager {
       cssClone.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(1)';
     });
 
-    document.body.appendChild(cssClone);
+    // Append to overlay container instead of body
+    this.overlayContainer.appendChild(cssClone);
     annotation.cssClone = cssClone;
   }
 
@@ -648,32 +644,35 @@ export class AnnotationManager {
 
   createAnnotationOverlay(annotation) {
     const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
+
+    // Use absolute positioning relative to the overlayContainer
+    overlay.style.position = 'absolute';
     overlay.style.left = '0';
-    overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
+    overlay.style.top = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     overlay.style.transition = 'background-color 0.3s ease-in-out';
     overlay.style.pointerEvents = 'auto';
     overlay.style.display = 'none';
-    overlay.style.zIndex = '20000';
+    overlay.style.zIndex = '1';
 
     const contentContainer = document.createElement('div');
+
+    // Position relative to overlay (12.8% inset)
     contentContainer.style.position = 'absolute';
-    contentContainer.style.top = '15%';
-    contentContainer.style.left = '15%';
-    contentContainer.style.right = '15%';
-    contentContainer.style.bottom = '15%';
+    contentContainer.style.left = '12vw';
+    contentContainer.style.top = '12vh';
+    contentContainer.style.right = '3vw';
+    contentContainer.style.bottom = '6vw';
     contentContainer.style.width = 'auto';
     contentContainer.style.height = 'auto';
     contentContainer.style.maxWidth = 'none';
     contentContainer.style.maxHeight = 'none';
-    contentContainer.style.background = 'rgba(0, 0, 0, 0.95)';
+    contentContainer.style.background = '#282829';
     contentContainer.style.color = 'white';
     contentContainer.style.padding = '2rem';
-    contentContainer.style.borderRadius = '8px';
-    contentContainer.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+    // contentContainer.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
     contentContainer.style.overflowY = 'auto';
     contentContainer.style.pointerEvents = 'auto';
     contentContainer.style.zIndex = '1';
@@ -706,20 +705,47 @@ export class AnnotationManager {
     return overlay;
   }
 
-  initializeA17Behaviors(container) {
-    // A17 behaviors listen for a custom 'page:updated' event
-    // Trigger it so behaviors in the container get initialized
-    try {
-      const event = new CustomEvent('page:updated', {
-        bubbles: true,
-        detail: { container: container }
-      });
-      document.dispatchEvent(event);
-      console.log('✅ Triggered page:updated event for A17 behaviors');
-    } catch (error) {
-      console.warn('⚠️ Failed to trigger page:updated event:', error);
+    initializeA17Behaviors(container) {
+      // A17 behaviors listen for a custom 'page:updated' event
+      // Trigger it so behaviors in the container get initialized
+      try {
+        // Ensure we have a valid container element
+        const targetContainer = container || document;
+
+        const event = new CustomEvent('page:updated', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            container: targetContainer,
+            timestamp: Date.now()
+          }
+        });
+
+        // Dispatch from document to ensure listeners catch it
+        document.dispatchEvent(event);
+
+        console.log('✅ Triggered page:updated event for A17 behaviors', {
+          container: targetContainer,
+          hasBehaviors: targetContainer.querySelectorAll('[data-behavior]').length
+        });
+
+      } catch (error) {
+        console.error('❌ CRITICAL: Failed to trigger page:updated event:', error);
+
+        // Fallback: try direct initialization if event system fails
+        console.warn('⚠️ Attempting fallback initialization...');
+        try {
+          const fallbackEvent = document.createEvent('CustomEvent');
+          fallbackEvent.initCustomEvent('page:updated', true, false, {
+            container: container || document,
+            fallback: true
+          });
+          document.dispatchEvent(fallbackEvent);
+        } catch (fallbackError) {
+          console.error('💀 COMPLETE FAILURE: Even fallback failed:', fallbackError);
+        }
+      }
     }
-  }
 
   addAnnotation(annotationData, parentGroup = null) {
     const position = toVector3Array(annotationData.content?.position, [0, 0, 0]);
@@ -817,7 +843,7 @@ export class AnnotationManager {
   }
 
   updateBillboards() {
-
+    // Animate camera if active
     this.animateCamera();
 
     const occlusionRaycaster = new THREE.Raycaster();
@@ -844,20 +870,17 @@ export class AnnotationManager {
     });
 
     this.annotations.forEach(annotation => {
-      const annotationId = this.annotations.indexOf(annotation);
-
+      // Always billboard circles to face camera
       if (annotation.circle) {
         annotation.group.quaternion.copy(this.camera.quaternion);
       }
 
+      // If annotation is active (overlay open), hide EVERYTHING
       if (annotation.isActive) {
-        if (annotation._circleRemovedFromScene) {
-        } else {
-          if (annotation.circle) {
-            annotation.circle.visible = false;
-            if (annotation.circle.userData.sprite) {
-              annotation.circle.userData.sprite.visible = false;
-            }
+        if (annotation.circle) {
+          annotation.circle.visible = false;
+          if (annotation.circle.userData.sprite) {
+            annotation.circle.userData.sprite.visible = false;
           }
         }
         if (annotation.iconElement) {
@@ -871,9 +894,10 @@ export class AnnotationManager {
             ripple.visible = false;
           });
         }
-        return;
+        return; // Skip occlusion detection for active annotations
       }
 
+      // Initialize occlusion state if needed
       if (!annotation.occlusionState) {
         annotation.occlusionState = {
           isOccluded: false,
@@ -883,6 +907,7 @@ export class AnnotationManager {
         };
       }
 
+      // Perform occlusion detection
       const annotationPosition = new THREE.Vector3();
       annotation.group.getWorldPosition(annotationPosition);
 
@@ -896,6 +921,7 @@ export class AnnotationManager {
       const intersects = occlusionRaycaster.intersectObjects(sceneObjects, false);
       const currentlyOccluded = intersects.length > 0;
 
+      // Update hysteresis counters
       if (currentlyOccluded) {
         annotation.occlusionState.occludedFrames++;
         annotation.occlusionState.visibleFrames = 0;
@@ -904,6 +930,7 @@ export class AnnotationManager {
         annotation.occlusionState.occludedFrames = 0;
       }
 
+      // Apply hysteresis threshold
       if (annotation.occlusionState.occludedFrames >= annotation.occlusionState.hysteresisThreshold) {
         annotation.occlusionState.isOccluded = true;
       } else if (annotation.occlusionState.visibleFrames >= annotation.occlusionState.hysteresisThreshold) {
@@ -912,6 +939,7 @@ export class AnnotationManager {
 
       const isOccluded = annotation.occlusionState.isOccluded;
 
+      // Apply visibility based on occlusion state - SINGLE SOURCE OF TRUTH
       if (annotation.circle) {
         annotation.circle.visible = !isOccluded;
         if (annotation.circle.userData.sprite) {
@@ -947,6 +975,7 @@ export class AnnotationManager {
       }
     });
 
+    // Animate ripples (they handle their own visibility based on occlusion state)
     this.animateRipples();
   }
 
@@ -958,19 +987,7 @@ export class AnnotationManager {
       annotation.overlay.style.display = 'none';
       annotation.isActive = false;
       annotation.cssClone = null;
-
-      if (annotation.circle) {
-        annotation.circle.visible = true;
-        if (annotation.circle.userData.sprite) {
-          annotation.circle.userData.sprite.visible = true;
-        }
-      }
-      if (annotation.circle && annotation.circle.userData.sprite) {
-        annotation.circle.userData.sprite.material.opacity = 1.0;
-      }
-      if (annotation.rippleSprites) {
-        annotation.rippleSprites.forEach(ripple => ripple.visible = true);
-      }
+      annotation.occlusionState = null; // Reset occlusion state, let updateBillboards recalculate
     });
   }
 
