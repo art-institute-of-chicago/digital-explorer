@@ -256,7 +256,6 @@ export class AnnotationManager {
         console.log(`🟢 CLOSING: Re-added circle to scene`);
       }
 
-      // DO NOT manually set visibility here!
       // Let updateBillboards() handle ALL visibility logic based on occlusion detection
 
       if (this.cameraAnimation.controls) {
