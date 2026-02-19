@@ -10,7 +10,6 @@ yalc.lock
 .yalc
 
 node_modules
-dist
 dist-ssr
 *.local
 
