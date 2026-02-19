@@ -34,6 +34,10 @@ export class ModelLoader {
       this.textureLoader.load(
         imageUrl,
         (texture) => {
+          const imageWidth = texture.image.width;
+          const imageHeight = texture.image.height;
+          const aspectRatio = imageWidth / imageHeight;
+
           const material = new THREE.SpriteMaterial({
             map: texture,
             transparent: true
@@ -42,7 +46,17 @@ export class ModelLoader {
           const sprite = new THREE.Sprite(material);
           sprite.position.set(position[0], position[1], position[2]);
           sprite.rotation.set(rotation[0], rotation[1], rotation[2]);
-          sprite.scale.set(scale[0], scale[1], scale[2]);
+
+          // Apply scale while preserving aspect ratio
+          // Assume scale[0] is the desired width
+          const desiredWidth = scale[0];
+          const calculatedHeight = desiredWidth / aspectRatio;
+
+          sprite.scale.set(
+            desiredWidth,
+            calculatedHeight,
+            scale[2] || 1  // Z-scale is typically 1 for sprites
+          );
 
           this.getTarget().add(sprite);
 
@@ -54,10 +68,10 @@ export class ModelLoader {
             });
           }
 
-          const maxDim = Math.max(scale[0], scale[1], scale[2]);
-
+          const maxDim = Math.max(desiredWidth, calculatedHeight, scale[2] || 1);
           resolve({ model: sprite, maxDim, is2D: true });
         },
+        undefined, // onProgress callback
         (error) => {
           console.error(`❌ Failed to load sprite ${imageUrl}:`, error);
           reject(error);

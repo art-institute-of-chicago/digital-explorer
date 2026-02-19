@@ -165,7 +165,7 @@ export default function App({
 
           if (maxDimensions.length > 0) {
             const largestDim = Math.max(...maxDimensions);
-            controls.minDistance = largestDim * 0.6;
+            controls.minDistance = largestDim * 0.1;
             controls.maxDistance = largestDim * 2;
           }
 

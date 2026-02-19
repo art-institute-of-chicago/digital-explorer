@@ -322,7 +322,7 @@ export default function TitleScreen({
               transform: 'translate(-50%, -50%)',
               animation: 'fadeInUp 1s ease-out 0.3s backwards',
               fontSize: '1.25rem',
-              fontWeight: '400',
+              fontWeight: '550',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: '#ffffff',

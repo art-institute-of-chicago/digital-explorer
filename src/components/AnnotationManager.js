@@ -746,100 +746,110 @@ export class AnnotationManager {
       }
     }
 
-  addAnnotation(annotationData, parentGroup = null) {
-    const position = toVector3Array(annotationData.content?.position, [0, 0, 0]);
-    const color = annotationData.content?.annotationColor || '#4ecdc4';
-    const size = annotationData.content?.annotationSize || 0.5;
-    const icon = annotationData.content?.annotationIcon || null;
-    const showLabel = annotationData.content?.showLabel || false;
-    const labelText = annotationData.content?.labelText || '';
-    const sizeAttenuation = annotationData.content?.sizeAttenuation !== false;
+addAnnotation(annotationData, parentGroup = null) {
+  const position = toVector3Array(annotationData.content?.position, [0, 0, 0]);
+  const color = annotationData.content?.annotationColor || '#4ecdc4';
+  const size = annotationData.content?.annotationSize || 0.5;
+  const icon = annotationData.content?.annotationIcon || null;
+  const showLabel = annotationData.content?.showLabel || false;
+  const labelText = annotationData.content?.labelText || '';
+  const sizeAttenuation = annotationData.content?.sizeAttenuation !== false;
 
-    console.log('📍 Adding annotation with sizeAttenuation:', sizeAttenuation);
+  console.log('📍 Adding annotation with sizeAttenuation:', sizeAttenuation);
 
-    const colorInt = parseInt(color.replace('#', '0x'));
-    const colorString = color;
+  const colorInt = parseInt(color.replace('#', '0x'));
+  const colorString = color;
 
-    const group = new THREE.Group();
-    group.position.set(position[0], position[1], position[2]);
+  const group = new THREE.Group();
+  group.position.set(position[0], position[1], position[2]);
 
-    let circle = null;
-    let iconElement = null;
-    let rippleSprites = [];
-    let clickable = null;
+  if (parentGroup && parentGroup.scale) {
+    const parentScale = parentGroup.scale;
+    // Apply inverse scale to maintain circular proportions
+    group.scale.set(
+      1 / parentScale.x,
+      1 / parentScale.y,
+      1 / parentScale.z
+    );
+  }
 
-    if (icon) {
-      iconElement = this.createIconElement(icon, size, colorString);
-      this.iconContainer.appendChild(iconElement);
+  let circle = null;
+  let iconElement = null;
+  let rippleSprites = [];
+  let clickable = null;
 
-      clickable = this.createClickablePlane(size);
-      group.add(clickable);
-    } else {
-      circle = this.createAnnotationCircle(size, colorInt, sizeAttenuation);
-      group.add(circle);
-      clickable = circle.userData.sprite;
+  if (icon) {
+    iconElement = this.createIconElement(icon, size, colorString);
+    this.iconContainer.appendChild(iconElement);
 
-      for (let i = 0; i < 3; i++) {
-        const ripple = this.createRippleSprite(size, colorInt, sizeAttenuation);
-        ripple.userData.rippleIndex = i;
-        group.add(ripple);
-        rippleSprites.push(ripple);
-      }
-    }
+    clickable = this.createClickablePlane(size);
+    group.add(clickable);
+  } else {
+    circle = this.createAnnotationCircle(size, colorInt, sizeAttenuation);
+    group.add(circle);
+    clickable = circle.userData.sprite;
 
-    let labelElement = null;
-    if (showLabel && labelText) {
-      labelElement = document.createElement('div');
-      labelElement.style.position = 'absolute';
-      labelElement.style.background = colorString;
-      labelElement.style.color = 'white';
-      labelElement.style.padding = '4px 8px';
-      labelElement.style.borderRadius = '4px';
-      labelElement.style.fontSize = '12px';
-      labelElement.style.fontWeight = 'bold';
-      labelElement.style.whiteSpace = 'nowrap';
-      labelElement.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
-      labelElement.style.pointerEvents = 'none';
-      labelElement.style.userSelect = 'none';
-      labelElement.textContent = labelText;
-      this.iconContainer.appendChild(labelElement);
-    }
-
-    const overlay = this.createAnnotationOverlay(annotationData);
-    this.overlayContainer.appendChild(overlay);
-
-    const parentObject = parentGroup || this.scene;
-    parentObject.add(group);
-
-    const annotationObj = {
-      group,
-      circle,
-      iconElement,
-      rippleSprites,
-      labelElement,
-      overlay,
-      clickable,
-      data: annotationData,
-      baseColor: colorInt,
-      colorString: colorString,
-      size: size,
-      isActive: false
-    };
-
-    this.annotations.push(annotationObj);
-
-    overlay.annotationRef = annotationObj;
-
-    console.log('📍 Added annotation at:', position);
-
-    if (annotationData.children) {
-      annotationData.children.forEach(child => {
-        if (child.type === 'explorer_annotation') {
-          this.addAnnotation(child, parentObject);
-        }
-      });
+    for (let i = 0; i < 3; i++) {
+      const ripple = this.createRippleSprite(size, colorInt, sizeAttenuation);
+      ripple.userData.rippleIndex = i;
+      group.add(ripple);
+      rippleSprites.push(ripple);
     }
   }
+
+  let labelElement = null;
+  if (showLabel && labelText) {
+    labelElement = document.createElement('div');
+    labelElement.style.position = 'absolute';
+    labelElement.style.background = colorString;
+    labelElement.style.color = 'white';
+    labelElement.style.padding = '4px 8px';
+    labelElement.style.borderRadius = '4px';
+    labelElement.style.fontSize = '12px';
+    labelElement.style.fontWeight = 'bold';
+    labelElement.style.whiteSpace = 'nowrap';
+    labelElement.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+    labelElement.style.pointerEvents = 'none';
+    labelElement.style.userSelect = 'none';
+    labelElement.textContent = labelText;
+    this.iconContainer.appendChild(labelElement);
+  }
+
+  const overlay = this.createAnnotationOverlay(annotationData);
+  this.overlayContainer.appendChild(overlay);
+
+  const parentObject = parentGroup || this.scene;
+  parentObject.add(group);
+
+  const annotationObj = {
+    group,
+    circle,
+    iconElement,
+    rippleSprites,
+    labelElement,
+    overlay,
+    clickable,
+    data: annotationData,
+    baseColor: colorInt,
+    colorString: colorString,
+    size: size,
+    isActive: false
+  };
+
+  this.annotations.push(annotationObj);
+
+  overlay.annotationRef = annotationObj;
+
+  console.log('📍 Added annotation at:', position);
+
+  if (annotationData.children) {
+    annotationData.children.forEach(child => {
+      if (child.type === 'explorer_annotation') {
+        this.addAnnotation(child, parentObject);
+      }
+    });
+  }
+}
 
   updateBillboards() {
     // Animate camera if active
