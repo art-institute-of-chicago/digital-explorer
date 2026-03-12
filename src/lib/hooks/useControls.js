@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls, MapControls } from 'three/examples/jsm/controls/OrbitControls';
 import { toVector3Array } from '../utils/helpers';
 
 export function useControls(containerRef, renderer, settings, models) {
@@ -22,27 +22,42 @@ export function useControls(containerRef, renderer, settings, models) {
     camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
     cameraRef.current = camera;
 
-    let orbitTarget = new THREE.Vector3(0, 0, 0);
+    const is2D = models.some(m => m.type === '2d' || m.modelType === '2d' || m.content?.modelType === '2d');
 
+    // Use MapControls for 2D, OrbitControls for 3D
+    const ControlClass = is2D ? MapControls : OrbitControls;
+    const controls = new ControlClass(camera, renderer.domElement);
+
+    let orbitTarget = new THREE.Vector3(0, 0, 0);
     if (settings.orbitControls?.target) {
       const targetArray = toVector3Array(settings.orbitControls.target, [0, 0, 0]);
       orbitTarget.set(targetArray[0], targetArray[1], targetArray[2]);
     }
-    const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.copy(orbitTarget);
-
-    controls.minDistance = 1;
-    controls.maxDistance = 100;
 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-
     controls.panSpeed = 1.0;
 
-    controls.touches = {
-      ONE: THREE.TOUCH.ROTATE,
-      TWO: THREE.TOUCH.DOLLY_PAN
-    };
+    // Move the camera up/down/left/right relative to the screen
+    controls.screenSpacePanning = is2D;
+
+    if (is2D) {
+      controls.enableRotate = false; // Disable tilting for the 2D plane
+      controls.touches = {
+        ONE: THREE.TOUCH.PAN, // Single finger drags the image
+        TWO: THREE.TOUCH.DOLLY_PAN
+      };
+    } else {
+      controls.touches = {
+        ONE: THREE.TOUCH.ROTATE,
+        TWO: THREE.TOUCH.DOLLY_PAN
+      };
+    }
+
+    // Default distance limits (will be overridden by model loading results later)
+    controls.minDistance = 1;
+    controls.maxDistance = 100;
 
     controls.update();
     controlsRef.current = controls;
@@ -54,7 +69,10 @@ export function useControls(containerRef, renderer, settings, models) {
       const height = containerRef.current.clientHeight;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      // Only set size if the renderer hasn't been disposed
+      if (renderer.domElement) {
+        renderer.setSize(width, height);
+      }
     }
 
     window.addEventListener('resize', handleResize);
