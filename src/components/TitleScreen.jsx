@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 export default function TitleScreen({
@@ -41,7 +41,6 @@ export default function TitleScreen({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
-    // The camera bounds match a square aspect ratio - this keeps things centered
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 1;
 
@@ -90,7 +89,7 @@ export default function TitleScreen({
     });
 
     const buttonMesh = new THREE.Mesh(buttonGeometry, buttonMaterial);
-    buttonMesh.position.set(0, 0, 0); // Explicitly centered
+    buttonMesh.position.set(0, 0, 0);
     buttonMesh.userData.baseScale = 2;
     buttonMesh.userData.targetScale = 2;
     scene.add(buttonMesh);
@@ -115,10 +114,8 @@ export default function TitleScreen({
 
         if (phase < RIPPLE_CYCLE_DURATION) {
           const progress = phase / RIPPLE_CYCLE_DURATION;
-
           const scale = 0.7 * (1 + progress * (RIPPLE_MAX_SCALE - 1));
           ripple.scale.set(scale, scale, 1);
-
           ripple.material.opacity = ripple.userData.baseOpacity * (1 - progress);
           ripple.visible = true;
         } else {
@@ -138,10 +135,7 @@ export default function TitleScreen({
     animate();
 
     return () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-      }
-
+      if (animationIdRef.current) cancelAnimationFrame(animationIdRef.current);
       ripples.forEach(ripple => {
         ripple.geometry.dispose();
         ripple.material.dispose();
@@ -155,37 +149,28 @@ export default function TitleScreen({
 
   const handleExplore = () => {
     setIsExiting(true);
-
     setTimeout(() => {
       setIsVisible(false);
-      if (onExplore) {
-        onExplore();
-      }
+      if (onExplore) onExplore();
     }, 800);
   };
 
   const handleMouseEnter = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (canvas.style) {
-      canvas.style.transform = 'scale(1.1)';
-    }
+    if (canvas?.style) canvas.style.transform = 'scale(1.1)';
   };
 
   const handleMouseLeave = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (canvas.style) {
-      canvas.style.transform = 'scale(1.0)';
-    }
+    if (canvas?.style) canvas.style.transform = 'scale(1.0)';
   };
 
   if (!isVisible) return null;
 
   return (
     <div
+      role="region"
+      aria-label="Introduction"
       style={{
         position: 'relative',
         top: 0,
@@ -206,6 +191,7 @@ export default function TitleScreen({
           loop
           muted
           playsInline
+          aria-hidden="true"
           onLoadedData={() => setVideoLoaded(true)}
           style={{
             position: 'absolute',
@@ -223,14 +209,16 @@ export default function TitleScreen({
       ) : titleMedia ? (
         <img
           src={titleMedia}
-          alt={title}
+          alt=""
+          aria-hidden="true"
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            backgroundColor: '#151515'
           }}
         />
       ) : null}
@@ -266,7 +254,7 @@ export default function TitleScreen({
             dangerouslySetInnerHTML={{ __html: titleDisplay }}
             style={{
               animation: 'fadeInUp 1s ease-out',
-              fontSize: '4.2rem',
+              fontSize: '6rem',
               fontWeight: '400',
               letterSpacing: '-0.02em',
               textShadow: '0 4px 24px rgba(0,0,0,0.5)',
@@ -278,7 +266,7 @@ export default function TitleScreen({
           <h2
             style={{
               animation: 'fadeInUp 1s ease-out',
-              fontSize: '4.2rem',
+              fontSize: '6rem',
               fontWeight: '400',
               letterSpacing: '-0.02em',
               textShadow: '0 4px 24px rgba(0,0,0,0.5)',
@@ -290,7 +278,11 @@ export default function TitleScreen({
           </h2>
         )}
 
-        <div
+        {/* Accessibility: Converted Div to Button */}
+        <button
+          type="button"
+          aria-label="Explore the digital experience"
+          disabled={!isSceneReady}
           style={{
             position: 'relative',
             width: '525px',
@@ -298,9 +290,15 @@ export default function TitleScreen({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'pointer',
+            cursor: isSceneReady ? 'pointer' : 'wait',
             opacity: isSceneReady ? 1 : 0.7,
-            transition: 'opacity 0.3s ease'
+            transition: 'opacity 0.3s ease',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            color: 'inherit',
+            font: 'inherit',
+            outline: 'none' // Controlled via focus-visible logic if preferred
           }}
           onClick={handleExplore}
           onMouseEnter={handleMouseEnter}
@@ -308,6 +306,7 @@ export default function TitleScreen({
         >
           <canvas
             ref={canvasRef}
+            aria-hidden="true"
             style={{
               display: 'block',
               transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
@@ -333,39 +332,18 @@ export default function TitleScreen({
           >
             Explore
           </div>
-        </div>
-
-        {!isSceneReady && (
-          <div
-            style={{
-              marginTop: '2rem',
-              fontSize: '0.875rem',
-              color: 'rgba(255,255,255,0.7)',
-              animation: 'pulse 2s ease-in-out infinite',
-              fontFamily: '"Helvetica Neue", Arial, sans-serif'
-            }}
-          >
-            Loading experience...
-          </div>
-        )}
+        </button>
       </div>
 
       <style>{`
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
-
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 0.5;
-          }
-          50% {
-            opacity: 1;
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
           }
         }
       `}</style>
