@@ -33,7 +33,7 @@ export function useExplorerData(
   const annotations = explorerData?.annotations || propAnnotations || [];
   const settings = explorerData?.settings || propSettings || {};
   const title_data = explorerData?.title_data || propTitleData || null;
-  const info_card_data = explorerData?.info_data || propInfoData || null;
+  const info_card_data = explorerData?.info_card_data || propInfoData || null;
 
   return {
     models,

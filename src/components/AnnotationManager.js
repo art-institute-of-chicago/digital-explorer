@@ -1,12 +1,8 @@
 import * as THREE from 'three';
 import { toVector3Array } from '../lib/utils/helpers';
 
-/**
- * AnnotationManager - Handles Billboard-style annotations with icons/circles
- * Supports both 2D sprites and custom icons with HTML overlays
- */
 export class AnnotationManager {
-  constructor(scene, camera, domElement) {
+  constructor(scene, camera, domElement, uiContainer = null) {
     this.scene = scene;
     this.camera = camera;
     this.domElement = domElement;
@@ -14,6 +10,8 @@ export class AnnotationManager {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     this.isToggling = false;
+    this.onAnnotationToggle = null;
+    this.isVOModeActive = false; // Synced via App.js
 
     this.cameraAnimation = {
       active: false,
@@ -27,18 +25,21 @@ export class AnnotationManager {
       controls: null
     };
 
-    const parentContainer = domElement.parentElement || document.body;
+    // Accessibility: Ensure UI is appended to the container that becomes 'inert'
+    const parentContainer = uiContainer || domElement.parentElement || document.body;
 
     this.overlayContainer = document.createElement('div');
     this.overlayContainer.id = 'annotation-overlays';
     this.overlayContainer.className = 'o-article__body o-blocks';
+    // Accessibility: Mark container as polite live region for content updates
+    this.overlayContainer.setAttribute('aria-live', 'polite');
     this.overlayContainer.style.position = 'absolute';
     this.overlayContainer.style.top = '0';
     this.overlayContainer.style.left = '0';
     this.overlayContainer.style.pointerEvents = 'none';
     this.overlayContainer.style.width = '100%';
     this.overlayContainer.style.height = '100%';
-    this.overlayContainer.style.zIndex = '20000'; // Above canvas
+    this.overlayContainer.style.zIndex = '20000';
     parentContainer.appendChild(this.overlayContainer);
 
     this.iconContainer = document.createElement('div');
@@ -54,9 +55,40 @@ export class AnnotationManager {
     this.setupEventListeners();
   }
 
+  // --- TTS Logic for Annotations ---
+speakAnnotation(annotation) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+
+    // 1. Get the container that holds the pure HTML
+    const content = annotation.overlay.contentContainer;
+    if (!content) return;
+
+    // 2. Extract all visible text from the HTML
+    // innerText is better than textContent here because it respects
+    // CSS visibility and line breaks.
+    let textToRead = content.innerText || content.textContent;
+
+    if (textToRead && textToRead.trim()) {
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.rate = 0.9;
+
+      // Optional: Clean up extra whitespace/newlines for smoother reading
+      utterance.text = textToRead.replace(/\s+/g, ' ').trim();
+
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  setVOMode(isActive) {
+    this.isVOModeActive = isActive;
+    if (!isActive && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  }
+
   setControls(controls) {
     this.cameraAnimation.controls = controls;
-    console.log('✅ AnnotationManager: Controls reference set');
   }
 
   animateCamera() {
@@ -86,58 +118,30 @@ export class AnnotationManager {
 
     if (progress >= 1) {
         this.cameraAnimation.active = false;
-        console.log('🎬 Camera animation complete');
     }
   }
 
-  /**
-   * Calculate camera position to move annotation to `12.8% from top-left
-   * Uses canvas dimensions, not viewport
-   */
   calculateAnnotationCameraPosition(annotation) {
     const annotationPos = new THREE.Vector3();
     annotation.group.getWorldPosition(annotationPos);
 
-    const viewDirection = new THREE.Vector3();
-    this.camera.getWorldDirection(viewDirection);
-    const cameraToAnnotation = annotationPos.clone().sub(this.camera.position);
-    const depth = cameraToAnnotation.dot(viewDirection);
-
-    console.log('🎯 Annotation depth:', depth.toFixed(2));
-
-    // Get canvas dimensions (not viewport)
     const canvas = this.domElement;
     const canvasWidth = canvas.clientWidth;
     const canvasHeight = canvas.clientHeight;
 
-    console.log('📐 Canvas dimensions:', canvasWidth, 'x', canvasHeight);
-
-    // Calculate 12.8% position in pixels on canvas
     const targetX = canvasWidth * 0.128;
     const targetY = canvasHeight * 0.128;
 
-    // Convert to NDC based on canvas dimensions
     const targetNDC = new THREE.Vector3(
-      (targetX / canvasWidth) * 2 - 1,  // Convert canvas pixel to NDC
-      -((targetY / canvasHeight) * 2 - 1), // Convert canvas pixel to NDC (flip Y)
+      (targetX / canvasWidth) * 2 - 1,
+      -((targetY / canvasHeight) * 2 - 1),
       0
     );
 
     const annotationNDC = annotationPos.clone().project(this.camera);
     targetNDC.z = annotationNDC.z;
 
-    console.log('📐 NDC Calculation:', {
-      annotationNDC: [annotationNDC.x.toFixed(3), annotationNDC.y.toFixed(3), annotationNDC.z.toFixed(3)],
-      targetNDC: [targetNDC.x.toFixed(3), targetNDC.y.toFixed(3), targetNDC.z.toFixed(3)]
-    });
-
     const targetWorldPos = targetNDC.clone().unproject(this.camera);
-
-    console.log('🌍 Target world position:', {
-      annotation: annotationPos.toArray().map(v => v.toFixed(2)),
-      target: targetWorldPos.toArray().map(v => v.toFixed(2))
-    });
-
     const worldOffset = targetWorldPos.clone().sub(annotationPos);
     const newCameraPos = this.camera.position.clone().sub(worldOffset);
 
@@ -147,14 +151,6 @@ export class AnnotationManager {
 
     const newTarget = currentTarget.clone().sub(worldOffset);
 
-    console.log('🎯 Camera Translation (view angle preserved):', {
-      fromPos: this.camera.position.toArray().map(v => v.toFixed(2)),
-      toPos: newCameraPos.toArray().map(v => v.toFixed(2)),
-      fromTarget: currentTarget.toArray().map(v => v.toFixed(2)),
-      toTarget: newTarget.toArray().map(v => v.toFixed(2)),
-      worldOffset: worldOffset.toArray().map(v => v.toFixed(2))
-    });
-
     return {
       position: newCameraPos,
       target: newTarget
@@ -163,7 +159,14 @@ export class AnnotationManager {
 
   setupEventListeners() {
     this.domElement.addEventListener('mousemove', (e) => this.onMouseMove(e));
-    this.domElement.addEventListener('click', (e) => this.onClick(e));
+    this.domElement.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const activeAnnotation = this.annotations.find(a => a.isActive);
+        if (activeAnnotation) this.toggleAnnotation(activeAnnotation);
+      }
+    });
   }
 
   onMouseMove(event) {
@@ -213,7 +216,9 @@ export class AnnotationManager {
     });
   }
 
-  onClick(event) {
+  onPointerDown(event) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+
     const rect = this.domElement.getBoundingClientRect();
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -228,17 +233,20 @@ export class AnnotationManager {
     if (intersects.length > 0) {
       const annotation = this.annotations.find(a => a.clickable === intersects[0].object);
       if (annotation) {
+        if (event.cancelable) event.preventDefault();
         this.toggleAnnotation(annotation);
       }
     }
   }
 
-  toggleAnnotation(annotation) {
+  toggleAnnotation(annotation, voActive = false) {
     if (this.isToggling) return;
     this.isToggling = true;
 
+    // Use passed value or class fallback
+    const isVO = voActive || this.isVOModeActive;
+
     if (annotation.overlay.style.display === 'block') {
-      // CLOSING THE ANNOTATION
       const allClones = document.querySelectorAll('.annotation-css-clone');
       allClones.forEach(clone => clone.remove());
 
@@ -246,17 +254,20 @@ export class AnnotationManager {
       annotation.overlay.style.display = 'none';
       annotation.isActive = false;
 
-      // Reset occlusion state - let updateBillboards recalculate visibility from scratch
-      annotation.occlusionState = null;
+      if (this.onAnnotationToggle) this.onAnnotationToggle(false);
 
-      // Re-add circle to scene if it was removed
+      // Stop reading when closed
+      if (isVO && window.speechSynthesis) window.speechSynthesis.cancel();
+
+      annotation.occlusionState = null;
+      annotation.overlay.contentContainer.style.opacity = '0';
+
       if (annotation._circleRemovedFromScene && annotation.circle) {
         annotation.group.add(annotation.circle);
         annotation._circleRemovedFromScene = false;
-        console.log(`🟢 CLOSING: Re-added circle to scene`);
       }
 
-      // Let updateBillboards() handle ALL visibility logic based on occlusion detection
+      if (annotation.focusAnchor) annotation.focusAnchor.focus();
 
       if (this.cameraAnimation.controls) {
         this.cameraAnimation.active = true;
@@ -280,53 +291,52 @@ export class AnnotationManager {
       }
 
     } else {
-      // OPENING THE ANNOTATION
-      console.log(`📊 Total annotations: ${this.annotations.length}`);
+      if (this.onAnnotationToggle) this.onAnnotationToggle(true);
 
       const existingClones = document.querySelectorAll('.annotation-css-clone');
       existingClones.forEach(clone => clone.remove());
 
-      // Close all other annotations and reset their state
       this.annotations.forEach(a => {
         a.cssClone = null;
         a.overlay.style.display = 'none';
-
-        if (a === annotation) return;
-
-        a.isActive = false;
-        // Let updateBillboards handle visibility for inactive annotations
+        if (a !== annotation) {
+          a.isActive = false;
+          if (a._circleRemovedFromScene && a.circle) {
+            a.group.add(a.circle);
+            a._circleRemovedFromScene = false;
+          }
+        }
       });
 
-      const annotationId = this.annotations.indexOf(annotation);
       annotation.isActive = true;
-      console.log(`🟢 OPENING: Annotation #${annotationId}, Setting isActive = true`);
 
-      // Remove circle from scene so it doesn't show while overlay is open
       if (annotation.circle && annotation.circle.parent) {
         annotation.circle.parent.remove(annotation.circle);
         annotation._circleRemovedFromScene = true;
-        console.log(`🟢 OPENING: Annotation #${annotationId}, REMOVED circle from scene`);
       }
 
-      // Reset occlusion state since we're hiding this annotation anyway
       annotation.occlusionState = null;
 
       this.createCSSClone(annotation);
 
-      // Initialize A17 behaviors BEFORE showing overlay
       if (annotation.overlay.contentContainer) {
         this.initializeA17Behaviors(annotation.overlay.contentContainer);
       }
 
       annotation.overlay.style.display = 'block';
 
+      // Start Reading if VO Mode is ON
+      if (isVO) {
+        this.speakAnnotation(annotation);
+      }
+
       requestAnimationFrame(() => {
         if (annotation.overlay.contentContainer) {
           annotation.overlay.contentContainer.style.opacity = '1';
+          annotation.overlay.contentContainer.focus();
         }
       });
 
-      // Store camera position for return animation
       if (this.cameraAnimation.controls) {
         annotation.userData = annotation.userData || {};
         annotation.userData.orbitPosition = this.camera.position.clone();
@@ -359,10 +369,10 @@ export class AnnotationManager {
     }
     annotation.cssClone = null;
 
-    const cssClone = document.createElement('div');
+    const cssClone = document.createElement('button');
     cssClone.className = 'annotation-css-clone';
+    cssClone.setAttribute('aria-label', 'Close detail');
 
-    // Use absolute positioning relative to overlay container (not viewport)
     cssClone.style.position = 'absolute';
     cssClone.style.left = '12.8%';
     cssClone.style.top = '12.8%';
@@ -374,20 +384,37 @@ export class AnnotationManager {
     cssClone.style.display = 'flex';
     cssClone.style.alignItems = 'center';
     cssClone.style.justifyContent = 'center';
-    cssClone.style.color = 'white';
-    cssClone.style.fontSize = '24px';
-    cssClone.style.fontWeight = 'bold';
     cssClone.style.zIndex = '25000';
     cssClone.style.pointerEvents = 'auto';
     cssClone.style.cursor = 'pointer';
+    cssClone.style.border = 'none';
     cssClone.style.transition = 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out';
-    cssClone.innerHTML = '+';
 
     const colorInt = annotation.baseColor;
     const r = (colorInt >> 16) & 0xFF;
     const g = (colorInt >> 8) & 0xFF;
     const b = colorInt & 0xFF;
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const plusColor = luminance > 0.8 ? '#000000' : '#ffffff';
     const darkerColor = `rgb(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)})`;
+
+    const createBar = (isVertical) => {
+      const bar = document.createElement('div');
+      bar.style.position = 'absolute';
+      bar.style.backgroundColor = plusColor;
+      bar.style.borderRadius = '1px';
+      if (isVertical) {
+        bar.style.width = '3px';
+        bar.style.height = '30px';
+      } else {
+        bar.style.width = '30px';
+        bar.style.height = '3px';
+      }
+      return bar;
+    };
+
+    cssClone.appendChild(createBar(true));
+    cssClone.appendChild(createBar(false));
 
     cssClone.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -398,12 +425,12 @@ export class AnnotationManager {
       cssClone.style.backgroundColor = darkerColor;
       cssClone.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(1.1)';
     });
+
     cssClone.addEventListener('mouseleave', () => {
       cssClone.style.backgroundColor = annotation.colorString;
       cssClone.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(1)';
     });
 
-    // Append to overlay container instead of body
     this.overlayContainer.appendChild(cssClone);
     annotation.cssClone = cssClone;
   }
@@ -421,6 +448,11 @@ export class AnnotationManager {
     annotation.iconElement.style.left = `${x}px`;
     annotation.iconElement.style.top = `${y}px`;
     annotation.iconElement.style.transform = 'translate(-50%, -50%)';
+
+    if (annotation.focusAnchor) {
+      annotation.focusAnchor.style.left = `${x}px`;
+      annotation.focusAnchor.style.top = `${y}px`;
+    }
   }
 
   updatePositions() {
@@ -433,40 +465,32 @@ export class AnnotationManager {
 
   createAnnotationCircle(size, color, sizeAttenuation = true) {
     const container = new THREE.Group();
-
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;
     const ctx = canvas.getContext('2d', { alpha: true });
 
     ctx.clearRect(0, 0, 128, 128);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-
     ctx.fillStyle = `#${color.toString(16).padStart(6, '0')}`;
     ctx.beginPath();
     ctx.arc(64, 64, 60, 0, Math.PI * 2);
     ctx.fill();
+
     const r = (color >> 16) & 0xFF;
     const g = (color >> 8) & 0xFF;
     const b = color & 0xFF;
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
     const plusColor = luminance > 0.8 ? '#000000' : '#ffffff';
 
+    // RESTORED: The Plus Sign drawing logic
     ctx.fillStyle = plusColor;
     ctx.fillRect(60, 24, 8, 80);
     ctx.fillRect(24, 60, 80, 8);
 
     const texture = new THREE.CanvasTexture(canvas);
-    texture.generateMipmaps = false;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-
     const spriteMaterial = new THREE.SpriteMaterial({
       map: texture,
       transparent: true,
-      opacity: 1.0,
       depthTest: false,
       depthWrite: false,
       sizeAttenuation: sizeAttenuation
@@ -474,15 +498,12 @@ export class AnnotationManager {
 
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.scale.set(size, size, 1);
-    sprite.renderOrder = 1;
-    sprite.visible = false;
 
+    sprite.visible = true;
     container.add(sprite);
-    container.visible = false;
+    container.visible = true;
 
     container.userData.sprite = sprite;
-    container.userData.baseColor = color;
-
     return container;
   }
 
@@ -524,9 +545,6 @@ export class AnnotationManager {
     return sprite;
   }
 
-  /**
-   * Animate ripple sprites - configuration at top of method
-   */
   animateRipples(deltaTime = 0.016) {
     const RIPPLE_CYCLE_DURATION = 3;
     const RIPPLE_MAX_SCALE = 1.75;
@@ -537,10 +555,13 @@ export class AnnotationManager {
     const time = performance.now() * 0.001;
     const effectiveCycleDuration = RIPPLE_CYCLE_DURATION + WAVE_GROUP_DELAY;
 
-    this.annotations.forEach((annotation, annotationIndex) => {
-      if (!annotation.rippleSprites || annotation.isActive) return;
+    const anyActive = this.annotations.some(a => a.isActive);
 
-      if (annotation.occlusionState && annotation.occlusionState.isOccluded) {
+    this.annotations.forEach((annotation, annotationIndex) => {
+      if (!annotation.rippleSprites) return;
+
+      if (anyActive || (annotation.occlusionState && annotation.occlusionState.isOccluded)) {
+        annotation.rippleSprites.forEach(ripple => ripple.visible = false);
         return;
       }
 
@@ -559,12 +580,9 @@ export class AnnotationManager {
 
         if (phase < RIPPLE_CYCLE_DURATION) {
           const progress = phase / RIPPLE_CYCLE_DURATION;
-
           const scale = baseScale * (1 + progress * (RIPPLE_MAX_SCALE - 1));
           ripple.scale.set(scale, scale, 1);
-
           ripple.userData.baseMaterial.opacity = 0.8 * (1 - progress);
-
           ripple.visible = true;
         } else {
           ripple.visible = false;
@@ -611,8 +629,7 @@ export class AnnotationManager {
       opacity: 0,
       side: THREE.DoubleSide
     });
-    const plane = new THREE.Mesh(geometry, material);
-    return plane;
+    return new THREE.Mesh(geometry, material);
   }
 
   renderAnnotationContent(items) {
@@ -643,8 +660,6 @@ export class AnnotationManager {
 
   createAnnotationOverlay(annotation) {
     const overlay = document.createElement('div');
-
-    // Use absolute positioning relative to the overlayContainer
     overlay.style.position = 'absolute';
     overlay.style.left = '0';
     overlay.style.top = '0';
@@ -656,31 +671,24 @@ export class AnnotationManager {
     overlay.style.display = 'none';
     overlay.style.zIndex = '1';
 
-    const contentContainer = document.createElement('div');
+    const contentContainer = document.createElement('article');
+    contentContainer.setAttribute('role', 'dialog');
+    contentContainer.setAttribute('aria-modal', 'true');
+    contentContainer.setAttribute('tabindex', '-1');
 
-    // Position relative to overlay (12.8% inset)
     contentContainer.style.position = 'absolute';
     contentContainer.style.left = '12vw';
     contentContainer.style.top = '12vh';
     contentContainer.style.right = '3vw';
-    contentContainer.style.bottom = '6vw';
-    contentContainer.style.width = 'auto';
-    contentContainer.style.height = 'auto';
-    contentContainer.style.maxWidth = 'none';
-    contentContainer.style.maxHeight = 'none';
+    contentContainer.style.bottom = '3vw';
     contentContainer.style.background = '#282829';
     contentContainer.style.color = 'white';
-    contentContainer.style.padding = '2rem';
-    // contentContainer.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
-    contentContainer.style.overflowY = 'auto';
+    contentContainer.style.overflowY = 'hidden';
     contentContainer.style.pointerEvents = 'auto';
     contentContainer.style.zIndex = '1';
     contentContainer.style.opacity = '0';
-    contentContainer.style.transition = 'opacity 0.3s ease-in-out 0.5s';
 
-    contentContainer.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
+    contentContainer.addEventListener('click', (e) => e.stopPropagation());
 
     if (annotation.renderedHtml) {
       contentContainer.innerHTML = annotation.renderedHtml;
@@ -689,7 +697,6 @@ export class AnnotationManager {
     }
 
     overlay.appendChild(contentContainer);
-
     overlay.contentContainer = contentContainer;
 
     overlay.backdropClickHandler = (e) => {
@@ -704,222 +711,158 @@ export class AnnotationManager {
     return overlay;
   }
 
-    initializeA17Behaviors(container) {
-      // A17 behaviors listen for a custom 'page:updated' event
-      // Trigger it so behaviors in the container get initialized
-      try {
-        // Ensure we have a valid container element
-        const targetContainer = container || document;
+  initializeA17Behaviors(container) {
+    try {
+      const event = new CustomEvent('page:updated', {
+        bubbles: true,
+        cancelable: false,
+        detail: { container: container || document, timestamp: Date.now() }
+      });
+      document.dispatchEvent(event);
+    } catch (error) {}
+  }
 
-        const event = new CustomEvent('page:updated', {
-          bubbles: true,
-          cancelable: false,
-          detail: {
-            container: targetContainer,
-            timestamp: Date.now()
-          }
-        });
+  addAnnotation(annotationData, parentGroup = null) {
+    const position = toVector3Array(annotationData.content?.position, [0, 0, 0]);
+    const color = annotationData.content?.annotationColor || '#4ecdc4';
+    const size = annotationData.content?.annotationSize || 0.5;
+    const icon = annotationData.content?.annotationIcon || null;
+    const showLabel = annotationData.content?.showLabel || false;
+    const labelText = annotationData.content?.labelText || '';
+    const sizeAttenuation = annotationData.content?.sizeAttenuation !== false;
 
-        // Dispatch from document to ensure listeners catch it
-        document.dispatchEvent(event);
+    const colorInt = parseInt(color.replace('#', '0x'));
+    const colorString = color;
 
-        console.log('✅ Triggered page:updated event for A17 behaviors', {
-          container: targetContainer,
-          hasBehaviors: targetContainer.querySelectorAll('[data-behavior]').length
-        });
+    const group = new THREE.Group();
+    group.position.set(position[0], position[1], position[2]);
 
-      } catch (error) {
-        console.error('❌ CRITICAL: Failed to trigger page:updated event:', error);
+    if (parentGroup && parentGroup.scale) {
+      const parentScale = parentGroup.scale;
+      group.scale.set(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
+    }
 
-        // Fallback: try direct initialization if event system fails
-        console.warn('⚠️ Attempting fallback initialization...');
-        try {
-          const fallbackEvent = document.createEvent('CustomEvent');
-          fallbackEvent.initCustomEvent('page:updated', true, false, {
-            container: container || document,
-            fallback: true
-          });
-          document.dispatchEvent(fallbackEvent);
-        } catch (fallbackError) {
-          console.error('💀 COMPLETE FAILURE: Even fallback failed:', fallbackError);
+    const focusAnchor = document.createElement('button');
+    focusAnchor.style.position = 'absolute';
+    focusAnchor.style.width = '40px';
+    focusAnchor.style.height = '40px';
+    focusAnchor.style.transform = 'translate(-50%, -50%)';
+    focusAnchor.style.opacity = '0';
+    focusAnchor.style.pointerEvents = 'auto';
+    focusAnchor.style.zIndex = '10';
+    focusAnchor.setAttribute('aria-label', `View details for ${labelText || 'annotation'}`);
+    this.iconContainer.appendChild(focusAnchor);
+
+    let circle = null;
+    let iconElement = null;
+    let rippleSprites = [];
+    let clickable = null;
+
+    if (icon) {
+      iconElement = this.createIconElement(icon, size, colorString);
+      this.iconContainer.appendChild(iconElement);
+      clickable = this.createClickablePlane(size);
+      group.add(clickable);
+    } else {
+      circle = this.createAnnotationCircle(size, colorInt, sizeAttenuation);
+      group.add(circle);
+      clickable = circle.userData.sprite;
+
+      for (let i = 0; i < 3; i++) {
+        const ripple = this.createRippleSprite(size, colorInt, sizeAttenuation);
+        ripple.userData.rippleIndex = i;
+        group.add(ripple);
+        rippleSprites.push(ripple);
+      }
+    }
+
+    let labelElement = null;
+    if (showLabel && labelText) {
+      labelElement = document.createElement('div');
+      labelElement.style.position = 'absolute';
+      labelElement.style.background = colorString;
+      labelElement.style.color = 'white';
+      labelElement.style.padding = '4px 8px';
+      labelElement.style.borderRadius = '4px';
+      labelElement.style.fontSize = '12px';
+      labelElement.style.fontWeight = 'bold';
+      labelElement.style.whiteSpace = 'nowrap';
+      labelElement.style.pointerEvents = 'none';
+      labelElement.textContent = labelText;
+      this.iconContainer.appendChild(labelElement);
+    }
+
+    const overlay = this.createAnnotationOverlay(annotationData);
+    this.overlayContainer.appendChild(overlay);
+
+    const parentObject = parentGroup || this.scene;
+    parentObject.add(group);
+
+    const annotationObj = {
+      group, circle, iconElement, focusAnchor, rippleSprites, labelElement, overlay, clickable,
+      data: annotationData,
+      baseColor: colorInt,
+      colorString: colorString,
+      size: size,
+      isActive: false
+    };
+
+    focusAnchor.addEventListener('click', () => this.toggleAnnotation(annotationObj));
+    this.annotations.push(annotationObj);
+    overlay.annotationRef = annotationObj;
+
+    if (annotationData.children) {
+      annotationData.children.forEach(child => {
+        if (child.type === 'explorer_annotation') {
+          this.addAnnotation(child, parentObject);
         }
-      }
-    }
-
-addAnnotation(annotationData, parentGroup = null) {
-  const position = toVector3Array(annotationData.content?.position, [0, 0, 0]);
-  const color = annotationData.content?.annotationColor || '#4ecdc4';
-  const size = annotationData.content?.annotationSize || 0.5;
-  const icon = annotationData.content?.annotationIcon || null;
-  const showLabel = annotationData.content?.showLabel || false;
-  const labelText = annotationData.content?.labelText || '';
-  const sizeAttenuation = annotationData.content?.sizeAttenuation !== false;
-
-  console.log('📍 Adding annotation with sizeAttenuation:', sizeAttenuation);
-
-  const colorInt = parseInt(color.replace('#', '0x'));
-  const colorString = color;
-
-  const group = new THREE.Group();
-  group.position.set(position[0], position[1], position[2]);
-
-  if (parentGroup && parentGroup.scale) {
-    const parentScale = parentGroup.scale;
-    // Apply inverse scale to maintain circular proportions
-    group.scale.set(
-      1 / parentScale.x,
-      1 / parentScale.y,
-      1 / parentScale.z
-    );
-  }
-
-  let circle = null;
-  let iconElement = null;
-  let rippleSprites = [];
-  let clickable = null;
-
-  if (icon) {
-    iconElement = this.createIconElement(icon, size, colorString);
-    this.iconContainer.appendChild(iconElement);
-
-    clickable = this.createClickablePlane(size);
-    group.add(clickable);
-  } else {
-    circle = this.createAnnotationCircle(size, colorInt, sizeAttenuation);
-    group.add(circle);
-    clickable = circle.userData.sprite;
-
-    for (let i = 0; i < 3; i++) {
-      const ripple = this.createRippleSprite(size, colorInt, sizeAttenuation);
-      ripple.userData.rippleIndex = i;
-      group.add(ripple);
-      rippleSprites.push(ripple);
+      });
     }
   }
-
-  let labelElement = null;
-  if (showLabel && labelText) {
-    labelElement = document.createElement('div');
-    labelElement.style.position = 'absolute';
-    labelElement.style.background = colorString;
-    labelElement.style.color = 'white';
-    labelElement.style.padding = '4px 8px';
-    labelElement.style.borderRadius = '4px';
-    labelElement.style.fontSize = '12px';
-    labelElement.style.fontWeight = 'bold';
-    labelElement.style.whiteSpace = 'nowrap';
-    labelElement.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
-    labelElement.style.pointerEvents = 'none';
-    labelElement.style.userSelect = 'none';
-    labelElement.textContent = labelText;
-    this.iconContainer.appendChild(labelElement);
-  }
-
-  const overlay = this.createAnnotationOverlay(annotationData);
-  this.overlayContainer.appendChild(overlay);
-
-  const parentObject = parentGroup || this.scene;
-  parentObject.add(group);
-
-  const annotationObj = {
-    group,
-    circle,
-    iconElement,
-    rippleSprites,
-    labelElement,
-    overlay,
-    clickable,
-    data: annotationData,
-    baseColor: colorInt,
-    colorString: colorString,
-    size: size,
-    isActive: false
-  };
-
-  this.annotations.push(annotationObj);
-
-  overlay.annotationRef = annotationObj;
-
-  console.log('📍 Added annotation at:', position);
-
-  if (annotationData.children) {
-    annotationData.children.forEach(child => {
-      if (child.type === 'explorer_annotation') {
-        this.addAnnotation(child, parentObject);
-      }
-    });
-  }
-}
 
   updateBillboards() {
-    // Animate camera if active
     this.animateCamera();
-
-    const occlusionRaycaster = new THREE.Raycaster();
-    occlusionRaycaster.camera = this.camera;
-    occlusionRaycaster.near = 0.01;
-    occlusionRaycaster.params.Sprite = { threshold: 0 };
-
-    const cameraPosition = new THREE.Vector3();
-    this.camera.getWorldPosition(cameraPosition);
-
-    const sceneObjects = [];
-    this.scene.traverse((obj) => {
-      if (obj.isMesh) {
-        let isAnnotationPart = false;
-        obj.traverseAncestors((ancestor) => {
-          if (this.annotations.some(a => a.group === ancestor)) {
-            isAnnotationPart = true;
-          }
-        });
-        if (!isAnnotationPart) {
-          sceneObjects.push(obj);
-        }
-      }
-    });
+    const anyActive = this.annotations.some(a => a.isActive);
 
     this.annotations.forEach(annotation => {
-      // Always billboard circles to face camera
+      if (annotation.focusAnchor) {
+        annotation.focusAnchor.style.display = (anyActive || annotation.occlusionState?.isOccluded) ? 'none' : 'block';
+      }
+
       if (annotation.circle) {
         annotation.group.quaternion.copy(this.camera.quaternion);
       }
 
-      // If annotation is active (overlay open), hide EVERYTHING
-      if (annotation.isActive) {
-        if (annotation.circle) {
-          annotation.circle.visible = false;
-          if (annotation.circle.userData.sprite) {
-            annotation.circle.userData.sprite.visible = false;
-          }
-        }
-        if (annotation.iconElement) {
-          annotation.iconElement.style.display = 'none';
-        }
-        if (annotation.labelElement) {
-          annotation.labelElement.style.display = 'none';
-        }
-        if (annotation.rippleSprites) {
-          annotation.rippleSprites.forEach(ripple => {
-            ripple.visible = false;
-          });
-        }
-        return; // Skip occlusion detection for active annotations
+      if (anyActive) {
+        if (annotation.circle) annotation.circle.visible = false;
+        if (annotation.iconElement) annotation.iconElement.style.display = 'none';
+        if (annotation.labelElement) annotation.labelElement.style.display = 'none';
+        if (annotation.rippleSprites) annotation.rippleSprites.forEach(r => r.visible = false);
+        return;
       }
 
-      // Initialize occlusion state if needed
+      // Occlusion Logic
       if (!annotation.occlusionState) {
-        annotation.occlusionState = {
-          isOccluded: false,
-          occludedFrames: 0,
-          visibleFrames: 0,
-          hysteresisThreshold: 3
-        };
+        annotation.occlusionState = { isOccluded: false, occludedFrames: 0, visibleFrames: 0, hysteresisThreshold: 3 };
       }
 
-      // Perform occlusion detection
+      const occlusionRaycaster = new THREE.Raycaster();
+      const cameraPosition = new THREE.Vector3();
+      this.camera.getWorldPosition(cameraPosition);
+
+      const sceneObjects = [];
+      this.scene.traverse((obj) => {
+        if (obj.isMesh) {
+          let isAnnotationPart = false;
+          obj.traverseAncestors((ancestor) => {
+            if (this.annotations.some(a => a.group === ancestor)) isAnnotationPart = true;
+          });
+          if (!isAnnotationPart) sceneObjects.push(obj);
+        }
+      });
+
       const annotationPosition = new THREE.Vector3();
       annotation.group.getWorldPosition(annotationPosition);
-
       const direction = new THREE.Vector3().subVectors(annotationPosition, cameraPosition);
       const distance = direction.length();
       direction.normalize();
@@ -930,7 +873,6 @@ addAnnotation(annotationData, parentGroup = null) {
       const intersects = occlusionRaycaster.intersectObjects(sceneObjects, false);
       const currentlyOccluded = intersects.length > 0;
 
-      // Update hysteresis counters
       if (currentlyOccluded) {
         annotation.occlusionState.occludedFrames++;
         annotation.occlusionState.visibleFrames = 0;
@@ -939,7 +881,6 @@ addAnnotation(annotationData, parentGroup = null) {
         annotation.occlusionState.occludedFrames = 0;
       }
 
-      // Apply hysteresis threshold
       if (annotation.occlusionState.occludedFrames >= annotation.occlusionState.hysteresisThreshold) {
         annotation.occlusionState.isOccluded = true;
       } else if (annotation.occlusionState.visibleFrames >= annotation.occlusionState.hysteresisThreshold) {
@@ -948,81 +889,40 @@ addAnnotation(annotationData, parentGroup = null) {
 
       const isOccluded = annotation.occlusionState.isOccluded;
 
-      // Apply visibility based on occlusion state - SINGLE SOURCE OF TRUTH
-      if (annotation.circle) {
-        annotation.circle.visible = !isOccluded;
-        if (annotation.circle.userData.sprite) {
-          annotation.circle.userData.sprite.visible = !isOccluded;
-        }
-      }
-      if (annotation.rippleSprites) {
-        annotation.rippleSprites.forEach(ripple => {
-          ripple.visible = !isOccluded;
-        });
-      }
-
+      if (annotation.circle) annotation.circle.visible = !isOccluded;
       if (annotation.iconElement) {
         annotation.iconElement.style.display = isOccluded ? 'none' : 'flex';
-        if (!isOccluded) {
-          this.updateIconPosition(annotation);
-        }
+        if (!isOccluded) this.updateIconPosition(annotation);
       }
-      if (annotation.labelElement) {
-        annotation.labelElement.style.display = isOccluded ? 'none' : 'block';
-        if (!isOccluded) {
-          const vector = new THREE.Vector3();
-          annotation.group.getWorldPosition(vector);
-          vector.project(this.camera);
-
-          const x = (vector.x * 0.5 + 0.5) * this.domElement.clientWidth;
-          const y = (vector.y * -0.5 + 0.5) * this.domElement.clientHeight;
-
-          annotation.labelElement.style.left = `${x}px`;
-          annotation.labelElement.style.top = `${y - annotation.size * 100 - 20}px`;
-          annotation.labelElement.style.transform = 'translate(-50%, 0)';
-        }
+      if (annotation.labelElement && !isOccluded) {
+        const vector = annotationPosition.clone().project(this.camera);
+        const x = (vector.x * 0.5 + 0.5) * this.domElement.clientWidth;
+        const y = (vector.y * -0.5 + 0.5) * this.domElement.clientHeight;
+        annotation.labelElement.style.left = `${x}px`;
+        annotation.labelElement.style.top = `${y - annotation.size * 100 - 20}px`;
+        annotation.labelElement.style.transform = 'translate(-50%, 0)';
       }
     });
 
-    // Animate ripples (they handle their own visibility based on occlusion state)
     this.animateRipples();
   }
 
   reset() {
     const allClones = document.querySelectorAll('.annotation-css-clone');
     allClones.forEach(clone => clone.remove());
-
     this.annotations.forEach(annotation => {
       annotation.overlay.style.display = 'none';
       annotation.isActive = false;
       annotation.cssClone = null;
-      annotation.occlusionState = null; // Reset occlusion state, let updateBillboards recalculate
     });
+    if (this.onAnnotationToggle) this.onAnnotationToggle(false);
   }
 
   dispose() {
     this.annotations.forEach(annotation => {
-      if (annotation.circle) {
-        annotation.circle.traverse((child) => {
-          if (child.geometry) child.geometry.dispose();
-          if (child.material) child.material.dispose();
-        });
-      }
-      if (annotation.clickable && annotation.clickable !== annotation.circle) {
-        if (annotation.clickable.geometry) annotation.clickable.geometry.dispose();
-        if (annotation.clickable.material) annotation.clickable.material.dispose();
-      }
-      if (annotation.iconElement) {
-        annotation.iconElement.remove();
-      }
-      if (annotation.rippleSprites) {
-        annotation.rippleSprites.forEach(ripple => {
-          if (ripple.material) ripple.material.dispose();
-        });
-      }
-      if (annotation.labelElement) {
-        annotation.labelElement.remove();
-      }
+      if (annotation.iconElement) annotation.iconElement.remove();
+      if (annotation.focusAnchor) annotation.focusAnchor.remove();
+      if (annotation.labelElement) annotation.labelElement.remove();
       annotation.overlay.remove();
     });
     this.overlayContainer.remove();

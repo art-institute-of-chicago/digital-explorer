@@ -3,9 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 export default function TitleAnnotation({
   infoData
 }) {
-
-  const [isVisible, setIsVisible] = useState(true);
-
   const title = infoData?.info_title || 'Digital Explorer';
   const description = infoData?.info_description || 'Explore 3D Models';
   const credits  = infoData?.info_credits || '<p>ART INSTITUTE OF CHICAGO</p>';

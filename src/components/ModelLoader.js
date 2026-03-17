@@ -19,7 +19,6 @@ export class ModelLoader {
 
     const modelPosition = toVector3Array(content?.position || position, [0, 0, 0]);
     const modelRotation = toVector3Array(content?.rotation || rotation, [0, 0, 0]);
-
     const modelScale = toVector3Array(content?.scale || scale, [1, 1, 1]);
 
     if (modelType === '2d') {
@@ -47,15 +46,13 @@ export class ModelLoader {
           sprite.position.set(position[0], position[1], position[2]);
           sprite.rotation.set(rotation[0], rotation[1], rotation[2]);
 
-          // Apply scale while preserving aspect ratio
-          // Assume scale[0] is the desired width
           const desiredWidth = scale[0];
           const calculatedHeight = desiredWidth / aspectRatio;
 
           sprite.scale.set(
             desiredWidth,
             calculatedHeight,
-            scale[2] || 1  // Z-scale is typically 1 for sprites
+            scale[2] || 1
           );
 
           this.getTarget().add(sprite);
@@ -69,9 +66,10 @@ export class ModelLoader {
           }
 
           const maxDim = Math.max(desiredWidth, calculatedHeight, scale[2] || 1);
-          resolve({ model: sprite, maxDim, is2D: true });
+          const minDistance = Math.sqrt(Math.pow(desiredWidth / 2, 2) + Math.pow(calculatedHeight / 2, 2));
+          resolve({ model: sprite, maxDim, minDistance, is2D: true });
         },
-        undefined, // onProgress callback
+        undefined,
         (error) => {
           console.error(`❌ Failed to load sprite ${imageUrl}:`, error);
           reject(error);
@@ -93,6 +91,7 @@ export class ModelLoader {
           this.getTarget().add(model);
 
           const box = new THREE.Box3().setFromObject(model);
+          const sphere = box.getBoundingSphere(new THREE.Sphere());
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
 
@@ -104,7 +103,7 @@ export class ModelLoader {
             });
           }
 
-          resolve({ model, maxDim, is2D: false });
+          resolve({ model, maxDim, minDistance: sphere.radius, is2D: false });
         },
       );
     });
@@ -121,10 +120,11 @@ export class ModelLoader {
           this.getTarget().add(model);
 
           const box = new THREE.Box3().setFromObject(model);
+          const sphere = box.getBoundingSphere(new THREE.Sphere());
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
 
-          controls.minDistance = maxDim * 0.6;
+          controls.minDistance = sphere.radius;
           controls.maxDistance = maxDim * 10;
 
           const distance = maxDim * 2.5;
@@ -134,7 +134,7 @@ export class ModelLoader {
           controls.target.set(0, 0, 0);
           controls.update();
 
-          resolve({ model, maxDim, is2D: false });
+          resolve({ model, maxDim, minDistance: sphere.radius, is2D: false });
         },
         (progress) => {
           console.log('Loading fallback cube...', (progress.loaded / progress.total * 100).toFixed(2) + '%');

@@ -1,15 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import './App.css';
 import aicLogo from '../public/aic-favicon.svg';
-import defaultCubeUrl from './aic-test-cube.glb';
+import defaultCubeUrl from './assets/aic-test-cube.glb';
 import { useExplorerData } from './lib/hooks/useExplorerData';
 import { useScene } from './lib/hooks/useScene';
 import { useControls } from './lib/hooks/useControls';
 import { AnnotationManager } from './components/AnnotationManager';
 import { ModelLoader } from './components/ModelLoader';
+import InfoCard from './components/InfoCard';
 import TitleScreen from './components/TitleScreen';
+import TimeoutScreen from './components/TimeoutScreen';
 import DebugOverlay from './components/DebugOverlay';
+import BrailleGestureButton from './components/BrailleGestureButton';
+
+let globalUtterance = null;
 
 export default function App({
   models: propModels,
@@ -19,9 +24,6 @@ export default function App({
   title_data: propTitleData,
   info_card_data: propInfoData,
   fallbackModelUrl: propFallbackModelUrl,
-  type: propType,
-  title: propTitle,
-  slug: propSlug
 }) {
   const containerRef = useRef(null);
   const annotationManagerRef = useRef(null);
@@ -33,33 +35,179 @@ export default function App({
   const initialControlsTarget = useRef(null);
   const sceneContainerRef = useRef(null);
   const modelsLoadedRef = useRef(false);
+  const inactivityTimerRef = useRef(null);
 
   const [showTitleScreen, setShowTitleScreen] = useState(true);
+  const [showTimeoutScreen, setShowTimeoutScreen] = useState(false);
   const [isSceneFullyReady, setIsSceneFullyReady] = useState(false);
-  const safetyTimeoutRef = useRef(null);
   const [rippleConfig, setRippleConfig] = useState(null);
+  const [isInfoCardOpen, setIsInfoCardOpen] = useState(true);
+  const [isAnnotationOpen, setIsAnnotationOpen] = useState(false);
+
+  // Voice State
+  const [selectedVoice, setSelectedVoice] = useState(null);
+  const [voices, setVoices] = useState([]);
+
+  const safetyTimeoutRef = useRef(null);
+
+  // New State for Voice Over Mode
+  const [isVOModeActive, setIsVOModeActive] = useState(false);
+
+  const isBlocked = showTitleScreen || showTimeoutScreen;
+
+  // --- Voice Selection Logic ---
+  const findBestVoice = useCallback((availableVoices) => {
+    const preferredNames = ['Samantha', 'Nicky', 'Daniel', 'Alex', 'Google US English'];
+    const found = preferredNames.reduce((acc, name) => {
+      return acc || availableVoices.find(v => v.name.includes(name));
+    }, null);
+    return found || availableVoices.find(v => v.default) || availableVoices[0];
+  }, []);
+
+  // --- Physical Braille Gesture Logic ---
+
+  const toggleVO = useCallback((forceState) => {
+    const nextState = forceState !== undefined ? forceState : !isVOModeActive;
+    setIsVOModeActive(nextState);
+
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const text = nextState
+      ? "Voice Over On. Single tap for info, Double tap for next slide, Triple tap to exit Voice Over Mode"
+      : "Voice Over Off";
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    // Apply the selected voice fallback
+    if (selectedVoice) {
+      utterThis.voice = selectedVoice;
+    } else {
+      // Emergency check: if state hasn't caught up yet, try to find it manually
+      const quickCheck = findBestVoice(synth.getVoices());
+      if (quickCheck) utterThis.voice = quickCheck;
+    }
+
+    utterThis.pitch = 1;
+    utterThis.rate = 1.1;
+
+    window._latestUtterance = utterThis;
+    synth.speak(utterThis);
+  }, [isVOModeActive, selectedVoice, findBestVoice]);
+
+  const handleTactileAction = {
+    tap: () => {
+      if (isVOModeActive) {
+        setIsInfoCardOpen(prev => !prev);
+      }
+    },
+    doubleTap: () => {
+      if (!isVOModeActive) return;
+      if (showTitleScreen) setShowTitleScreen(false);
+
+      const annots = annotationManagerRef.current?.annotations;
+      if (annots?.length) {
+        const currentIndex = annots.findIndex(a => a.isActive);
+        const nextIndex = (currentIndex + 1) % annots.length;
+        annotationManagerRef.current.toggleAnnotation(annots[nextIndex], true);
+      }
+    },
+    tripleTap: () => {
+      toggleVO(!isVOModeActive);
+    },
+    longPress: () => {
+      handleReset();
+    }
+  };
+
+  const handleReset = useCallback(() => {
+    if (initialCameraPosition.current && cameraRef.current) {
+      cameraRef.current.position.copy(initialCameraPosition.current);
+    }
+    if (initialControlsTarget.current && controlsRef.current) {
+      controlsRef.current.target.copy(initialControlsTarget.current);
+      controlsRef.current.update();
+    }
+    if (annotationManagerRef.current) {
+      annotationManagerRef.current.reset();
+    }
+    setShowTitleScreen(true);
+    setShowTimeoutScreen(false);
+    setIsInfoCardOpen(true);
+    setIsAnnotationOpen(false);
+    setIsVOModeActive(false);
+    containerRef.current?.focus();
+  }, []);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    if (!showTitleScreen && !showTimeoutScreen) {
+      inactivityTimerRef.current = setTimeout(() => setShowTimeoutScreen(true), 15000);
+    }
+  }, [showTitleScreen, showTimeoutScreen]);
+
+  const handleResume = () => {
+    setShowTimeoutScreen(false);
+    resetInactivityTimer();
+  };
+
+  const handleExploreClick = () => {
+    setShowTitleScreen(false);
+    if (renderer && scene && camera) renderer.render(scene, camera);
+    setTimeout(() => containerRef.current?.focus(), 100);
+  };
+
+  // --- Voice Loading Effect ---
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+
+    const loadVoices = () => {
+      const availableVoices = synth.getVoices();
+      if (availableVoices.length > 0) {
+        setVoices(availableVoices);
+        const bestVoice = findBestVoice(availableVoices);
+        setSelectedVoice(bestVoice);
+      }
+    };
+
+    loadVoices();
+    if (synth.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = loadVoices;
+    }
+
+    const timer = setTimeout(loadVoices, 500);
+    return () => clearTimeout(timer);
+  }, [findBestVoice]);
+
+  useEffect(() => {
+    if (annotationManagerRef.current) {
+      annotationManagerRef.current.setVOMode(isVOModeActive);
+    }
+  }, [isVOModeActive]);
+
+  useEffect(() => {
+      const activityEvents = ['pointermove', 'pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll', 'click'];
+      const handleActivity = () => resetInactivityTimer();
+      activityEvents.forEach(e => {
+        const options = (e === 'wheel' || e === 'scroll') ? { passive: true } : false;
+        window.addEventListener(e, handleActivity, options);
+      });
+      resetInactivityTimer();
+      return () => {
+        activityEvents.forEach(e => window.removeEventListener(e, handleActivity));
+        if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+      };
+    }, [resetInactivityTimer]);
 
   useEffect(() => {
     if (!isSceneFullyReady) {
-      safetyTimeoutRef.current = setTimeout(() => {
-        setIsSceneFullyReady(true);
-      }, 3000);
+      safetyTimeoutRef.current = setTimeout(() => setIsSceneFullyReady(true), 3000);
     }
-
-    return () => {
-      if (safetyTimeoutRef.current) {
-        clearTimeout(safetyTimeoutRef.current);
-      }
-    };
+    return () => { if (safetyTimeoutRef.current) clearTimeout(safetyTimeoutRef.current); };
   }, [isSceneFullyReady]);
 
   const { models, lights, annotations, settings, title_data, info_card_data, isLoading } = useExplorerData(
-    propModels,
-    propLights,
-    propAnnotations,
-    propSettings,
-    propTitleData,
-    propInfoData,
+    propModels, propLights, propAnnotations, propSettings, propTitleData, propInfoData,
   );
 
   const { scene, renderer, sceneReady } = useScene(containerRef, settings, lights);
@@ -68,41 +216,24 @@ export default function App({
   useEffect(() => {
     if (renderer && renderer.domElement && containerRef.current) {
       const canvas = renderer.domElement;
-      const container = containerRef.current;
+      if (!containerRef.current.contains(canvas)) containerRef.current.appendChild(canvas);
+      canvas.setAttribute('role', 'img');
+      canvas.setAttribute('aria-label', '3D Interactive Model Viewer');
 
-      if (!container.contains(canvas)) {
-        container.appendChild(canvas);
-      }
-
-      canvas.style.position = 'absolute';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvas.style.zIndex = '1';
-      canvas.style.display = 'block';
+      Object.assign(canvas.style, {
+        position: 'absolute', top: '0', left: '0', width: '100%', height: '100%',
+        zIndex: '1', display: 'block', transition: 'opacity 0.4s ease-in-out',
+        opacity: isAnnotationOpen ? '0.4' : '1'
+      });
     }
-  }, [renderer]);
+  }, [renderer, isAnnotationOpen]);
 
   useEffect(() => {
-    if (isLoading || !sceneReady || !controlsReady || modelsLoadedRef.current) {
-      return;
-    }
+    if (isLoading || !sceneReady || !controlsReady || modelsLoadedRef.current) return;
 
     if (!sceneContainerRef.current && scene) {
       const sceneContainer = new THREE.Group();
       sceneContainer.name = 'SceneContainer';
-
-      if (settings.sceneTransform) {
-        const pos = settings.sceneTransform.position || [0, 0, 0];
-        const rot = settings.sceneTransform.rotation || [0, 0, 0];
-        const scl = settings.sceneTransform.scale || [1, 1, 1];
-
-        sceneContainer.position.set(pos[0], pos[1], pos[2]);
-        sceneContainer.rotation.set(rot[0], rot[1], rot[2]);
-        sceneContainer.scale.set(scl[0], scl[1], scl[2]);
-      }
-
       scene.add(sceneContainer);
       sceneContainerRef.current = sceneContainer;
     }
@@ -115,180 +246,89 @@ export default function App({
       initialControlsTarget.current = controls.target.clone();
     }
 
-    const annotationManager = new AnnotationManager(scene, camera, renderer.domElement);
-    annotationManager.setControls(controls)
+    const annotationManager = new AnnotationManager(scene, camera, renderer.domElement, containerRef.current);
+    annotationManager.onAnnotationToggle = (isOpen) => {
+      setIsAnnotationOpen(isOpen);
+      if (isOpen) setIsInfoCardOpen(false);
+    };
+    annotationManager.setControls(controls);
     annotationManagerRef.current = annotationManager;
 
     const modelLoader = new ModelLoader(scene, sceneContainerRef.current);
     modelLoaderRef.current = modelLoader;
-
     setIsSceneFullyReady(true);
 
-    const modelPromises = [];
-
     if (models.length > 0) {
-      models.forEach((modelData) => {
-        const promise = modelLoader.loadModel(modelData, annotationManager);
-        if (promise && typeof promise.then === 'function') {
-          modelPromises.push(promise);
-        }
+      const modelPromises = models.map(m => modelLoader.loadModel(m, annotationManager));
+      Promise.all(modelPromises).then(() => {
+        controls.update();
+        modelsLoadedRef.current = true;
       });
-
-      if (modelPromises.length > 0) {
-        Promise.all(modelPromises).then((results) => {
-
-          const allModels2D = results.every(r => r && r.is2D);
-          const hasAny2D = results.some(r => r && r.is2D);
-
-
-          if (allModels2D) {
-
-            controls.enableRotate = false;
-            controls.enablePan = true;
-            controls.enableZoom = true;
-
-            controls.mouseButtons = {
-              LEFT: THREE.MOUSE.PAN,
-              MIDDLE: THREE.MOUSE.DOLLY,
-              RIGHT: THREE.MOUSE.PAN
-            };
-
-            controls.touches = {
-              ONE: THREE.TOUCH.PAN,
-              TWO: THREE.TOUCH.DOLLY_PAN
-            };
-          }
-
-          const maxDimensions = results
-            .filter(r => r && r.maxDim)
-            .map(r => r.maxDim);
-
-          if (maxDimensions.length > 0) {
-            const largestDim = Math.max(...maxDimensions);
-            controls.minDistance = largestDim * 0.1;
-            controls.maxDistance = largestDim * 2;
-          }
-
-          controls.update();
-          modelsLoadedRef.current = true;
-        }).catch((error) => {
-          console.error('❌ Some models failed to load:', error);
-        });
-      }
     } else {
-      const fallbackUrl = propFallbackModelUrl || defaultCubeUrl;
-
-      modelLoader.loadFallbackCube(fallbackUrl, camera, controls, scene)
-        .then(() => {
-          console.log('🎉 Fallback cube loaded!');
-          modelsLoadedRef.current = true;
-        })
-        .catch((error) => {
-          console.error('❌ Fallback cube failed to load:', error);
-        });
+      modelLoader.loadFallbackCube(propFallbackModelUrl || defaultCubeUrl, camera, controls, scene)
+        .then(() => modelsLoadedRef.current = true);
     }
 
-    if (annotations.length > 0) {
-      annotations.forEach(annotation => {
-        annotationManager.addAnnotation(annotation);
-      });
-    }
-
-    return () => {
-      if (annotationManagerRef.current) {
-        annotationManagerRef.current.dispose();
-      }
-    };
-  }, [isLoading, sceneReady, controlsReady, scene, camera, controls, renderer, models, annotations, propFallbackModelUrl, settings]);
+    annotations.forEach(a => annotationManager.addAnnotation(a));
+    return () => annotationManagerRef.current?.dispose();
+  }, [isLoading, sceneReady, controlsReady, scene, camera, controls, renderer, models, annotations, propFallbackModelUrl]);
 
   useEffect(() => {
-    if (!sceneReady || !controlsReady || !renderer || !scene || !camera || !controls) {
-      return;
-    }
-
+    if (!sceneReady || !controlsReady || !renderer || !scene || !camera || !controls) return;
     function animate() {
       animationIdRef.current = requestAnimationFrame(animate);
       controls.update();
-
-      if (!showTitleScreen && annotationManagerRef.current) {
+      if (!showTitleScreen && !showTimeoutScreen && annotationManagerRef.current) {
         annotationManagerRef.current.updateBillboards();
       }
-
       renderer.render(scene, camera);
     }
-
     animate();
-
-    return () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-      }
-    };
-  }, [sceneReady, controlsReady, renderer, scene, camera, controls, showTitleScreen]);
-
-  useEffect(() => {
-    const handleReset = () => {
-      if (initialCameraPosition.current) {
-        camera.position.copy(initialCameraPosition.current);
-      }
-
-      if (initialControlsTarget.current) {
-        controls.target.copy(initialControlsTarget.current);
-      }
-
-      controls.update();
-
-      if (annotationManagerRef.current) {
-        annotationManagerRef.current.reset();
-      }
-
-      setShowTitleScreen(true);
-    };
-
-    window.addEventListener('resetDigitalExplorer', handleReset);
-
-    return () => {
-      window.removeEventListener('resetDigitalExplorer', handleReset);
-    };
-  }, [camera, controls]);
-
-  const handleExploreClick = () => {
-    setShowTitleScreen(false);
-
-    if (renderer && scene && camera) {
-      renderer.render(scene, camera);
-    }
-  };
+    return () => cancelAnimationFrame(animationIdRef.current);
+  }, [sceneReady, controlsReady, renderer, scene, camera, controls, showTitleScreen, showTimeoutScreen]);
 
   if (isLoading) {
     return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#1a1a1a',
-        color: 'white',
-        fontFamily: '"Helvetica Neue", Arial, sans-serif'
-      }}>
-        <img style={{width: '5vw', height: 'auto'}} src={aicLogo}/>
+      <div role="status" aria-live="polite" style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1a1a1a' }}>
+        <img style={{width: '5vw', height: 'auto'}} src={aicLogo} alt="Loading..." />
       </div>
     );
   }
 
   return (
-    <div
-      ref={containerRef}
-      id="canvas-container"
-      style={{
-        width: '100%',
-        height: '100vh',
-        position: 'relative',
-        backgroundColor: '#1a1a1a'
-      }}
-    >
-      {showTitleScreen && (
+    <div id="app-root" style={{ width: '100%', height: '100vh', position: 'relative', backgroundColor: '#1a1a1a', overflow: 'hidden' }}>
+
+      {/* Re-activate after QA */}
+
+      {/* <BrailleGestureButton
+        isVOActive={isVOModeActive}
+        onSingleTap={handleTactileAction.tap}
+        onDoubleTap={handleTactileAction.doubleTap}
+        onTripleTap={handleTactileAction.tripleTap}
+        onLongPress={handleTactileAction.longPress}
+      /> */}
+
+      {isVOModeActive && (
+        <div style={{
+          position: 'absolute', top: '30px', right: '30px',
+          backgroundColor: '#151515', color: '#f6f6f6',
+          padding: '12px 24px', borderRadius: '40px',
+          fontFamily: '"Ideal Sans", "Helvetica Neue", Arial, sans-serif', fontWeight: '700',
+          zIndex: 50000, display: 'flex', alignItems: 'center', gap: '15px',
+          boxShadow: '0 4px 20px rgba(255, 255, 255, 0.12)'
+        }}>
+          <span style={{ width: '10px', height: '10px', backgroundColor: '#fff', borderRadius: '50%', animation: 'pulse 1.5s infinite' }} />
+          VOICE OVER ON
+          <button
+            onClick={() => toggleVO(false)}
+            style={{ background: '#4B9CA3', color: '#fff', border: 'none', borderRadius: '20px', padding: '5px 15px', cursor: 'pointer' }}
+          >
+            Close
+          </button>
+        </div>
+      )}
+
+      {(showTitleScreen && !isVOModeActive) && (
         <TitleScreen
           titleData={title_data}
           onExplore={handleExploreClick}
@@ -297,20 +337,42 @@ export default function App({
         />
       )}
 
-      {settings?.debug && (
-        <DebugOverlay
-          scene={scene}
-          renderer={renderer}
-          camera={camera}
-          controls={controls}
-          showTitleScreen={showTitleScreen}
-          isSceneReady={isSceneReady}
-          models={models}
-          annotationManager={annotationManagerRef.current}
-          sceneContainer={sceneContainerRef.current}
-          onRippleConfigChange={setRippleConfig}
-        />
+      {showTimeoutScreen && (
+        <div role="alert" aria-live="assertive">
+          <TimeoutScreen onResume={handleResume} onReset={handleReset} />
+        </div>
       )}
+
+      <main
+        ref={containerRef}
+        inert={isBlocked ? "" : undefined}
+        aria-hidden={isBlocked}
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+      >
+        {!isAnnotationOpen && (
+          <InfoCard
+            infoCardData={info_card_data}
+            isToggled={isInfoCardOpen}
+            setIsToggled={setIsInfoCardOpen}
+            isVOModeActive={isVOModeActive}
+          />
+        )}
+
+        {settings?.debug && (
+          <DebugOverlay
+            scene={scene} renderer={renderer} camera={camera} controls={controls}
+            showTitleScreen={showTitleScreen} isSceneReady={isSceneFullyReady}
+            onRippleConfigChange={setRippleConfig}
+          />
+        )}
+      </main>
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.4); opacity: 0.4; }
+        }
+      `}</style>
     </div>
   );
 }
