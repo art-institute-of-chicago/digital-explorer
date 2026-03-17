@@ -12,6 +12,7 @@ export class AnnotationManager {
     this.isToggling = false;
     this.onAnnotationToggle = null;
     this.isVOModeActive = false; // Synced via App.js
+    this.selectedVoice = null;
 
     this.cameraAnimation = {
       active: false,
@@ -56,25 +57,33 @@ export class AnnotationManager {
   }
 
   // --- TTS Logic for Annotations ---
-speakAnnotation(annotation) {
+
+  setVoice(voice) {
+    this.selectedVoice = voice;
+  }
+
+  speakAnnotation(annotation) {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
 
-    // 1. Get the container that holds the pure HTML
     const content = annotation.overlay.contentContainer;
     if (!content) return;
 
-    // 2. Extract all visible text from the HTML
-    // innerText is better than textContent here because it respects
-    // CSS visibility and line breaks.
     let textToRead = content.innerText || content.textContent;
 
     if (textToRead && textToRead.trim()) {
       const utterance = new SpeechSynthesisUtterance(textToRead);
-      utterance.rate = 0.9;
 
-      // Optional: Clean up extra whitespace/newlines for smoother reading
+      // APPLY GLOBAL VOICE HERE
+      if (this.selectedVoice) {
+        utterance.voice = this.selectedVoice;
+      }
+
+      utterance.rate = 0.9;
       utterance.text = textToRead.replace(/\s+/g, ' ').trim();
+
+      // Pin reference to window to prevent Garbage Collection
+      window._latestAnnotationUtterance = utterance;
 
       window.speechSynthesis.speak(utterance);
     }
