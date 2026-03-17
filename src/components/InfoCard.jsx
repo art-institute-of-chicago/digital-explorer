@@ -2,7 +2,13 @@ import { useEffect, useRef } from 'react';
 import closeIcon from '../assets/close-icon.svg';
 import infoIcon from '../assets/info-icon.svg';
 
-export default function InfoCard({ infoCardData, isToggled, setIsToggled, isVOModeActive }) {
+export default function InfoCard({
+  infoCardData,
+  isToggled,
+  setIsToggled,
+  isVOModeActive,
+  selectedVoice
+}) {
   const toggleButtonRef = useRef(null);
   const cardRef = useRef(null);
   const synthRef = useRef(window.speechSynthesis);
@@ -34,16 +40,32 @@ export default function InfoCard({ infoCardData, isToggled, setIsToggled, isVOMo
         const fullText = `${titleText}. ${descText}`;
 
         synthRef.current.cancel();
+
         const utterance = new SpeechSynthesisUtterance(fullText);
+
+        // Use the globally selected high-quality voice
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
         utterance.rate = 0.9;
+        utterance.pitch = 1;
+
+        // Pin reference to window to prevent Firefox from cutting off audio
+        window._latestInfoUtterance = utterance;
+
         synthRef.current.speak(utterance);
       }
     } else {
       toggleButtonRef.current?.focus();
       if (isVOModeActive) synthRef.current.cancel();
     }
-    return () => synthRef.current.cancel();
-  }, [isToggled, infoCardData, isVOModeActive]);
+
+    // Cleanup: cancel speech when unmounting or toggling off
+    return () => {
+      if (isVOModeActive) synthRef.current.cancel();
+    };
+  }, [isToggled, infoCardData, isVOModeActive, selectedVoice]);
 
   const styles = {
     container: { position: 'absolute', top: '0', left: '0', zIndex: 2000, pointerEvents: 'none', width: '100%', height: '100%' },

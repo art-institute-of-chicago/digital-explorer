@@ -15,6 +15,7 @@ import DebugOverlay from './components/DebugOverlay';
 import BrailleGestureButton from './components/BrailleGestureButton';
 
 let globalUtterance = null;
+let persistentUtterance = null;
 
 export default function App({
   models: propModels,
@@ -57,42 +58,54 @@ export default function App({
 
   // --- Voice Selection Logic ---
   const findBestVoice = useCallback((availableVoices) => {
+    // 1. Filter out the "joke" voices that Firefox/MacOS often lead with
+    const noveltyVoices = ['Zarvox', 'Cellos', 'Good News', 'Pipe Organ', 'Bells', 'Boing', 'Bubbles'];
+
+    const usableVoices = availableVoices.filter(v =>
+      !noveltyVoices.some(novelty => v.name.includes(novelty)) &&
+      (v.lang.startsWith('en') || v.default)
+    );
+
+    // 2. Look for your high-quality preferences in the "usable" list
     const preferredNames = ['Samantha', 'Nicky', 'Daniel', 'Alex', 'Google US English'];
+
     const found = preferredNames.reduce((acc, name) => {
-      return acc || availableVoices.find(v => v.name.includes(name));
+      return acc || usableVoices.find(v => v.name.includes(name));
     }, null);
-    return found || availableVoices.find(v => v.default) || availableVoices[0];
+
+    // 3. Fallback: If no preferred, take the first usable.
+    // If nothing usable, only then take the absolute first (else Zarvox will destroy us all | https://wiki.therofl98.co/wiki/MacinTalk_Voice_Zarvox).
+    return found || usableVoices[0] || availableVoices[0];
   }, []);
 
   // --- Physical Braille Gesture Logic ---
 
   const toggleVO = useCallback((forceState) => {
-    const nextState = forceState !== undefined ? forceState : !isVOModeActive;
-    setIsVOModeActive(nextState);
+      const nextState = forceState !== undefined ? forceState : !isVOModeActive;
+      setIsVOModeActive(nextState);
 
-    const synth = window.speechSynthesis;
-    synth.cancel();
+      const synth = window.speechSynthesis;
+      synth.cancel();
 
-    const text = nextState
-      ? "Voice Over On. Single tap for info, Double tap for next slide, Triple tap to exit Voice Over Mode"
-      : "Voice Over Off";
+      const text = nextState
+        ? "Voice Over On. Single tap for info, Double tap for next slide, Triple tap to exit Voice Over Mode"
+        : "Voice Over Off";
 
-    const utterThis = new SpeechSynthesisUtterance(text);
+      // Pin it to a global/persistent variable immediately
+      persistentUtterance = new SpeechSynthesisUtterance(text);
 
-    // Apply the selected voice fallback
-    if (selectedVoice) {
-      utterThis.voice = selectedVoice;
-    } else {
-      // Emergency check: if state hasn't caught up yet, try to find it manually
-      const quickCheck = findBestVoice(synth.getVoices());
-      if (quickCheck) utterThis.voice = quickCheck;
-    }
+      // For chromium browsers: re-find the voice right before speaking
+      const availableVoices = synth.getVoices();
+      const bestVoice = selectedVoice || findBestVoice(availableVoices);
 
-    utterThis.pitch = 1;
-    utterThis.rate = 1.1;
+      if (bestVoice) {
+        persistentUtterance.voice = bestVoice;
+      }
 
-    window._latestUtterance = utterThis;
-    synth.speak(utterThis);
+      persistentUtterance.pitch = 1;
+      persistentUtterance.rate = 1.1;
+
+      synth.speak(persistentUtterance);
   }, [isVOModeActive, selectedVoice, findBestVoice]);
 
   const handleTactileAction = {
@@ -166,7 +179,8 @@ export default function App({
       if (availableVoices.length > 0) {
         setVoices(availableVoices);
         const bestVoice = findBestVoice(availableVoices);
-        setSelectedVoice(bestVoice);
+        // Only update if we don't have a voice yet or if the best voice is "better"
+        setSelectedVoice(current => current?.name.includes('Samantha') ? current : bestVoice);
       }
     };
 
@@ -247,6 +261,11 @@ export default function App({
     }
 
     const annotationManager = new AnnotationManager(scene, camera, renderer.domElement, containerRef.current);
+
+    if (selectedVoice) {
+      annotationManager.setVoice(selectedVoice);
+    }
+
     annotationManager.onAnnotationToggle = (isOpen) => {
       setIsAnnotationOpen(isOpen);
       if (isOpen) setIsInfoCardOpen(false);
@@ -272,6 +291,12 @@ export default function App({
     annotations.forEach(a => annotationManager.addAnnotation(a));
     return () => annotationManagerRef.current?.dispose();
   }, [isLoading, sceneReady, controlsReady, scene, camera, controls, renderer, models, annotations, propFallbackModelUrl]);
+
+  useEffect(() => {
+    if (annotationManagerRef.current && selectedVoice) {
+      annotationManagerRef.current.setVoice(selectedVoice);
+    }
+  }, [selectedVoice]);
 
   useEffect(() => {
     if (!sceneReady || !controlsReady || !renderer || !scene || !camera || !controls) return;
@@ -300,13 +325,13 @@ export default function App({
 
       {/* Re-activate after QA */}
 
-      {/* <BrailleGestureButton
+      <BrailleGestureButton
         isVOActive={isVOModeActive}
         onSingleTap={handleTactileAction.tap}
         onDoubleTap={handleTactileAction.doubleTap}
         onTripleTap={handleTactileAction.tripleTap}
         onLongPress={handleTactileAction.longPress}
-      /> */}
+      />
 
       {isVOModeActive && (
         <div style={{
@@ -355,6 +380,7 @@ export default function App({
             isToggled={isInfoCardOpen}
             setIsToggled={setIsInfoCardOpen}
             isVOModeActive={isVOModeActive}
+            selectedVoice={selectedVoice}
           />
         )}
 
