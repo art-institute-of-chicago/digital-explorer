@@ -1,6 +1,6 @@
 {
   "name": "digital-explorer",
-  "version": "1.0.0",
+  "version": "1.0.11",
   "description": "A React Three.js based 3D digital explorer component",
   "type": "module",
   "main": "dist/digitalExplorer.cjs",
