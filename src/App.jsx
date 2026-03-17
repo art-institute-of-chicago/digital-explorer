@@ -325,13 +325,15 @@ export default function App({
 
       {/* Re-activate after QA */}
 
-      <BrailleGestureButton
-        isVOActive={isVOModeActive}
-        onSingleTap={handleTactileAction.tap}
-        onDoubleTap={handleTactileAction.doubleTap}
-        onTripleTap={handleTactileAction.tripleTap}
-        onLongPress={handleTactileAction.longPress}
-      />
+      {settings?.brailleButton && (
+        <BrailleGestureButton
+          isVOActive={isVOModeActive}
+          onSingleTap={handleTactileAction.tap}
+          onDoubleTap={handleTactileAction.doubleTap}
+          onTripleTap={handleTactileAction.tripleTap}
+          onLongPress={handleTactileAction.longPress}
+        />
+      )}
 
       {isVOModeActive && (
         <div style={{
