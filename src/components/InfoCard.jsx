@@ -73,7 +73,7 @@ export default function InfoCard({
     card: { position: 'absolute', top: '60px', left: '60px', backgroundColor: '#282829', color: 'white', maxWidth: '27.5%', minWidth: '450px', padding: '60px 50px', display: 'flex', flexDirection: 'column', pointerEvents: 'auto', textAlign: 'left', outline: 'none' },
     title: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: '3rem', margin: 0, fontWeight: '400', lineHeight: '1.1' },
     description: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: '1.4rem', lineHeight: '130%', marginTop: '1.5rem', opacity: '0.9' },
-    metadata: { color: '#f6f6f6', marginTop: '4rem', fontFamily: '"Ideal Sans", "Helvetica Neue", Arial, sans-serif', fontSize: '1rem', fontWeight: '500', lineHeight: '130%' }
+    metadata: { color: '#f6f6f6', marginTop: '4rem', fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif', fontSize: '1rem', fontWeight: '500', lineHeight: '130%' }
   };
 
   return (

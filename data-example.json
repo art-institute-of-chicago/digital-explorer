@@ -1,22 +1,41 @@
 {
+  "id": 1,
+  "title": "Abandoned Mansion Bedroom",
+  "slug": "abandoned-mansion-bedroom",
   "type": "3d",
+  "published": true,
+  "meta_title": "Explore the Abandoned Mansion Bedroom",
+  "meta_description": "An interactive 3D digital explorer experience.",
+  "short_description": "Explore a highly detailed 3D mansion bedroom.",
+  "listing_description": "Interactive 3D model of an abandoned mansion room.",
+  "title_data": {
+    "title_media": "/images/title_background.jpg",
+    "title_display": true
+  },
+  "info_card_data": {
+    "info_title": "Abandoned Mansion Room",
+    "info_description": "A spooky, dimly lit bedroom scene.",
+    "info_credits": "Modeled by Jane Doe"
+  },
   "settings": {
+    "debug": false,
+    "brailleButton": false,
     "sceneSettings": {
       "antialiasing": true,
       "shadows": true
     },
     "toneMapping": "ACESFilmicToneMapping",
     "colorSpace": "SRGB",
-    "toneMappingExposure": 1,
     "backgroundColor": "#1a1a1a",
     "environmentPreset": "sunset",
+    "toneMappingExposure": 1.0,
     "orbitControls": {
       "target": [0, 0, 0],
       "makeDefault": true
     },
     "camera": {
       "position": [0, 5, 15],
-      "fov": 75,
+      "fov": 75.0,
       "near": 0.1,
       "far": 2000
     }
@@ -25,55 +44,68 @@
     {
       "id": "model-1",
       "type": "explorer_model",
-      "modelPath": "/abandoned_mansion_bedroom.glb",
-      "position": [-66.6, 0, 69],
-      "rotation": [0, 4.75, 0],
-      "scale": 4,
+      "position": 1,
       "content": {
-        "settings": ["castShadow", "receiveShadow"],
+        "settings": [
+          "castShadow",
+          "receiveShadow"
+        ],
         "model": {
           "en": "/abandoned_mansion_bedroom.glb"
         },
         "coordinate": "[-66.6, 0, 69]",
         "rotation": "[0, 4.75, 0]",
-        "scale": "4"
+        "scale": "4",
+        "position": [-66.6, 0.0, 69.0],
+        "scale": 4.0
       },
+      "modelType": "3d",
+      "modelUrl": "/abandoned_mansion_bedroom.glb",
       "children": [
         {
           "id": "light-1",
           "type": "explorer_light",
+          "position": 1,
           "content": {
             "lightType": "point",
             "coordinate": "[-66.6, 5, 69]",
             "color": "#ff9900",
             "intensity": "2",
-            "settings": ["castShadow"]
+            "settings": [
+              "castShadow"
+            ]
           }
         }
-      ]
+      ],
+      "renderedHtml": "<div class=\"explorer-light\">...</div>"
     },
     {
       "id": "model-2",
       "type": "explorer_model",
-      "modelPath": "/painting.glb",
-      "position": [0, 5.5, 0],
-      "rotation": [0, 1.6, 0],
-      "scale": 0.02,
+      "position": 2,
       "content": {
-        "settings": ["castShadow", "receiveShadow", "enableControls"],
+        "settings": [
+          "castShadow",
+          "receiveShadow",
+          "enableControls"
+        ],
         "model": {
           "en": "/painting.glb"
         },
         "coordinate": "[0, 5.5, 0]",
         "rotation": "[0, 1.6, 0]",
-        "scale": "0.02"
-      }
+        "position": [0.0, 5.5, 0.0],
+        "scale": 0.02
+      },
+      "modelType": "3d",
+      "modelUrl": "/painting.glb"
     }
   ],
   "lights": [
     {
       "id": "ambient-1",
       "type": "explorer_light",
+      "position": 1,
       "content": {
         "lightType": "ambient",
         "color": "#ffffff",
@@ -85,27 +117,50 @@
     {
       "id": "annotation-1",
       "type": "explorer_annotation",
+      "position": 1,
       "content": {
         "coordinate": "[5, 3, 5]",
         "rotation": "[0, 0, 0]",
         "scale": "1",
         "color": "#ff6b6b",
         "size": "0.5",
-        "annotationSettings": ["showLabel"],
-        "labelText": "Main Entrance"
+        "annotationSettings": [
+          "showLabel"
+        ],
+        "labelText": "Main Entrance",
+        "position": [5.0, 3.0, 5.0],
+        "annotationColor": "#ff6b6b",
+        "annotationSize": 0.5,
+        "annotationTarget": null,
+        "showLabel": true,
+        "sizeAttenuation": true
       },
       "children": [
         {
           "id": "annotation-2",
           "type": "explorer_annotation",
+          "position": 1,
           "content": {
             "coordinate": "[5, 4, 5]",
             "color": "#4CAF50",
             "size": "0.3",
-            "labelText": "Detail Point"
+            "labelText": "Detail Point",
+            "position": [5.0, 4.0, 5.0],
+            "rotation": [0.0, 0.0, 0.0],
+            "scale": 0.1,
+            "annotationColor": "#4CAF50",
+            "annotationSize": 0.3,
+            "annotationTarget": null,
+            "showLabel": false,
+            "sizeAttenuation": true
           }
         }
-      ]
+      ],
+      "renderedHtml": "<div class=\"explorer-annotation\">...</div>"
     }
-  ]
+  ],
+  "timestamps": {
+    "created": "2026-03-25T16:45:13+00:00",
+    "updated": "2026-03-25T16:45:13+00:00"
+  }
 }
