@@ -53,8 +53,5 @@
     "react-three-fiber"
   ],
   "author": "Trevin Alonzo",
-  "license": "MIT",
-  "dependencies": {
-    "digital-explorer": "file:.yalc/digital-explorer"
-  }
+  "license": "MIT"
 }
