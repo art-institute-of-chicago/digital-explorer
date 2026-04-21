@@ -68,8 +68,8 @@ export default function InfoCard({
   }, [isToggled, infoCardData, isVOModeActive, selectedVoice]);
 
   const styles = {
-    container: { position: 'absolute', top: '0', left: '0', zIndex: 2000, pointerEvents: 'none', width: '100%', height: '100%' },
-    baseButton: { position: 'absolute', top: '35px', left: '35px', width: '50px', height: '50px', backgroundColor: '#f6f6f6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', zIndex: 10000, pointerEvents: 'auto' },
+    container: { position: 'absolute', top: '0', left: '0', zIndex: 20, pointerEvents: 'none', width: '100%', height: '100%' },
+    baseButton: { position: 'absolute', top: '35px', left: '35px', width: '50px', height: '50px', backgroundColor: '#f6f6f6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', zIndex: 30, pointerEvents: 'auto' },
     card: { position: 'absolute', top: '60px', left: '60px', backgroundColor: '#282829', color: 'white', maxWidth: '27.5%', minWidth: '450px', padding: '60px 50px', display: 'flex', flexDirection: 'column', pointerEvents: 'auto', textAlign: 'left', outline: 'none' },
     title: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: '3rem', margin: 0, fontWeight: '400', lineHeight: '1.1' },
     description: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: '1.4rem', lineHeight: '130%', marginTop: '1.5rem', opacity: '0.9' },

@@ -22,13 +22,13 @@ export class ModelLoader {
     const modelScale = toVector3Array(content?.scale || scale, [1, 1, 1]);
 
     if (modelType === '2d') {
-      return this.load2DSprite(modelUrl, modelPosition, modelRotation, modelScale, children, annotationManager);
+      return this.load2DSprite(modelUrl, modelPosition, modelRotation, modelScale, children, annotationManager, modelData.id);
     } else {
-      return this.load3DModel(modelUrl, modelPosition, modelRotation, modelScale, children, annotationManager);
+      return this.load3DModel(modelUrl, modelPosition, modelRotation, modelScale, children, annotationManager, modelData.id);
     }
   }
 
-  load2DSprite(imageUrl, position, rotation, scale, children, annotationManager) {
+  load2DSprite(imageUrl, position, rotation, scale, children, annotationManager, modelId) {
     return new Promise((resolve, reject) => {
       this.textureLoader.load(
         imageUrl,
@@ -45,6 +45,7 @@ export class ModelLoader {
           const sprite = new THREE.Sprite(material);
           sprite.position.set(position[0], position[1], position[2]);
           sprite.rotation.set(rotation[0], rotation[1], rotation[2]);
+          sprite.userData.id = modelId;
 
           const desiredWidth = scale[0];
           const calculatedHeight = desiredWidth / aspectRatio;
@@ -78,7 +79,7 @@ export class ModelLoader {
     });
   }
 
-  load3DModel(modelUrl, position, rotation, scale, children, annotationManager) {
+  load3DModel(modelUrl, position, rotation, scale, children, annotationManager, modelId) {
     return new Promise((resolve, reject) => {
       this.gltfLoader.load(
         modelUrl,
@@ -87,6 +88,7 @@ export class ModelLoader {
           model.position.set(position[0], position[1], position[2]);
           model.rotation.set(rotation[0], rotation[1], rotation[2]);
           model.scale.set(scale[0], scale[1], scale[2]);
+          model.userData.id = modelId;
 
           this.getTarget().add(model);
 

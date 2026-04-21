@@ -172,7 +172,7 @@ export default function TitleScreen({
         left: 0,
         width: "100vw",
         height: "100vh",
-        zIndex: 9999,
+        zIndex: 20,
         opacity: isExiting ? 0 : 1,
         transform: isExiting ? "scale(1.25)" : "scale(1)",
         transition:

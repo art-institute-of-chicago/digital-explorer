@@ -13,6 +13,7 @@ import TitleScreen from "./components/TitleScreen";
 import TimeoutScreen from "./components/TimeoutScreen";
 import DebugOverlay from "./components/DebugOverlay";
 import BrailleGestureButton from "./components/BrailleGestureButton";
+import BuilderPanel from "./components/BuilderPanel";
 
 let globalUtterance = null;
 let persistentUtterance = null;
@@ -45,6 +46,7 @@ export default function App({
   const [rippleConfig, setRippleConfig] = useState(null);
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(true);
   const [isAnnotationOpen, setIsAnnotationOpen] = useState(false);
+  const [isBuilderOpen, setIsBuilderOpen] = useState(false);
 
   // Voice State
   const [selectedVoice, setSelectedVoice] = useState(null);
@@ -224,6 +226,8 @@ export default function App({
   }, [isVOModeActive]);
 
   useEffect(() => {
+    if (settings?.builderEnabled) return;
+
     const activityEvents = [
       "pointermove",
       "pointerdown",
@@ -239,7 +243,6 @@ export default function App({
         e === "wheel" || e === "scroll" ? { passive: true } : false;
       window.addEventListener(e, handleActivity, options);
     });
-    resetInactivityTimer();
     return () => {
       activityEvents.forEach((e) =>
         window.removeEventListener(e, handleActivity)
@@ -303,7 +306,7 @@ export default function App({
         left: "0",
         width: "100%",
         height: "100%",
-        zIndex: "1",
+        zIndex: "10",
         display: "block",
         transition: "opacity 0.4s ease-in-out",
         opacity: isAnnotationOpen ? "0.4" : "1",
@@ -485,7 +488,7 @@ export default function App({
             borderRadius: "40px",
             fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
             fontWeight: "700",
-            zIndex: 50000,
+            zIndex: 70,
             display: "flex",
             alignItems: "center",
             gap: "15px",
@@ -537,7 +540,7 @@ export default function App({
             left: 0,
             width: "100%",
             height: "100%",
-            zIndex: 99999,
+            zIndex: 90,
           }}
         >
           <TimeoutScreen onResume={handleResume} onReset={handleReset} />
@@ -583,6 +586,18 @@ export default function App({
           />
         )}
       </main>
+
+      {settings?.builderEnabled && (
+        <BuilderPanel
+          modelsData={models}
+          annotationsData={annotations}
+          annotationManagerRef={annotationManagerRef}
+          scene={scene}
+          isOpen={isBuilderOpen}
+          setIsOpen={setIsBuilderOpen}
+        />
+      )}
+
 
       <style>{`
         @keyframes pulse {
