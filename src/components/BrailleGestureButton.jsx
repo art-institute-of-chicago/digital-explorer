@@ -62,7 +62,7 @@ export default function BrailleGestureButton({
         position: 'absolute', bottom: '0', right: '0',
         width: '250px', height: '250px',
         background: isVOActive ? 'rgba(188, 188, 188, 0.1)' : 'transparent',
-        border: 'none', zIndex: 40000, cursor: 'pointer', outline: 'none',
+        border: 'none', zIndex: 60, cursor: 'pointer', outline: 'none',
         WebkitTapHighlightColor: 'transparent',
       }}
       aria-label="Tactile Navigation Area"

@@ -187,7 +187,7 @@ export default function DebugOverlay({
       color: '#00ff00',
       fontFamily: 'monospace',
       fontSize: '11px',
-      zIndex: 99999,
+      zIndex: 80,
       borderRadius: '4px',
       border: '1px solid #00ff00',
       maxHeight: '90vh',

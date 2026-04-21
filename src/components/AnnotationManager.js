@@ -41,7 +41,7 @@ export class AnnotationManager {
     this.overlayContainer.style.pointerEvents = "none";
     this.overlayContainer.style.width = "100%";
     this.overlayContainer.style.height = "100%";
-    this.overlayContainer.style.zIndex = "20000";
+    this.overlayContainer.style.zIndex = "40";
     parentContainer.appendChild(this.overlayContainer);
 
     this.iconContainer = document.createElement("div");
@@ -408,7 +408,7 @@ export class AnnotationManager {
     cssClone.style.display = "flex";
     cssClone.style.alignItems = "center";
     cssClone.style.justifyContent = "center";
-    cssClone.style.zIndex = "25000";
+    cssClone.style.zIndex = "50";
     cssClone.style.pointerEvents = "auto";
     cssClone.style.cursor = "pointer";
     cssClone.style.border = "none";
@@ -486,10 +486,45 @@ export class AnnotationManager {
 
   updatePositions() {
     this.annotations.forEach((annotation) => {
-      if (annotation.iconElement) {
-        this.updateIconPosition(annotation);
-      }
+      this.updateIconPosition(annotation);
     });
+  }
+
+  removeAnnotation(id) {
+    const index = this.annotations.findIndex((a) => a.data && a.data.id === id);
+    if (index !== -1) {
+      const ann = this.annotations[index];
+      
+      // Remove from 3D scene
+      if (ann.group && ann.group.parent) {
+        ann.group.parent.remove(ann.group);
+      }
+      
+      // Remove icon DOM elements
+      if (ann.iconElement && ann.iconElement.parentNode) {
+        ann.iconElement.parentNode.removeChild(ann.iconElement);
+      }
+      
+      if (ann.labelElement && ann.labelElement.parentNode) {
+        ann.labelElement.parentNode.removeChild(ann.labelElement);
+      }
+      
+      if (ann.focusAnchor && ann.focusAnchor.parentNode) {
+        ann.focusAnchor.parentNode.removeChild(ann.focusAnchor);
+      }
+      
+      // Remove dialog overlay
+      if (ann.overlay && ann.overlay.parentNode) {
+        ann.overlay.parentNode.removeChild(ann.overlay);
+      }
+      
+      // Remove CSS clone (close button)
+      if (ann.cssClone && ann.cssClone.parentNode) {
+        ann.cssClone.parentNode.removeChild(ann.cssClone);
+      }
+      
+      this.annotations.splice(index, 1);
+    }
   }
 
   createAnnotationCircle(size, color, sizeAttenuation = true) {
@@ -712,7 +747,7 @@ export class AnnotationManager {
     overlay.style.transition = "background-color 0.3s ease-in-out";
     overlay.style.pointerEvents = "auto";
     overlay.style.display = "none";
-    overlay.style.zIndex = "1";
+    overlay.style.zIndex = "10";
 
     const contentContainer = document.createElement("article");
     contentContainer.setAttribute("role", "dialog");
@@ -729,7 +764,7 @@ export class AnnotationManager {
     contentContainer.style.color = "white";
     contentContainer.style.overflowY = "hidden";
     contentContainer.style.pointerEvents = "auto";
-    contentContainer.style.zIndex = "1";
+    contentContainer.style.zIndex = "10";
     contentContainer.style.opacity = "0";
 
     contentContainer.addEventListener("click", (e) => e.stopPropagation());
@@ -774,7 +809,7 @@ export class AnnotationManager {
       [0, 0, 0]
     );
     const color = annotationData.content?.annotationColor || "#4ecdc4";
-    const size = annotationData.content?.annotationSize || 0.5;
+    const size = parseFloat(annotationData.content?.scale) || parseFloat(annotationData.content?.annotationSize) || 0.5;
     const icon = annotationData.content?.annotationIcon || null;
     const showLabel = annotationData.content?.showLabel || false;
     const labelText = annotationData.content?.labelText || "";
@@ -798,7 +833,7 @@ export class AnnotationManager {
     focusAnchor.style.transform = "translate(-50%, -50%)";
     focusAnchor.style.opacity = "0";
     focusAnchor.style.pointerEvents = "auto";
-    focusAnchor.style.zIndex = "10";
+    focusAnchor.style.zIndex = "30";
     focusAnchor.setAttribute(
       "aria-label",
       `View details for ${labelText || "annotation"}`
@@ -816,7 +851,11 @@ export class AnnotationManager {
       clickable = this.createClickablePlane(size);
       group.add(clickable);
     } else {
-      circle = this.createAnnotationCircle(size, colorInt, sizeAttenuation);
+      circle = this.createAnnotationCircle(
+        size,
+        colorInt,
+        sizeAttenuation
+      );
       group.add(circle);
       clickable = circle.userData.sprite;
 

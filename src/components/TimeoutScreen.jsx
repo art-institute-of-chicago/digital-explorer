@@ -166,7 +166,7 @@ export default function TimeoutScreen({
         width: "100vw",
         height: "100vh",
         backgroundColor: "rgba(21, 21, 21, 0.95)",
-        zIndex: 10000,
+        zIndex: 90,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
