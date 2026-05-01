@@ -39,6 +39,16 @@ export default function App({
   const modelsLoadedRef = useRef(false);
   const inactivityTimerRef = useRef(null);
 
+  const poiCenterRef = useRef(null);
+  const maxPanDistRef = useRef(null);
+  const defaultPanDistRef = useRef(null);
+  const zoomLimitsRef = useRef(null);
+  const defaultZoomLimitsRef = useRef({ min: 0, max: Infinity });
+  const isCustomBoundsEnabledRef = useRef(false);
+  const customBoundsOffsetRef = useRef([0, 0, 0]);
+  const deactivateForcefieldRef = useRef(false);
+  const isBuilderOpenRef = useRef(false);
+
   const [showTitleScreen, setShowTitleScreen] = useState(true);
   const [isTitleExiting, setIsTitleExiting] = useState(false);
   const [showTimeoutScreen, setShowTimeoutScreen] = useState(false);
@@ -47,6 +57,11 @@ export default function App({
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(true);
   const [isAnnotationOpen, setIsAnnotationOpen] = useState(false);
   const [isBuilderOpen, setIsBuilderOpen] = useState(false);
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+
+  useEffect(() => {
+     isBuilderOpenRef.current = isBuilderOpen;
+  }, [isBuilderOpen]);
 
   // Voice State
   const [selectedVoice, setSelectedVoice] = useState(null);
@@ -359,9 +374,45 @@ export default function App({
       const modelPromises = models.map((m) =>
         modelLoader.loadModel(m, annotationManager)
       );
-      Promise.all(modelPromises).then(() => {
+      Promise.all(modelPromises).then((loadedModels) => {
+        const firstModelInfo = loadedModels[0];
+        if (firstModelInfo && firstModelInfo.model) {
+            const { model, maxDim, minDistance, is2D, width, height, depth } = firstModelInfo;
+            const box = new THREE.Box3().setFromObject(model);
+            const targetVec = new THREE.Vector3(0, 0, 0);
+            if (settings?.orbitControls?.target) {
+                targetVec.fromArray(settings.orbitControls.target);
+            }
+            poiCenterRef.current = targetVec;
+
+            const size = box.getSize(new THREE.Vector3());
+
+            // A 3D asset mapped strictly onto a singular plane (e.g. YZ) will yield microscopic floats
+            // for its raw empty axis. We mathematically clamp to maxDim to prevent flat walls freezing X/Y focal pans.
+            const safeX = is2D ? 0 : (size.z > 0.05 ? size.z : maxDim);
+            const safeY = is2D ? (height > 0.05 ? height : maxDim) : (size.y > 0.05 ? size.y : maxDim);
+            const safeZ = is2D ? (width > 0.05 ? width : maxDim) : (size.x > 0.05 ? size.x : maxDim);
+
+            // Dynamically scale bounding constraints tightly to the physical aspect ratio of the object
+            const defaultBounds = [
+                safeX / 2,
+                safeY / 2,
+                safeZ / 2
+            ];
+            defaultPanDistRef.current = defaultBounds;
+
+            // Snapshot physical zoom constraints before altering dynamically
+            if (!defaultZoomLimitsRef.current) {
+                defaultZoomLimitsRef.current = {
+                    min: controls.minDistance,
+                    max: maxDim
+                };
+            }
+        }
+
         controls.update();
         modelsLoadedRef.current = true;
+        setModelsLoaded(true);
       });
     } else {
       modelLoader
@@ -371,7 +422,10 @@ export default function App({
           controls,
           scene
         )
-        .then(() => (modelsLoadedRef.current = true));
+        .then(() => {
+            modelsLoadedRef.current = true;
+            setModelsLoaded(true);
+        });
     }
 
     annotations.forEach((a) => annotationManager.addAnnotation(a));
@@ -388,6 +442,44 @@ export default function App({
     annotations,
     propFallbackModelUrl,
   ]);
+
+  useEffect(() => {
+    if (!defaultPanDistRef.current || !controls) return;
+
+    const getVal = (val, def) => (val !== undefined && val !== "" && !isNaN(parseFloat(val))) ? parseFloat(val) : def;
+
+    isCustomBoundsEnabledRef.current = !!settings?.enableCustomBounds;
+
+    if (settings?.enableCustomBounds && settings?.customBounds) {
+        maxPanDistRef.current = [
+            getVal(settings.customBounds[0], defaultPanDistRef.current[0] * 2) / 2,
+            getVal(settings.customBounds[1], defaultPanDistRef.current[1] * 2) / 2,
+            getVal(settings.customBounds[2], defaultPanDistRef.current[2] * 2) / 2
+        ];
+    } else {
+        maxPanDistRef.current = defaultPanDistRef.current;
+    }
+
+    if (settings?.enableCustomBounds && settings?.customBoundsOffset) {
+        customBoundsOffsetRef.current = [
+            getVal(settings.customBoundsOffset[0], 0),
+            getVal(settings.customBoundsOffset[1], 0),
+            getVal(settings.customBoundsOffset[2], 0)
+        ];
+    } else {
+        customBoundsOffsetRef.current = [0, 0, 0];
+    }
+
+    if (settings?.enableCustomBounds && settings?.zoomLimits) {
+        zoomLimitsRef.current = {
+            min: getVal(settings.zoomLimits[0], 0),
+            max: getVal(settings.zoomLimits[1], Infinity)
+        };
+    } else {
+        zoomLimitsRef.current = null;
+    }
+
+  }, [settings, controls, modelsLoaded]);
 
   useEffect(() => {
     if (annotationManagerRef.current && selectedVoice) {
@@ -407,6 +499,86 @@ export default function App({
       return;
     function animate() {
       animationIdRef.current = requestAnimationFrame(animate);
+
+      if (poiCenterRef.current && controls.target && maxPanDistRef.current) {
+          // Determine if Custom Bounds dictates removing the native boundaries entirely
+          const isAnyAnnotationActive = annotationManagerRef.current?.annotations?.some(a => a.isActive);
+          const builderDeactivated = isBuilderOpenRef.current && isCustomBoundsEnabledRef.current && deactivateForcefieldRef.current;
+          const boundsEnforced = !builderDeactivated && !isAnyAnnotationActive;
+
+          if (isCustomBoundsEnabledRef.current && !boundsEnforced) {
+              controls.minDistance = 0;
+              controls.maxDistance = Infinity;
+          } else if (boundsEnforced && isCustomBoundsEnabledRef.current && isBuilderOpenRef.current) {
+              controls.minDistance = zoomLimitsRef.current ? zoomLimitsRef.current.min : defaultZoomLimitsRef.current.min;
+              controls.maxDistance = zoomLimitsRef.current && zoomLimitsRef.current.max > 0 ? zoomLimitsRef.current.max : defaultZoomLimitsRef.current.max;
+          } else if (isCustomBoundsEnabledRef.current && !isBuilderOpenRef.current) {
+             controls.minDistance = zoomLimitsRef.current ? zoomLimitsRef.current.min : defaultZoomLimitsRef.current.min;
+             controls.maxDistance = zoomLimitsRef.current && zoomLimitsRef.current.max > 0 ? zoomLimitsRef.current.max : defaultZoomLimitsRef.current.max;
+
+             // If Zoom Limits were explicitly not set, fall back to Infinite exclusively
+             // in published mode following earlier parity if max equals the default uninitialized max
+             if (!zoomLimitsRef.current) {
+                 controls.minDistance = 0;
+                 controls.maxDistance = Infinity;
+             }
+          }
+
+          if (boundsEnforced) {
+              const limits = maxPanDistRef.current; // [x, y, z]
+
+              const poi = poiCenterRef.current.clone().add(
+                  new THREE.Vector3(
+                      customBoundsOffsetRef.current[0],
+                      customBoundsOffsetRef.current[1],
+                      customBoundsOffsetRef.current[2]
+                  )
+              );
+
+              let clamped = false;
+              const clampTarget = controls.target.clone();
+
+              // Calculate dynamic frustum dimensions at target plane to ensure screen edges don't overflow the box
+              const dist = camera.position.distanceTo(controls.target);
+              const fov = camera.fov * (Math.PI / 180);
+              const halfHeight = Math.tan(fov / 2) * dist;
+              const halfWidth = halfHeight * camera.aspect;
+
+              // Project the camera's true screen axes into World Space to ensure padding corresponds to viewing angle
+              const cameraX = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+              const cameraY = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+
+              const padX = Math.abs(cameraX.x * halfWidth) + Math.abs(cameraY.x * halfHeight);
+              const padY = Math.abs(cameraX.y * halfWidth) + Math.abs(cameraY.y * halfHeight);
+              const padZ = Math.abs(cameraX.z * halfWidth) + Math.abs(cameraY.z * halfHeight);
+
+              // Subtract the exact visible frustum padding from the boundary limits so the
+              // screen edge stops precisely on the wireframe instead of bleeding past it
+              const allowedX = Math.max(0, limits[0] - padX);
+              const allowedY = Math.max(0, limits[1] - padY);
+              const allowedZ = Math.max(0, limits[2] - padZ);
+
+              if (Math.abs(clampTarget.x - poi.x) > allowedX) {
+                  clampTarget.x = poi.x + Math.sign(clampTarget.x - poi.x) * allowedX;
+                  clamped = true;
+              }
+              if (Math.abs(clampTarget.y - poi.y) > allowedY) {
+                  clampTarget.y = poi.y + Math.sign(clampTarget.y - poi.y) * allowedY;
+                  clamped = true;
+              }
+              if (Math.abs(clampTarget.z - poi.z) > allowedZ) {
+                  clampTarget.z = poi.z + Math.sign(clampTarget.z - poi.z) * allowedZ;
+                  clamped = true;
+              }
+
+              if (clamped) {
+                  const delta = new THREE.Vector3().subVectors(clampTarget, controls.target);
+                  controls.target.copy(clampTarget);
+                  camera.position.add(delta);
+              }
+          }
+      }
+
       controls.update();
 
       if (
@@ -416,6 +588,7 @@ export default function App({
       ) {
         annotationManagerRef.current.updateBillboards();
       }
+
       renderer.render(scene, camera);
     }
     animate();
@@ -549,8 +722,7 @@ export default function App({
 
       <main
         ref={containerRef}
-        inert={isBlocked ? "" : undefined}
-        aria-hidden={isBlocked}
+        inert={isBlocked ? true : undefined}
         style={{
           width: "100%",
           height: "100%",
@@ -590,11 +762,25 @@ export default function App({
       {settings?.builderEnabled && (
         <BuilderPanel
           modelsData={models}
+          lightsData={lights}
           annotationsData={annotations}
+          settingsData={settings}
           annotationManagerRef={annotationManagerRef}
+          poiCenterRef={poiCenterRef}
+          isSceneReady={isSceneFullyReady}
+          maxPanDistRef={maxPanDistRef}
+          defaultPanDistRef={defaultPanDistRef}
+          defaultZoomLimitsRef={defaultZoomLimitsRef}
+          zoomLimitsRef={zoomLimitsRef}
+          isCustomBoundsEnabledRef={isCustomBoundsEnabledRef}
+          customBoundsOffsetRef={customBoundsOffsetRef}
+          deactivateForcefieldRef={deactivateForcefieldRef}
           scene={scene}
+          renderer={renderer}
+          camera={camera}
           isOpen={isBuilderOpen}
           setIsOpen={setIsBuilderOpen}
+          modelsLoaded={modelsLoaded}
         />
       )}
 
