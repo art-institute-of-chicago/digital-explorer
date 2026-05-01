@@ -572,7 +572,51 @@ export default function BuilderPanel({
 
       <div className="builder-content">
         <section className="builder-section">
-          <h3>Models</h3>
+          <div className="section-header">
+            <h3>Settings</h3>
+          </div>
+          <div className="builder-item">
+            <div className="builder-group">
+                <label style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', textTransform: 'none', color: '#fff', fontSize: '0.85rem' }}>
+                    <input type="checkbox" checked={data.settings?.enableCustomBounds || false} onChange={(e) => handleSettingChange('enableCustomBounds', e.target.checked)} />
+                    Enable Custom Bounds
+                </label>
+            </div>
+            {data.settings?.enableCustomBounds && (
+               <div className="builder-group" style={{marginTop: '10px'}}>
+                 <label>Custom Bounds (W, H, D)</label>
+                 <div className="builder-inputs">
+                     <input type="number" step="0.1" value={getArrayValWithFallback(data.settings.customBounds, 0, defaultPanDistRef?.current ? [defaultPanDistRef.current[0]*2, defaultPanDistRef.current[1]*2, defaultPanDistRef.current[2]*2] : [])} onChange={(e) => handleSettingChangeArray('customBounds', 0, e.target.value)} />
+                     <input type="number" step="0.1" value={getArrayValWithFallback(data.settings.customBounds, 1, defaultPanDistRef?.current ? [defaultPanDistRef.current[0]*2, defaultPanDistRef.current[1]*2, defaultPanDistRef.current[2]*2] : [])} onChange={(e) => handleSettingChangeArray('customBounds', 1, e.target.value)} />
+                     <input type="number" step="0.1" value={getArrayValWithFallback(data.settings.customBounds, 2, defaultPanDistRef?.current ? [defaultPanDistRef.current[0]*2, defaultPanDistRef.current[1]*2, defaultPanDistRef.current[2]*2] : [])} onChange={(e) => handleSettingChangeArray('customBounds', 2, e.target.value)} />
+                 </div>
+
+                 <label style={{marginTop: '10px', display: 'block'}}>Origin Offset (X, Y, Z)</label>
+                 <div className="builder-inputs">
+                     <input type="number" step="0.1" value={getArrayVal(data.settings.customBoundsOffset, 0)} onChange={(e) => handleSettingChangeArray('customBoundsOffset', 0, e.target.value)} />
+                     <input type="number" step="0.1" value={getArrayVal(data.settings.customBoundsOffset, 1)} onChange={(e) => handleSettingChangeArray('customBoundsOffset', 1, e.target.value)} />
+                     <input type="number" step="0.1" value={getArrayVal(data.settings.customBoundsOffset, 2)} onChange={(e) => handleSettingChangeArray('customBoundsOffset', 2, e.target.value)} />
+                 </div>
+
+                 <label style={{marginTop: '10px', display: 'block'}}>Zoom Limits (Min, Max)</label>
+                 <div className="builder-inputs">
+                     <input type="number" step="0.1" value={getArrayValWithFallback(data.settings.zoomLimits, 0, [defaultZoomLimitsRef?.current?.min || 0, defaultZoomLimitsRef?.current?.max || 0])} onChange={(e) => handleSettingChangeArray('zoomLimits', 0, e.target.value)} />
+                     <input type="number" step="0.1" value={getArrayValWithFallback(data.settings.zoomLimits, 1, [defaultZoomLimitsRef?.current?.min || 0, defaultZoomLimitsRef?.current?.max || 0])} onChange={(e) => handleSettingChangeArray('zoomLimits', 1, e.target.value)} />
+                 </div>
+
+                 <label style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', textTransform: 'none', color: '#fff', fontSize: '0.85rem', marginTop: '12px' }}>
+                    <input type="checkbox" checked={data.settings?.deactivateForcefield || false} onChange={(e) => handleSettingChange('deactivateForcefield', e.target.checked)} />
+                    Deactivate Forcefield
+                 </label>
+               </div>
+            )}
+           </div>
+        </section>
+
+        <section className="builder-section">
+          <div className="section-header">
+            <h3>Models</h3>
+          </div>
           {data.models.map(model => (
             <div key={model.id} className="builder-item">
               <h4>{model.id}</h4>
@@ -602,8 +646,119 @@ export default function BuilderPanel({
           ))}
         </section>
 
+        {has3DModels && (
         <section className="builder-section">
-          <div className="builder-section-header">
+          <div className="section-header">
+              <h3>Lights</h3>
+              <button className="builder-add-btn" onClick={handleAddLight}>+ Add</button>
+          </div>
+          {data.lights.map((light, index) => {
+              const lc = light.content || {};
+              const lightType = lc.lightType || 'ambient';
+              const hasPosition = lightType !== 'ambient';
+              const isSpot = lightType === 'spot';
+              return (
+                <div key={light.id || index} className="builder-item">
+                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
+                    <h4 style={{margin: 0}}>{lc.lightType || 'ambient'} <span style={{opacity: 0.5, fontSize: '0.75rem'}}>#{index}</span></h4>
+                    <button onClick={() => handleDeleteLight(index)} style={{background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', padding: 0, fontSize: '0.8rem'}}>Delete</button>
+                  </div>
+                  <div className="builder-group">
+                    <label>Type</label>
+                    <div className="builder-inputs">
+                      <select value={lightType} onChange={(e) => handleLightChange(index, 'lightType', e.target.value)}>
+                        <option value="ambient">Ambient</option>
+                        <option value="directional">Directional</option>
+                        <option value="point">Point</option>
+                        <option value="spot">Spot</option>
+                      </select>
+                    </div>
+                  </div>
+                  {hasPosition && (
+                    <div className="builder-group">
+                      <label>Position</label>
+                      <div className="builder-inputs">
+                        <input type="number" step="0.5" value={getArrayVal(lc.position, 0)} onChange={(e) => handleLightPositionChange(index, 0, e.target.value)} />
+                        <input type="number" step="0.5" value={getArrayVal(lc.position, 1)} onChange={(e) => handleLightPositionChange(index, 1, e.target.value)} />
+                        <input type="number" step="0.5" value={getArrayVal(lc.position, 2)} onChange={(e) => handleLightPositionChange(index, 2, e.target.value)} />
+                      </div>
+                    </div>
+                  )}
+                  <div className="builder-group">
+                    <label>Intensity</label>
+                    <div className="builder-inputs">
+                      <input type="number" step="0.1" min="0" value={lc.intensity ?? 1} onChange={(e) => handleLightChange(index, 'intensity', e.target.value)} />
+                    </div>
+                  </div>
+                  <div className="builder-group">
+                    <label>Color</label>
+                    <div className="builder-inputs" style={{alignItems: 'center'}}>
+                      <input type="color" value={lc.color || '#ffffff'} onChange={(e) => handleLightChange(index, 'color', e.target.value)} style={{flex: '0 0 36px', height: '30px', padding: '2px', cursor: 'pointer'}} />
+                      <input type="text" value={lc.color || '#ffffff'} onChange={(e) => handleLightChange(index, 'color', e.target.value)} />
+                    </div>
+                  </div>
+                  {isSpot && (
+                    <>
+                      <div className="builder-group">
+                        <label>Angle (rad)</label>
+                        <div className="builder-inputs">
+                          <input type="number" step="0.05" min="0" max="1.57" value={lc.angle ?? (Math.PI / 4).toFixed(2)} onChange={(e) => handleLightChange(index, 'angle', e.target.value)} />
+                        </div>
+                      </div>
+                      <div className="builder-group">
+                        <label>Penumbra</label>
+                        <div className="builder-inputs">
+                          <input type="number" step="0.05" min="0" max="1" value={lc.penumbra ?? 0.1} onChange={(e) => handleLightChange(index, 'penumbra', e.target.value)} />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {lightType !== 'ambient' && (
+                    <div className="builder-group">
+                      <label style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', textTransform: 'none', color: '#fff', fontSize: '0.85rem'}}>
+                        <input type="checkbox" checked={lc.castShadow || false} onChange={(e) => handleLightChange(index, 'castShadow', e.target.checked)} />
+                        Cast Shadow
+                      </label>
+                    </div>
+                  )}
+                </div>
+              );
+          })}
+
+          <div className="builder-item" style={{borderColor: '#4ecdc4', borderStyle: 'dashed'}}>
+            <h4 style={{color: '#4ecdc4', marginBottom: '10px'}}>Scene Rendering</h4>
+            <div className="builder-group">
+              <label style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', textTransform: 'none', color: '#fff', fontSize: '0.85rem'}}>
+                <input type="checkbox" checked={data.settings?.sceneSettings?.shadows || false} onChange={(e) => handleSceneSettingChange('shadows', e.target.checked)} />
+                Enable Shadows
+              </label>
+            </div>
+            <div className="builder-group">
+              <label>Tone Mapping</label>
+              <div className="builder-inputs">
+                <select value={data.settings?.toneMapping || 'NoToneMapping'} onChange={(e) => handleToneMappingChange('toneMapping', e.target.value)}>
+                  <option value="NoToneMapping">None</option>
+                  <option value="LinearToneMapping">Linear</option>
+                  <option value="ReinhardToneMapping">Reinhard</option>
+                  <option value="CineonToneMapping">Cineon</option>
+                  <option value="ACESFilmicToneMapping">ACES Filmic</option>
+                  <option value="AgXToneMapping">AgX</option>
+                  <option value="NeutralToneMapping">Neutral</option>
+                </select>
+              </div>
+            </div>
+            <div className="builder-group">
+              <label>Exposure</label>
+              <div className="builder-inputs">
+                <input type="number" step="0.1" min="0" value={data.settings?.toneMappingExposure ?? 1} onChange={(e) => handleToneMappingChange('toneMappingExposure', parseFloat(e.target.value) || 1)} />
+              </div>
+            </div>
+          </div>
+        </section>
+        )}
+
+        <section className="builder-section">
+          <div className="section-header">
               <h3>Annotations</h3>
               <button className="builder-add-btn" onClick={handleAddAnnotation}>+ Add</button>
           </div>
@@ -616,15 +771,21 @@ export default function BuilderPanel({
               <div className="builder-group">
                 <label>Position</label>
                 <div className="builder-inputs">
-                  <span style={{display: 'flex', flexDirection: 'column-reverse', alignItems: 'center', gap: '6px'}}>Z<input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} label="Z" type="number" step="0.01" value={getArrayVal(ann.content?.position, 0)} onChange={(e) => handleAnnotationChange(ann.id, 'position', 0, e.target.value)} /></span>
+                  <span style={{display: 'flex', flexDirection: 'column-reverse', alignItems: 'center', gap: '6px'}}>X<input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} label="X" type="number" step="0.01" value={getArrayVal(ann.content?.position, 0)} onChange={(e) => handleAnnotationChange(ann.id, 'position', 0, e.target.value)} /></span>
                   <span style={{display: 'flex', flexDirection: 'column-reverse', alignItems: 'center', gap: '6px'}}>Y<input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} label="Y" type="number" step="0.01" value={getArrayVal(ann.content?.position, 1)} onChange={(e) => handleAnnotationChange(ann.id, 'position', 1, e.target.value)} /></span>
-                  <span style={{display: 'flex', flexDirection: 'column-reverse', alignItems: 'center', gap: '6px'}}>X<input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} label="X" type="number" step="0.01" value={getArrayVal(ann.content?.position, 2)} onChange={(e) => handleAnnotationChange(ann.id, 'position', 2, e.target.value)} /></span>
+                  <span style={{display: 'flex', flexDirection: 'column-reverse', alignItems: 'center', gap: '6px'}}>Z<input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} label="Z" type="number" step="0.01" value={getArrayVal(ann.content?.position, 2)} onChange={(e) => handleAnnotationChange(ann.id, 'position', 2, e.target.value)} /></span>
                 </div>
               </div>
               <div className="builder-group">
                 <label>Scale</label>
                 <div className="builder-inputs">
                   <input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} type="number" step="0.05" value={ann.content?.scale || 0.02} onChange={(e) => handleAnnotationChange(ann.id, 'scale', null, e.target.value)} />
+                </div>
+              </div>
+              <div className="builder-group">
+                <label>Zoom Distance</label>
+                <div className="builder-inputs">
+                  <input onFocus={() => updateThreeJSAnnotation(ann.id, { isFocused: true })} onBlur={() => updateThreeJSAnnotation(ann.id, { isFocused: false })} type="number" step="0.5" min="0" placeholder="auto" value={ann.content?.annotationZoom || ""} onChange={(e) => handleAnnotationChange(ann.id, 'annotationZoom', null, e.target.value)} />
                 </div>
               </div>
               <div className="builder-group">
