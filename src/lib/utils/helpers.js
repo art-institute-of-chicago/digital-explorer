@@ -53,9 +53,15 @@ export function parseExplorerDataFromDOM() {
 
     // Return data with explicit title_data field
     // (it's probably already in data, but making it explicit for clarity)
+    const rawTitleData = data.title_data || data.titleData || {};
     return {
       ...data,
-      title_data: data.title_data || null
+      title_data: {
+        ...rawTitleData,
+        title: rawTitleData.title || data.title || null,
+        title_display: rawTitleData.title_display ?? data.title_display ?? null,
+        title_media: rawTitleData.title_media || data.title_media || null
+      }
     };
   } catch (error) {
     console.error('❌ Failed to parse digitalExplorer data:', error);
