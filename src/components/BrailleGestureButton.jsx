@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import sendGAEvent from '../lib/utils/sendGAEvent';
 
 export default function BrailleGestureButton({
   onSingleTap,
@@ -16,6 +17,7 @@ export default function BrailleGestureButton({
     isLongPressActive.current = false;
     // Detect Long Press (1 second)
     pressTimer.current = setTimeout(() => {
+      sendGAEvent({ eventCategory: 'Braille Button', eventAction: 'click', eventLabel: 'Long Press' });
       onLongPress?.();
       isLongPressActive.current = true;
       tapCount.current = 0; // Reset taps if long press triggered
@@ -44,10 +46,13 @@ export default function BrailleGestureButton({
     if (tapCount.current === 1) {
       // We wrap this in a tiny delay ONLY if we want to wait for a potential second tap
       // BUT for "Voice Over On" (Triple Tap), we want it to feel responsive.
+      sendGAEvent({ eventCategory: 'Braille Button', eventAction: 'click', eventLabel: 'Single Tap' });
       onSingleTap?.();
     } else if (tapCount.current === 2) {
+      sendGAEvent({ eventCategory: 'Braille Button', eventAction: 'click', eventLabel: 'Double Tap' });
       onDoubleTap?.();
     } else if (tapCount.current === 3) {
+      sendGAEvent({ eventCategory: 'Braille Button', eventAction: 'click', eventLabel: 'Triple Tap' });
       onTripleTap?.();
       tapCount.current = 0; // Reset after triple
     }

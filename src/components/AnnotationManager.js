@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { toVector3Array } from "../lib/utils/helpers";
+import sendGAEvent from "../lib/utils/sendGAEvent";
 
 export class AnnotationManager {
   constructor(scene, camera, domElement, uiContainer = null) {
@@ -332,6 +333,13 @@ export class AnnotationManager {
       }
     } else {
       if (this.onAnnotationToggle) this.onAnnotationToggle(true);
+
+      const labelText = annotation.data?.content?.labelText || 'Unknown Annotation';
+      sendGAEvent({
+        eventCategory: 'Annotation',
+        eventAction: 'open',
+        eventLabel: labelText
+      });
 
       const existingClones = document.querySelectorAll(".annotation-css-clone");
       existingClones.forEach((clone) => clone.remove());

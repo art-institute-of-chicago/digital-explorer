@@ -14,6 +14,7 @@ import TimeoutScreen from "./components/TimeoutScreen";
 import DebugOverlay from "./components/DebugOverlay";
 import BrailleGestureButton from "./components/BrailleGestureButton";
 import BuilderPanel from "./components/BuilderPanel";
+import sendGAEvent from "./lib/utils/sendGAEvent";
 
 let globalUtterance = null;
 let persistentUtterance = null;
@@ -164,6 +165,12 @@ export default function App({
   };
 
   const handleReset = useCallback(() => {
+    sendGAEvent({
+      eventCategory: 'Explorer',
+      eventAction: 'end session',
+      eventLabel: 'Session Ended'
+    });
+
     if (initialCameraPosition.current && cameraRef.current) {
       cameraRef.current.position.copy(initialCameraPosition.current);
     }
@@ -203,6 +210,13 @@ export default function App({
   const handleExploreClick = () => {
     setIsTitleExiting(true);
     if (renderer && scene && camera) renderer.render(scene, camera);
+    
+    sendGAEvent({
+      eventCategory: 'Explorer',
+      eventAction: 'start session',
+      eventLabel: title_data?.title || 'Unknown Title'
+    });
+
     setTimeout(() => {
       setShowTitleScreen(false);
       setIsTitleExiting(false);
