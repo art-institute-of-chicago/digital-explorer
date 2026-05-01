@@ -931,6 +931,46 @@ export class AnnotationManager {
 
       if (annotation.circle) {
         annotation.group.quaternion.copy(this.camera.quaternion);
+
+        const sizeAttenuationVal = annotation.data?.content?.sizeAttenuation;
+        const isSizeAttenuationEnabled = sizeAttenuationVal !== false && sizeAttenuationVal !== "false" && sizeAttenuationVal !== "0" && sizeAttenuationVal !== 0;
+
+        if (!isSizeAttenuationEnabled) {
+          // CONSTANT SCREEN SIZE LOGIC (native sizeAttenuation is false)
+          // Three.js maintains constant screen size natively by scaling with depth.
+          // We just need to provide the exact NDC scale to hit 48px!
+          const basePixelSize = 48 * (annotation.size / 0.5);
+          const currentTargetScale = annotation.circle.userData.targetScale || annotation.size;
+          const hoverMultiplier = currentTargetScale / annotation.size;
+          const targetPixelSize = basePixelSize * hoverMultiplier;
+          
+          if (!annotation.circle.userData.currentPixelSize) {
+            annotation.circle.userData.currentPixelSize = targetPixelSize;
+          }
+          annotation.circle.userData.currentPixelSize += (targetPixelSize - annotation.circle.userData.currentPixelSize) * 0.1;
+
+          const canvasHeight = this.domElement.clientHeight || window.innerHeight;
+          // For native sizeAttenuation: false, scale represents NDC height (from 0 to 2)
+          // scale = (targetPixelSize * 2) / canvasHeight
+          const scale = (annotation.circle.userData.currentPixelSize * 2) / canvasHeight;
+
+          annotation.circle.userData.sprite.scale.set(scale, scale, 1);
+          if (annotation.rippleSprites) {
+             annotation.rippleSprites.forEach(r => { r.userData.baseScale = scale; });
+          }
+        } else {
+          // CONSTANT WORLD SIZE LOGIC (native sizeAttenuation is true)
+          const targetScale = annotation.circle.userData.targetScale || annotation.size;
+          const currentScale = annotation.circle.userData.sprite.scale.x;
+          
+          // Interpolate directly on the sprite scale
+          const newScale = currentScale + (targetScale - currentScale) * 0.1;
+          annotation.circle.userData.sprite.scale.set(newScale, newScale, 1);
+          
+          if (annotation.rippleSprites) {
+             annotation.rippleSprites.forEach(r => { r.userData.baseScale = newScale; });
+          }
+        }
       }
 
       if (anyActive) {
