@@ -68,7 +68,7 @@ export class ModelLoader {
 
           const maxDim = Math.max(desiredWidth, calculatedHeight, scale[2] || 1);
           const minDistance = Math.sqrt(Math.pow(desiredWidth / 2, 2) + Math.pow(calculatedHeight / 2, 2));
-          resolve({ model: sprite, maxDim, minDistance, is2D: true });
+          resolve({ model: sprite, maxDim, minDistance, is2D: true, width: desiredWidth, height: calculatedHeight, depth: scale[2] || 1 });
         },
         undefined,
         (error) => {
@@ -105,7 +105,7 @@ export class ModelLoader {
             });
           }
 
-          resolve({ model, maxDim, minDistance: sphere.radius, is2D: false });
+          resolve({ model, maxDim, minDistance: sphere.radius, is2D: false, width: size.x, height: size.y, depth: size.z });
         },
       );
     });
