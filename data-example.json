@@ -1,166 +1,678 @@
 {
-  "id": 1,
-  "title": "Abandoned Mansion Bedroom",
-  "slug": "abandoned-mansion-bedroom",
-  "type": "3d",
-  "published": true,
-  "meta_title": "Explore the Abandoned Mansion Bedroom",
-  "meta_description": "An interactive 3D digital explorer experience.",
-  "short_description": "Explore a highly detailed 3D mansion bedroom.",
-  "listing_description": "Interactive 3D model of an abandoned mansion room.",
-  "title_data": {
-    "title_media": "/images/title_background.jpg",
-    "title_display": true
-  },
-  "info_card_data": {
-    "info_title": "Abandoned Mansion Room",
-    "info_description": "A spooky, dimly lit bedroom scene.",
-    "info_credits": "Modeled by Jane Doe"
-  },
-  "settings": {
-    "debug": false,
-    "brailleButton": false,
-    "sceneSettings": {
-      "antialiasing": true,
-      "shadows": true
-    },
-    "toneMapping": "ACESFilmicToneMapping",
-    "colorSpace": "SRGB",
-    "backgroundColor": "#1a1a1a",
-    "environmentPreset": "sunset",
-    "toneMappingExposure": 1.0,
-    "orbitControls": {
-      "target": [0, 0, 0],
-      "makeDefault": true
-    },
-    "camera": {
-      "position": [0, 5, 15],
-      "fov": 75.0,
-      "near": 0.1,
-      "far": 2000
-    }
-  },
   "models": [
     {
-      "id": "model-1",
+      "id": 2050747,
       "type": "explorer_model",
       "position": 1,
       "content": {
+        "modelType": "2d",
+        "coordinate": "[0, 0.06, -0.08]",
         "settings": [
           "castShadow",
           "receiveShadow"
         ],
-        "model": {
-          "en": "/abandoned_mansion_bedroom.glb"
-        },
-        "coordinate": "[-66.6, 0, 69]",
-        "rotation": "[0, 4.75, 0]",
-        "scale": "4",
-        "position": [-66.6, 0.0, 69.0],
-        "scale": 4.0
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1,
+        "label": "Horse Model",
+        "position": [
+          0,
+          0.06,
+          -0.08
+        ]
       },
-      "modelType": "3d",
-      "modelUrl": "/abandoned_mansion_bedroom.glb",
+      "modelType": "2d",
+      "modelUrl": "https://artic-web-test.imgix.net/4f4d4140-9745-4dc5-9cbe-839add06fb4c/Armor_for_war_no_BG.png?auto=compress%2Cformat&fit=min&q=80&rect=0%2C0%2C10183%2C7857",
       "children": [
         {
-          "id": "light-1",
-          "type": "explorer_light",
-          "position": 1,
-          "content": {
-            "lightType": "point",
-            "coordinate": "[-66.6, 5, 69]",
-            "color": "#ff9900",
-            "intensity": "2",
-            "settings": [
-              "castShadow"
-            ]
-          }
-        }
-      ],
-      "renderedHtml": "<div class=\"explorer-light\">...</div>"
-    },
-    {
-      "id": "model-2",
-      "type": "explorer_model",
-      "position": 2,
-      "content": {
-        "settings": [
-          "castShadow",
-          "receiveShadow",
-          "enableControls"
-        ],
-        "model": {
-          "en": "/painting.glb"
-        },
-        "coordinate": "[0, 5.5, 0]",
-        "rotation": "[0, 1.6, 0]",
-        "position": [0.0, 5.5, 0.0],
-        "scale": 0.02
-      },
-      "modelType": "3d",
-      "modelUrl": "/painting.glb"
-    }
-  ],
-  "lights": [
-    {
-      "id": "ambient-1",
-      "type": "explorer_light",
-      "position": 1,
-      "content": {
-        "lightType": "ambient",
-        "color": "#ffffff",
-        "intensity": "0.5"
-      }
-    }
-  ],
-  "annotations": [
-    {
-      "id": "annotation-1",
-      "type": "explorer_annotation",
-      "position": 1,
-      "content": {
-        "coordinate": "[5, 3, 5]",
-        "rotation": "[0, 0, 0]",
-        "scale": "1",
-        "color": "#ff6b6b",
-        "size": "0.5",
-        "annotationSettings": [
-          "showLabel"
-        ],
-        "labelText": "Main Entrance",
-        "position": [5.0, 3.0, 5.0],
-        "annotationColor": "#ff6b6b",
-        "annotationSize": 0.5,
-        "annotationTarget": null,
-        "showLabel": true,
-        "sizeAttenuation": true
-      },
-      "children": [
-        {
-          "id": "annotation-2",
+          "id": 2050748,
           "type": "explorer_annotation",
           "position": 1,
           "content": {
-            "coordinate": "[5, 4, 5]",
-            "color": "#4CAF50",
-            "size": "0.3",
-            "labelText": "Detail Point",
-            "position": [5.0, 4.0, 5.0],
-            "rotation": [0.0, 0.0, 0.0],
-            "scale": 0.1,
-            "annotationColor": "#4CAF50",
-            "annotationSize": 0.3,
+            "label": "Helmet",
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "annotationSettings": [
+              "sizeAttenuation"
+            ],
+            "scale": 0.062,
+            "coordinate": "[0.0001, 0.13, 0.04]",
+            "position": [
+              0.0001,
+              0.13,
+              0.04
+            ],
+            "annotationColor": "#4B9CA3",
+            "annotationSize": 0.062,
             "annotationTarget": null,
             "showLabel": false,
-            "sizeAttenuation": true
+            "sizeAttenuation": false,
+            "labelText": "Helmet"
+          },
+          "children": [
+            {
+              "id": 2050749,
+              "type": "layout_block",
+              "position": 1,
+              "content": {
+                "display": "flex",
+                "padding_top": "0",
+                "padding_bottom": "0",
+                "padding_left": "0",
+                "margin_top": "0",
+                "margin_bottom": "0",
+                "margin_left": "0",
+                "margin_right": "0",
+                "flex_direction": "row",
+                "justify_content": "flex-start",
+                "align_items": "flex-start",
+                "flex_wrap": false,
+                "layout_type": "repeat(2, 1fr)",
+                "gap": "2rem",
+                "padding_right": "2rem"
+              },
+              "children": [
+                {
+                  "id": 2050750,
+                  "type": "layout_block",
+                  "position": 1,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_bottom": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "flex_direction": "row",
+                    "flex_wrap": false,
+                    "width": "60%",
+                    "align_items": "center",
+                    "justify_content": "center"
+                  },
+                  "children": [
+                    {
+                      "id": 2050793,
+                      "type": "360_embed",
+                      "position": 1,
+                      "content": {
+                        "size": null
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<div class=\"m-media m-media--s m-media--contain o-blocks__block\">\n        <script type=\"application/json\" id=\"assetLibrary-1441\">\n            {\"type\":\"sequence\",\"id\":1441,\"width\":6717,\"height\":4478,\"src\":[{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/iiEEqJ6raMdioX3ssLYX9gvtuGXqxZmEqjseF9pu.jpg\",\"frame\":0},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/I08gARVeQ5UuolD2xgKmkuUlYOObEmwQFvbK6f04.jpg\",\"frame\":1},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/x0OAgV0kNzhqzQImQ5RSihq0nRJf1SFqzIA0vKyE.jpg\",\"frame\":2},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/vzxXbmJThqx7uCpIQg8RFdKqOKqi8KetJd4SQrU8.jpg\",\"frame\":3},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/NRWf4PP4UHNmq3qzf6s3o5njN8aRFLr4SjpclCLL.jpg\",\"frame\":4},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Fks2rRhE9M7SivkyuNTdpHjAY0vrXWOKw7wIIljM.jpg\",\"frame\":5},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/jfwm5ekxnj7C5mHbRhQdaV7Vq7vEkyoonplxJ7nV.jpg\",\"frame\":6},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RiiXcEH37GACdfj6ZaCqrOGjGmNTBbcNPj3RQToq.jpg\",\"frame\":7},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RWrbqL3a91NInQvfKlr2GXv6yLVflDCqtZ34We3h.jpg\",\"frame\":8},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/41JiL1UlvJq20Mv7tOyrPJADCiDdDu9YHHSLSjnF.jpg\",\"frame\":9},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/nlCmRTr3g63yqydXDcvWwDjHNfIoYEtNVNg6khfl.jpg\",\"frame\":10},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RmGGbJ8tP5vEzNSz16kpcUDRE2jW5iDY5AYdrAWT.jpg\",\"frame\":11},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZDFc7sFiIk79SATzmqIa0SjNAPKf3rzQgJo63UVw.jpg\",\"frame\":12},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yUBIuXrJC0rRKCThmW5X0iTgMFOW5JKDIHK4BOkD.jpg\",\"frame\":13},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JDfO8qADfdkUA8z14ydhwgAQpaXYa8gILwpMMVdW.jpg\",\"frame\":14},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JPFiVjnmoOR60wEDv99rztg0lq0pKsHEddwLSQDY.jpg\",\"frame\":15},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2YQUuBFOcGTE8sdqaPb3dCUOX4RoikmmHexFiS8s.jpg\",\"frame\":16},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/90cyrpNgQklmnH5mmDUqorjwGhmpE79H01gbZXhf.jpg\",\"frame\":17},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8mAJ23GRK5oJvVYMPqqjHbTXJMCsGyhGuiCdtA19.jpg\",\"frame\":18},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hzTkHpJ6fO2Xibiy0qxTW9yOnLI3K2S5ROAvl4Aq.jpg\",\"frame\":19},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qwruaKpyy2Nw1DiaDst1O00SC9ZPl2LHDNCHWiGx.jpg\",\"frame\":20},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/eahvaIrjG0VComroYN8VkZP94TjJRSNrkAOjflkW.jpg\",\"frame\":21},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/fuM9FjYw7Qsj8hzMn87TwLvQiuqImIaZnHUi4LhF.jpg\",\"frame\":22},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F5mE6fJMNXFglDuWEzlEu38pAdfmFJLZzh87WEYy.jpg\",\"frame\":23},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZjPD1Qaqve17W6oLSCuqYYH5ZqZ1YohiYdh93E8l.jpg\",\"frame\":24},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/rE7KcTd9y3a2LD5wJgfj615YLpIhQaZDc6pKcO6V.jpg\",\"frame\":25},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/HpHYjc1udfhFtrDb83EZCK22AKKgiKcwdvbAufBb.jpg\",\"frame\":26},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WYIUYkVlqGLsqi4QfQdmNPwHSRMddnKXAPvGtPKm.jpg\",\"frame\":27},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/T831czrD3WIdJBNLvPhhhqH2SLp23g8cyTkeZoqo.jpg\",\"frame\":28},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/QQxmcl7ClPZhemx8XuC3Xhu579QSReyNCMVeM8zz.jpg\",\"frame\":29},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wSH9eyHsC6AFbY9CGAszQHNYeH2V8So4LafqegS6.jpg\",\"frame\":30},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DDIdmsvCtMWyDHGgS54mUUEM9gzYW4JQ8xQO0IlS.jpg\",\"frame\":31},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8nmTBHGyDsai9GCOPYbeRaEQuHcPGafkfA5zXiS4.jpg\",\"frame\":32},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DygFovFgvcb8AMRjb03YgYUuAB0eVMfBuEl8bdJl.jpg\",\"frame\":33},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qzFy6JJ4TdD1B8xSDV58FuWCbN4ok7LwYtQRg5Ga.jpg\",\"frame\":34},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/da16YgyWn1t1QDHXm0KqdYrNlGxnCGkh86jxWPDv.jpg\",\"frame\":35},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/0oWiBIbdeCaxlr0iaed0OlIhoeOdDb8XVTtwp93A.jpg\",\"frame\":36},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LlFfhuySmWvcal1s6EbDrQPdX0VKGSj2YSkTxPcx.jpg\",\"frame\":37},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/puYG9I5o0o5fQi8aUlaYNwBsPEhYH7ndcR8HxPt2.jpg\",\"frame\":38},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/cHSLgjwH8AoZHFm3JT9kdOE1By8mTH5UtbFuSmV9.jpg\",\"frame\":39},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Kq65j0PeBwfrdRM8UVOo2gHDge6AOGMyTvuuGiaP.jpg\",\"frame\":40},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/XQiK6SkrLwcWQQQn5pHN1oH7bVWX5keGXQbQJL1V.jpg\",\"frame\":41},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aiu5Eb2r39yQQwNsFfKHnhkwwb6FMHVvsj5djE7U.jpg\",\"frame\":42},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pKM3nMguwsUD0DZibcPgo9PscJiv5BlKcecTqnTV.jpg\",\"frame\":43},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ku6mmO0z7zk2iLHhUIgTq8MauXQkwMEcSin0v9pE.jpg\",\"frame\":44},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uX3L9ZwzlcssDYTJYHYtxIL2WGtIO7l9ceAsTCnV.jpg\",\"frame\":45},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Qpa9GzU2P0EeJRcW6QIamd1njfnPbhCKzo3N4fDO.jpg\",\"frame\":46},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/7MiFA64AcdwMRamCKlmMimino55Cb5WnaPXBnnAw.jpg\",\"frame\":47},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/r08uBy1EvF0FdhZ4a5uwrAFqzDdTIgj4nr1Q46n5.jpg\",\"frame\":48},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yD0Y2EeRR7yefaXw4NCaMqpTv06E5bR8ohNtr05j.jpg\",\"frame\":49},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Edsi9oq7h6v268Q4rtlG2oQkw3UGiMlPYYXgalgA.jpg\",\"frame\":50},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/xqjdQ0B8S4COUdotcIcb2G9HIcFNXEjVdLU8jJJf.jpg\",\"frame\":51},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F6Mq2Ost0Ro1E9jONNrksFU9U0AZSkLk9RQtA0Xc.jpg\",\"frame\":52},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/mz8HY84aaJ6GhRWDV7oxKTjMFnoI8axLEgFESzJx.jpg\",\"frame\":53},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pOpPRbCxwXtABji08NeSOwazKQlwPIda97LZFDUA.jpg\",\"frame\":54},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/EnN1r2kVxGyO9jNpQTz8ql069Y2p366q8B8tbJJt.jpg\",\"frame\":55},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aNUym3EXrBeErqlI9gheAhzDkQZ3T8W3lPqv9rRD.jpg\",\"frame\":56},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Pvm7AlZ3dLW9WWgatAWlWAmTxl94ADDO6VeBq8Fn.jpg\",\"frame\":57},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/FVmqv9HSUNWZgQ3Z37kbJGBiWnCsMZ52xBtCja3r.jpg\",\"frame\":58},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/kJiFFz7vb1KNs7SxQDFKwO7sV07K00wDcAaa8NQK.jpg\",\"frame\":59},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WncGnufjTTA9T2CXV7dabxWigDBzRtyRrhttcZ3S.jpg\",\"frame\":60},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qOfUWcUqYunZ2xPMy25RZAz2QksAWUa8ifeNeJbW.jpg\",\"frame\":61},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/oj6EV2RwK2kv6PDBftrdtvwC8TVO8C7B5B6wWEC8.jpg\",\"frame\":62},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ef7fYNAvGiSbtt625GcS2togPdYXuoqNgmjkjzCa.jpg\",\"frame\":63},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yNBN9PB7F3XnkDSmbMQa4OaNYEov5FDcp7KXNxL9.jpg\",\"frame\":64},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4QV4ZBqA1JI0aupPys1GxoqsuEr7t9t5SgdKCaKu.jpg\",\"frame\":65},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hcrE5tQZu1FoDxPuwSkfsJAQYWrJABNCmEi8S6Ui.jpg\",\"frame\":66},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LV8soRQCgJO34zRpt4cujItax6YAjDmi00S3A4YZ.jpg\",\"frame\":67},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uN5XdPtWjDhyOKyn8jvp9f4isXVm9OaS9TnPEDJb.jpg\",\"frame\":68},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4adevJ0ll4o1Ajd5ByZFTuwruq1z63L91UZ3oe9Z.jpg\",\"frame\":69},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2US81h5MgSzdam3xCK4ZnMaPKoEh0OhCjv2h8DWj.jpg\",\"frame\":70},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wjYyV5n7kYmKhsrxdyZjPHgniCcXpPeFMReQXmBE.jpg\",\"frame\":71}]}\n        </script>\n        <div class=\"m-media__img m-media--360-embed\" data-behavior=\"fitText\">\n            <div class=\"m-viewer-360 loader\" data-cc=\"false\" data-type=\"standalone\" data-behavior=\"viewer360\" data-title=\"Inline 360\" data-id=\"assetLibrary-1441\">\n\t<img style=\"\" draggable=\"false\" class=\"m-viewer-360-image\" src=\"\" alt=\"Inline 360\" />\n\t\n\t<div class=\"m-viewer-360-control\">\n\t\t<input\n\t\t\taria-label=\"Seek\"\n\t\t\tclass=\"input360\"\n\t\t\ttype=\"range\"\n\t\t\tmin=\"0\"\n\t\t\tmax=\"\"\n\t\t\tvalue=\"\"\n\t\t\tname=\"frame\"\n\t\t/>\n\t</div>\n\n</div>\n            <div class=\"m-rotate-arrows\">\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--left\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n    <span class=\"m-rotate-arrows__text\">Rotate</span>\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--right\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n</div>\n        </div>\n            </div>\n"
+                },
+                {
+                  "id": 2050752,
+                  "type": "layout_block",
+                  "position": 2,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "40%",
+                    "flex_direction": "column",
+                    "padding_bottom": "2rem"
+                  },
+                  "children": [
+                    {
+                      "id": 2050753,
+                      "type": "paragraph",
+                      "position": 1,
+                      "content": {
+                        "paragraph": {
+                          "en": "<h2><strong>Helmet with Visor</strong></h2><p>The shape of this multipeaked visor was designed to deflect blows or sword cuts.<br class=\"softbreak\"><br class=\"softbreak\">The helmet was originally fitted inside with a padded lining that added both comfort and protection for the wearer’s head. <br class=\"softbreak\"></p>"
+                        }
+                      }
+                    },
+                    {
+                      "id": 2050754,
+                      "type": "image",
+                      "position": 2,
+                      "content": {
+                        "is_modal": false,
+                        "is_zoomable": false,
+                        "size": "s",
+                        "use_alt_background": false,
+                        "use_contain": true
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<div class=\"paragraph-wrapper\">\n    <h2 id=\"helmet-with-visor\"><strong>Helmet with Visor</strong></h2><p>The shape of this multipeaked visor was designed to deflect blows or sword cuts.<br class=\"softbreak\"><br class=\"softbreak\">The helmet was originally fitted inside with a padded lining that added both comfort and protection for the wearer’s head. <br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=592&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=237 300w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473 600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=631 800w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=947 1200w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1262 1600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1578 2000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2367 3000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=3551 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"6000\"\n    height=\"4734\"\n                data-pin-media=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 78.9%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n"
+                }
+              ],
+              "renderedHtml": "<div\n    id=\"2050750\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <div class=\"m-media m-media--s m-media--contain o-blocks__block\">\n        <script type=\"application/json\" id=\"assetLibrary-1441\">\n            {\"type\":\"sequence\",\"id\":1441,\"width\":6717,\"height\":4478,\"src\":[{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/iiEEqJ6raMdioX3ssLYX9gvtuGXqxZmEqjseF9pu.jpg\",\"frame\":0},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/I08gARVeQ5UuolD2xgKmkuUlYOObEmwQFvbK6f04.jpg\",\"frame\":1},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/x0OAgV0kNzhqzQImQ5RSihq0nRJf1SFqzIA0vKyE.jpg\",\"frame\":2},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/vzxXbmJThqx7uCpIQg8RFdKqOKqi8KetJd4SQrU8.jpg\",\"frame\":3},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/NRWf4PP4UHNmq3qzf6s3o5njN8aRFLr4SjpclCLL.jpg\",\"frame\":4},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Fks2rRhE9M7SivkyuNTdpHjAY0vrXWOKw7wIIljM.jpg\",\"frame\":5},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/jfwm5ekxnj7C5mHbRhQdaV7Vq7vEkyoonplxJ7nV.jpg\",\"frame\":6},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RiiXcEH37GACdfj6ZaCqrOGjGmNTBbcNPj3RQToq.jpg\",\"frame\":7},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RWrbqL3a91NInQvfKlr2GXv6yLVflDCqtZ34We3h.jpg\",\"frame\":8},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/41JiL1UlvJq20Mv7tOyrPJADCiDdDu9YHHSLSjnF.jpg\",\"frame\":9},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/nlCmRTr3g63yqydXDcvWwDjHNfIoYEtNVNg6khfl.jpg\",\"frame\":10},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RmGGbJ8tP5vEzNSz16kpcUDRE2jW5iDY5AYdrAWT.jpg\",\"frame\":11},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZDFc7sFiIk79SATzmqIa0SjNAPKf3rzQgJo63UVw.jpg\",\"frame\":12},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yUBIuXrJC0rRKCThmW5X0iTgMFOW5JKDIHK4BOkD.jpg\",\"frame\":13},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JDfO8qADfdkUA8z14ydhwgAQpaXYa8gILwpMMVdW.jpg\",\"frame\":14},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JPFiVjnmoOR60wEDv99rztg0lq0pKsHEddwLSQDY.jpg\",\"frame\":15},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2YQUuBFOcGTE8sdqaPb3dCUOX4RoikmmHexFiS8s.jpg\",\"frame\":16},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/90cyrpNgQklmnH5mmDUqorjwGhmpE79H01gbZXhf.jpg\",\"frame\":17},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8mAJ23GRK5oJvVYMPqqjHbTXJMCsGyhGuiCdtA19.jpg\",\"frame\":18},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hzTkHpJ6fO2Xibiy0qxTW9yOnLI3K2S5ROAvl4Aq.jpg\",\"frame\":19},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qwruaKpyy2Nw1DiaDst1O00SC9ZPl2LHDNCHWiGx.jpg\",\"frame\":20},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/eahvaIrjG0VComroYN8VkZP94TjJRSNrkAOjflkW.jpg\",\"frame\":21},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/fuM9FjYw7Qsj8hzMn87TwLvQiuqImIaZnHUi4LhF.jpg\",\"frame\":22},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F5mE6fJMNXFglDuWEzlEu38pAdfmFJLZzh87WEYy.jpg\",\"frame\":23},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZjPD1Qaqve17W6oLSCuqYYH5ZqZ1YohiYdh93E8l.jpg\",\"frame\":24},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/rE7KcTd9y3a2LD5wJgfj615YLpIhQaZDc6pKcO6V.jpg\",\"frame\":25},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/HpHYjc1udfhFtrDb83EZCK22AKKgiKcwdvbAufBb.jpg\",\"frame\":26},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WYIUYkVlqGLsqi4QfQdmNPwHSRMddnKXAPvGtPKm.jpg\",\"frame\":27},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/T831czrD3WIdJBNLvPhhhqH2SLp23g8cyTkeZoqo.jpg\",\"frame\":28},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/QQxmcl7ClPZhemx8XuC3Xhu579QSReyNCMVeM8zz.jpg\",\"frame\":29},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wSH9eyHsC6AFbY9CGAszQHNYeH2V8So4LafqegS6.jpg\",\"frame\":30},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DDIdmsvCtMWyDHGgS54mUUEM9gzYW4JQ8xQO0IlS.jpg\",\"frame\":31},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8nmTBHGyDsai9GCOPYbeRaEQuHcPGafkfA5zXiS4.jpg\",\"frame\":32},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DygFovFgvcb8AMRjb03YgYUuAB0eVMfBuEl8bdJl.jpg\",\"frame\":33},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qzFy6JJ4TdD1B8xSDV58FuWCbN4ok7LwYtQRg5Ga.jpg\",\"frame\":34},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/da16YgyWn1t1QDHXm0KqdYrNlGxnCGkh86jxWPDv.jpg\",\"frame\":35},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/0oWiBIbdeCaxlr0iaed0OlIhoeOdDb8XVTtwp93A.jpg\",\"frame\":36},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LlFfhuySmWvcal1s6EbDrQPdX0VKGSj2YSkTxPcx.jpg\",\"frame\":37},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/puYG9I5o0o5fQi8aUlaYNwBsPEhYH7ndcR8HxPt2.jpg\",\"frame\":38},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/cHSLgjwH8AoZHFm3JT9kdOE1By8mTH5UtbFuSmV9.jpg\",\"frame\":39},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Kq65j0PeBwfrdRM8UVOo2gHDge6AOGMyTvuuGiaP.jpg\",\"frame\":40},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/XQiK6SkrLwcWQQQn5pHN1oH7bVWX5keGXQbQJL1V.jpg\",\"frame\":41},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aiu5Eb2r39yQQwNsFfKHnhkwwb6FMHVvsj5djE7U.jpg\",\"frame\":42},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pKM3nMguwsUD0DZibcPgo9PscJiv5BlKcecTqnTV.jpg\",\"frame\":43},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ku6mmO0z7zk2iLHhUIgTq8MauXQkwMEcSin0v9pE.jpg\",\"frame\":44},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uX3L9ZwzlcssDYTJYHYtxIL2WGtIO7l9ceAsTCnV.jpg\",\"frame\":45},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Qpa9GzU2P0EeJRcW6QIamd1njfnPbhCKzo3N4fDO.jpg\",\"frame\":46},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/7MiFA64AcdwMRamCKlmMimino55Cb5WnaPXBnnAw.jpg\",\"frame\":47},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/r08uBy1EvF0FdhZ4a5uwrAFqzDdTIgj4nr1Q46n5.jpg\",\"frame\":48},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yD0Y2EeRR7yefaXw4NCaMqpTv06E5bR8ohNtr05j.jpg\",\"frame\":49},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Edsi9oq7h6v268Q4rtlG2oQkw3UGiMlPYYXgalgA.jpg\",\"frame\":50},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/xqjdQ0B8S4COUdotcIcb2G9HIcFNXEjVdLU8jJJf.jpg\",\"frame\":51},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F6Mq2Ost0Ro1E9jONNrksFU9U0AZSkLk9RQtA0Xc.jpg\",\"frame\":52},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/mz8HY84aaJ6GhRWDV7oxKTjMFnoI8axLEgFESzJx.jpg\",\"frame\":53},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pOpPRbCxwXtABji08NeSOwazKQlwPIda97LZFDUA.jpg\",\"frame\":54},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/EnN1r2kVxGyO9jNpQTz8ql069Y2p366q8B8tbJJt.jpg\",\"frame\":55},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aNUym3EXrBeErqlI9gheAhzDkQZ3T8W3lPqv9rRD.jpg\",\"frame\":56},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Pvm7AlZ3dLW9WWgatAWlWAmTxl94ADDO6VeBq8Fn.jpg\",\"frame\":57},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/FVmqv9HSUNWZgQ3Z37kbJGBiWnCsMZ52xBtCja3r.jpg\",\"frame\":58},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/kJiFFz7vb1KNs7SxQDFKwO7sV07K00wDcAaa8NQK.jpg\",\"frame\":59},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WncGnufjTTA9T2CXV7dabxWigDBzRtyRrhttcZ3S.jpg\",\"frame\":60},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qOfUWcUqYunZ2xPMy25RZAz2QksAWUa8ifeNeJbW.jpg\",\"frame\":61},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/oj6EV2RwK2kv6PDBftrdtvwC8TVO8C7B5B6wWEC8.jpg\",\"frame\":62},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ef7fYNAvGiSbtt625GcS2togPdYXuoqNgmjkjzCa.jpg\",\"frame\":63},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yNBN9PB7F3XnkDSmbMQa4OaNYEov5FDcp7KXNxL9.jpg\",\"frame\":64},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4QV4ZBqA1JI0aupPys1GxoqsuEr7t9t5SgdKCaKu.jpg\",\"frame\":65},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hcrE5tQZu1FoDxPuwSkfsJAQYWrJABNCmEi8S6Ui.jpg\",\"frame\":66},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LV8soRQCgJO34zRpt4cujItax6YAjDmi00S3A4YZ.jpg\",\"frame\":67},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uN5XdPtWjDhyOKyn8jvp9f4isXVm9OaS9TnPEDJb.jpg\",\"frame\":68},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4adevJ0ll4o1Ajd5ByZFTuwruq1z63L91UZ3oe9Z.jpg\",\"frame\":69},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2US81h5MgSzdam3xCK4ZnMaPKoEh0OhCjv2h8DWj.jpg\",\"frame\":70},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wjYyV5n7kYmKhsrxdyZjPHgniCcXpPeFMReQXmBE.jpg\",\"frame\":71}]}\n        </script>\n        <div class=\"m-media__img m-media--360-embed\" data-behavior=\"fitText\">\n            <div class=\"m-viewer-360 loader\" data-cc=\"false\" data-type=\"standalone\" data-behavior=\"viewer360\" data-title=\"Inline 360\" data-id=\"assetLibrary-1441\">\n\t<img style=\"\" draggable=\"false\" class=\"m-viewer-360-image\" src=\"\" alt=\"Inline 360\" />\n\t\n\t<div class=\"m-viewer-360-control\">\n\t\t<input\n\t\t\taria-label=\"Seek\"\n\t\t\tclass=\"input360\"\n\t\t\ttype=\"range\"\n\t\t\tmin=\"0\"\n\t\t\tmax=\"\"\n\t\t\tvalue=\"\"\n\t\t\tname=\"frame\"\n\t\t/>\n\t</div>\n\n</div>\n            <div class=\"m-rotate-arrows\">\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--left\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n    <span class=\"m-rotate-arrows__text\">Rotate</span>\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--right\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n</div>\n        </div>\n            </div>\n\n</div>\n<div\n    id=\"2050752\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"helmet-with-visor\"><strong>Helmet with Visor</strong></h2><p>The shape of this multipeaked visor was designed to deflect blows or sword cuts.<br class=\"softbreak\"><br class=\"softbreak\">The helmet was originally fitted inside with a padded lining that added both comfort and protection for the wearer’s head. <br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=592&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=237 300w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473 600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=631 800w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=947 1200w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1262 1600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1578 2000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2367 3000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=3551 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"6000\"\n    height=\"4734\"\n                data-pin-media=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 78.9%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n"
+            }
+          ],
+          "renderedHtml": "<div\n    id=\"2050749\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050750\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <div class=\"m-media m-media--s m-media--contain o-blocks__block\">\n        <script type=\"application/json\" id=\"assetLibrary-1441\">\n            {\"type\":\"sequence\",\"id\":1441,\"width\":6717,\"height\":4478,\"src\":[{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/iiEEqJ6raMdioX3ssLYX9gvtuGXqxZmEqjseF9pu.jpg\",\"frame\":0},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/I08gARVeQ5UuolD2xgKmkuUlYOObEmwQFvbK6f04.jpg\",\"frame\":1},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/x0OAgV0kNzhqzQImQ5RSihq0nRJf1SFqzIA0vKyE.jpg\",\"frame\":2},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/vzxXbmJThqx7uCpIQg8RFdKqOKqi8KetJd4SQrU8.jpg\",\"frame\":3},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/NRWf4PP4UHNmq3qzf6s3o5njN8aRFLr4SjpclCLL.jpg\",\"frame\":4},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Fks2rRhE9M7SivkyuNTdpHjAY0vrXWOKw7wIIljM.jpg\",\"frame\":5},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/jfwm5ekxnj7C5mHbRhQdaV7Vq7vEkyoonplxJ7nV.jpg\",\"frame\":6},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RiiXcEH37GACdfj6ZaCqrOGjGmNTBbcNPj3RQToq.jpg\",\"frame\":7},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RWrbqL3a91NInQvfKlr2GXv6yLVflDCqtZ34We3h.jpg\",\"frame\":8},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/41JiL1UlvJq20Mv7tOyrPJADCiDdDu9YHHSLSjnF.jpg\",\"frame\":9},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/nlCmRTr3g63yqydXDcvWwDjHNfIoYEtNVNg6khfl.jpg\",\"frame\":10},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RmGGbJ8tP5vEzNSz16kpcUDRE2jW5iDY5AYdrAWT.jpg\",\"frame\":11},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZDFc7sFiIk79SATzmqIa0SjNAPKf3rzQgJo63UVw.jpg\",\"frame\":12},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yUBIuXrJC0rRKCThmW5X0iTgMFOW5JKDIHK4BOkD.jpg\",\"frame\":13},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JDfO8qADfdkUA8z14ydhwgAQpaXYa8gILwpMMVdW.jpg\",\"frame\":14},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JPFiVjnmoOR60wEDv99rztg0lq0pKsHEddwLSQDY.jpg\",\"frame\":15},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2YQUuBFOcGTE8sdqaPb3dCUOX4RoikmmHexFiS8s.jpg\",\"frame\":16},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/90cyrpNgQklmnH5mmDUqorjwGhmpE79H01gbZXhf.jpg\",\"frame\":17},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8mAJ23GRK5oJvVYMPqqjHbTXJMCsGyhGuiCdtA19.jpg\",\"frame\":18},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hzTkHpJ6fO2Xibiy0qxTW9yOnLI3K2S5ROAvl4Aq.jpg\",\"frame\":19},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qwruaKpyy2Nw1DiaDst1O00SC9ZPl2LHDNCHWiGx.jpg\",\"frame\":20},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/eahvaIrjG0VComroYN8VkZP94TjJRSNrkAOjflkW.jpg\",\"frame\":21},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/fuM9FjYw7Qsj8hzMn87TwLvQiuqImIaZnHUi4LhF.jpg\",\"frame\":22},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F5mE6fJMNXFglDuWEzlEu38pAdfmFJLZzh87WEYy.jpg\",\"frame\":23},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZjPD1Qaqve17W6oLSCuqYYH5ZqZ1YohiYdh93E8l.jpg\",\"frame\":24},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/rE7KcTd9y3a2LD5wJgfj615YLpIhQaZDc6pKcO6V.jpg\",\"frame\":25},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/HpHYjc1udfhFtrDb83EZCK22AKKgiKcwdvbAufBb.jpg\",\"frame\":26},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WYIUYkVlqGLsqi4QfQdmNPwHSRMddnKXAPvGtPKm.jpg\",\"frame\":27},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/T831czrD3WIdJBNLvPhhhqH2SLp23g8cyTkeZoqo.jpg\",\"frame\":28},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/QQxmcl7ClPZhemx8XuC3Xhu579QSReyNCMVeM8zz.jpg\",\"frame\":29},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wSH9eyHsC6AFbY9CGAszQHNYeH2V8So4LafqegS6.jpg\",\"frame\":30},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DDIdmsvCtMWyDHGgS54mUUEM9gzYW4JQ8xQO0IlS.jpg\",\"frame\":31},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8nmTBHGyDsai9GCOPYbeRaEQuHcPGafkfA5zXiS4.jpg\",\"frame\":32},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DygFovFgvcb8AMRjb03YgYUuAB0eVMfBuEl8bdJl.jpg\",\"frame\":33},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qzFy6JJ4TdD1B8xSDV58FuWCbN4ok7LwYtQRg5Ga.jpg\",\"frame\":34},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/da16YgyWn1t1QDHXm0KqdYrNlGxnCGkh86jxWPDv.jpg\",\"frame\":35},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/0oWiBIbdeCaxlr0iaed0OlIhoeOdDb8XVTtwp93A.jpg\",\"frame\":36},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LlFfhuySmWvcal1s6EbDrQPdX0VKGSj2YSkTxPcx.jpg\",\"frame\":37},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/puYG9I5o0o5fQi8aUlaYNwBsPEhYH7ndcR8HxPt2.jpg\",\"frame\":38},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/cHSLgjwH8AoZHFm3JT9kdOE1By8mTH5UtbFuSmV9.jpg\",\"frame\":39},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Kq65j0PeBwfrdRM8UVOo2gHDge6AOGMyTvuuGiaP.jpg\",\"frame\":40},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/XQiK6SkrLwcWQQQn5pHN1oH7bVWX5keGXQbQJL1V.jpg\",\"frame\":41},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aiu5Eb2r39yQQwNsFfKHnhkwwb6FMHVvsj5djE7U.jpg\",\"frame\":42},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pKM3nMguwsUD0DZibcPgo9PscJiv5BlKcecTqnTV.jpg\",\"frame\":43},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ku6mmO0z7zk2iLHhUIgTq8MauXQkwMEcSin0v9pE.jpg\",\"frame\":44},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uX3L9ZwzlcssDYTJYHYtxIL2WGtIO7l9ceAsTCnV.jpg\",\"frame\":45},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Qpa9GzU2P0EeJRcW6QIamd1njfnPbhCKzo3N4fDO.jpg\",\"frame\":46},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/7MiFA64AcdwMRamCKlmMimino55Cb5WnaPXBnnAw.jpg\",\"frame\":47},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/r08uBy1EvF0FdhZ4a5uwrAFqzDdTIgj4nr1Q46n5.jpg\",\"frame\":48},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yD0Y2EeRR7yefaXw4NCaMqpTv06E5bR8ohNtr05j.jpg\",\"frame\":49},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Edsi9oq7h6v268Q4rtlG2oQkw3UGiMlPYYXgalgA.jpg\",\"frame\":50},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/xqjdQ0B8S4COUdotcIcb2G9HIcFNXEjVdLU8jJJf.jpg\",\"frame\":51},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F6Mq2Ost0Ro1E9jONNrksFU9U0AZSkLk9RQtA0Xc.jpg\",\"frame\":52},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/mz8HY84aaJ6GhRWDV7oxKTjMFnoI8axLEgFESzJx.jpg\",\"frame\":53},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pOpPRbCxwXtABji08NeSOwazKQlwPIda97LZFDUA.jpg\",\"frame\":54},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/EnN1r2kVxGyO9jNpQTz8ql069Y2p366q8B8tbJJt.jpg\",\"frame\":55},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aNUym3EXrBeErqlI9gheAhzDkQZ3T8W3lPqv9rRD.jpg\",\"frame\":56},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Pvm7AlZ3dLW9WWgatAWlWAmTxl94ADDO6VeBq8Fn.jpg\",\"frame\":57},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/FVmqv9HSUNWZgQ3Z37kbJGBiWnCsMZ52xBtCja3r.jpg\",\"frame\":58},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/kJiFFz7vb1KNs7SxQDFKwO7sV07K00wDcAaa8NQK.jpg\",\"frame\":59},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WncGnufjTTA9T2CXV7dabxWigDBzRtyRrhttcZ3S.jpg\",\"frame\":60},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qOfUWcUqYunZ2xPMy25RZAz2QksAWUa8ifeNeJbW.jpg\",\"frame\":61},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/oj6EV2RwK2kv6PDBftrdtvwC8TVO8C7B5B6wWEC8.jpg\",\"frame\":62},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ef7fYNAvGiSbtt625GcS2togPdYXuoqNgmjkjzCa.jpg\",\"frame\":63},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yNBN9PB7F3XnkDSmbMQa4OaNYEov5FDcp7KXNxL9.jpg\",\"frame\":64},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4QV4ZBqA1JI0aupPys1GxoqsuEr7t9t5SgdKCaKu.jpg\",\"frame\":65},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hcrE5tQZu1FoDxPuwSkfsJAQYWrJABNCmEi8S6Ui.jpg\",\"frame\":66},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LV8soRQCgJO34zRpt4cujItax6YAjDmi00S3A4YZ.jpg\",\"frame\":67},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uN5XdPtWjDhyOKyn8jvp9f4isXVm9OaS9TnPEDJb.jpg\",\"frame\":68},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4adevJ0ll4o1Ajd5ByZFTuwruq1z63L91UZ3oe9Z.jpg\",\"frame\":69},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2US81h5MgSzdam3xCK4ZnMaPKoEh0OhCjv2h8DWj.jpg\",\"frame\":70},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wjYyV5n7kYmKhsrxdyZjPHgniCcXpPeFMReQXmBE.jpg\",\"frame\":71}]}\n        </script>\n        <div class=\"m-media__img m-media--360-embed\" data-behavior=\"fitText\">\n            <div class=\"m-viewer-360 loader\" data-cc=\"false\" data-type=\"standalone\" data-behavior=\"viewer360\" data-title=\"Inline 360\" data-id=\"assetLibrary-1441\">\n\t<img style=\"\" draggable=\"false\" class=\"m-viewer-360-image\" src=\"\" alt=\"Inline 360\" />\n\t\n\t<div class=\"m-viewer-360-control\">\n\t\t<input\n\t\t\taria-label=\"Seek\"\n\t\t\tclass=\"input360\"\n\t\t\ttype=\"range\"\n\t\t\tmin=\"0\"\n\t\t\tmax=\"\"\n\t\t\tvalue=\"\"\n\t\t\tname=\"frame\"\n\t\t/>\n\t</div>\n\n</div>\n            <div class=\"m-rotate-arrows\">\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--left\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n    <span class=\"m-rotate-arrows__text\">Rotate</span>\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--right\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n</div>\n        </div>\n            </div>\n\n</div>\n<div\n    id=\"2050752\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"helmet-with-visor\"><strong>Helmet with Visor</strong></h2><p>The shape of this multipeaked visor was designed to deflect blows or sword cuts.<br class=\"softbreak\"><br class=\"softbreak\">The helmet was originally fitted inside with a padded lining that added both comfort and protection for the wearer’s head. <br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=592&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=237 300w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473 600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=631 800w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=947 1200w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1262 1600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1578 2000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2367 3000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=3551 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"6000\"\n    height=\"4734\"\n                data-pin-media=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 78.9%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n\n</div>\n"
+        },
+        {
+          "id": 2050755,
+          "type": "explorer_annotation",
+          "position": 2,
+          "content": {
+            "label": "Sword",
+            "color": null,
+            "coordinate": "[0.0001, 0.2, -0.02]",
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "annotationSettings": [
+              "sizeAttenuation"
+            ],
+            "scale": 0.062,
+            "position": [
+              0.0001,
+              0.2,
+              -0.02
+            ],
+            "annotationColor": "#4B9CA3",
+            "annotationSize": 0.062,
+            "annotationTarget": null,
+            "showLabel": false,
+            "sizeAttenuation": false,
+            "labelText": "Sword"
+          },
+          "children": [
+            {
+              "id": 2050756,
+              "type": "layout_block",
+              "position": 1,
+              "content": {
+                "display": "flex",
+                "padding_top": "0",
+                "padding_bottom": "0",
+                "padding_left": "0",
+                "margin_top": "0",
+                "margin_bottom": "0",
+                "margin_left": "0",
+                "margin_right": "0",
+                "flex_direction": "row",
+                "justify_content": "flex-start",
+                "align_items": "flex-start",
+                "flex_wrap": false,
+                "layout_type": "repeat(2, 1fr)",
+                "gap": "2rem",
+                "padding_right": "2rem"
+              },
+              "children": [
+                {
+                  "id": 2050757,
+                  "type": "layout_block",
+                  "position": 1,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_bottom": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "flex_direction": "row",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "60%"
+                  },
+                  "children": [
+                    {
+                      "id": 2050758,
+                      "type": "image",
+                      "position": 1,
+                      "content": {
+                        "use_contain": true,
+                        "use_alt_background": true,
+                        "is_modal": false,
+                        "is_zoomable": false,
+                        "size": "s"
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=1133&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=453 300w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906 600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=1208 800w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1812 1200w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=2416 1600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=3020 2000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=4531 3000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=6796 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"3973\"\n    height=\"6000\"\n                data-pin-media=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 151.01938082054%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n"
+                },
+                {
+                  "id": 2050759,
+                  "type": "layout_block",
+                  "position": 2,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_bottom": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "40%",
+                    "flex_direction": "column"
+                  },
+                  "children": [
+                    {
+                      "id": 2050760,
+                      "type": "paragraph",
+                      "position": 1,
+                      "content": {
+                        "paragraph": {
+                          "en": "<h2><strong>Sword</strong></h2><p>After the initial charge resulted in a lost or broken lance, the man-at-arms might draw his sword to defend himself in closely packed battle conditions. Copper inlay of the mark of the bishop’s crosier or staff indicates that it was made in Passau, a renowned South German sword-making center.<br class=\"softbreak\"></p>"
+                        }
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<div class=\"paragraph-wrapper\">\n    <h2 id=\"sword\"><strong>Sword</strong></h2><p>After the initial charge resulted in a lost or broken lance, the man-at-arms might draw his sword to defend himself in closely packed battle conditions. Copper inlay of the mark of the bishop’s crosier or staff indicates that it was made in Passau, a renowned South German sword-making center.<br class=\"softbreak\"></p>\n\n</div>\n"
+                }
+              ],
+              "renderedHtml": "<div\n    id=\"2050757\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=1133&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=453 300w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906 600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=1208 800w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1812 1200w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=2416 1600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=3020 2000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=4531 3000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=6796 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"3973\"\n    height=\"6000\"\n                data-pin-media=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 151.01938082054%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050759\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"sword\"><strong>Sword</strong></h2><p>After the initial charge resulted in a lost or broken lance, the man-at-arms might draw his sword to defend himself in closely packed battle conditions. Copper inlay of the mark of the bishop’s crosier or staff indicates that it was made in Passau, a renowned South German sword-making center.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n"
+            }
+          ],
+          "renderedHtml": "<div\n    id=\"2050756\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050757\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=1133&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=453 300w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906 600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=1208 800w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1812 1200w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=2416 1600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=3020 2000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=4531 3000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=6796 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"3973\"\n    height=\"6000\"\n                data-pin-media=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 151.01938082054%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050759\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"sword\"><strong>Sword</strong></h2><p>After the initial charge resulted in a lost or broken lance, the man-at-arms might draw his sword to defend himself in closely packed battle conditions. Copper inlay of the mark of the bishop’s crosier or staff indicates that it was made in Passau, a renowned South German sword-making center.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n\n</div>\n"
+        },
+        {
+          "id": 2050761,
+          "type": "explorer_annotation",
+          "position": 3,
+          "content": {
+            "label": "Breastplate",
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "coordinate": "[0.001, 0.05, 0.03]",
+            "annotationSettings": [
+              "sizeAttenuation"
+            ],
+            "scale": 0.062,
+            "position": [
+              0.001,
+              0.05,
+              0.03
+            ],
+            "annotationColor": "#4B9CA3",
+            "annotationSize": 0.062,
+            "annotationTarget": null,
+            "showLabel": false,
+            "sizeAttenuation": false,
+            "labelText": "Breastplate"
+          },
+          "children": [
+            {
+              "id": 2050762,
+              "type": "layout_block",
+              "position": 1,
+              "content": {
+                "display": "flex",
+                "padding_top": "0",
+                "padding_bottom": "0",
+                "padding_left": "0",
+                "margin_top": "0",
+                "margin_bottom": "0",
+                "margin_left": "0",
+                "margin_right": "0",
+                "flex_direction": "row",
+                "justify_content": "flex-start",
+                "align_items": "flex-start",
+                "flex_wrap": false,
+                "layout_type": "repeat(2, 1fr)",
+                "gap": "2rem",
+                "padding_right": "2rem"
+              },
+              "children": [
+                {
+                  "id": 2050763,
+                  "type": "layout_block",
+                  "position": 1,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_bottom": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "flex_direction": "row",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "60%"
+                  },
+                  "children": [
+                    {
+                      "id": 2050764,
+                      "type": "image",
+                      "position": 1,
+                      "content": {
+                        "use_contain": true,
+                        "use_alt_background": true,
+                        "is_modal": false,
+                        "is_zoomable": false,
+                        "size": "s"
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=737&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=295 300w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590 600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=786 800w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1180 1200w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1573 1600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1966 2000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2949 3000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4423 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1816\"\n    height=\"1785\"\n                data-pin-media=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 98.29295154185%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n"
+                },
+                {
+                  "id": 2050765,
+                  "type": "layout_block",
+                  "position": 2,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "40%",
+                    "flex_direction": "column",
+                    "padding_bottom": "2rem"
+                  },
+                  "children": [
+                    {
+                      "id": 2050766,
+                      "type": "paragraph",
+                      "position": 1,
+                      "content": {
+                        "paragraph": {
+                          "en": "<h2><strong>Breastplate</strong></h2><p>Fashion trends dictated the shape and decoration of the breastplate. The low neckline and billowing chest with gathered and pleated fabric seen in this portrait from about 1515 are translated into hard steel.<br class=\"softbreak\"></p>"
+                        }
+                      }
+                    },
+                    {
+                      "id": 2050767,
+                      "type": "image",
+                      "position": 2,
+                      "content": {
+                        "is_modal": false,
+                        "is_zoomable": false,
+                        "size": "s",
+                        "caption": "<p>Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.</p>",
+                        "use_alt_background": false,
+                        "use_contain": false
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<div class=\"paragraph-wrapper\">\n    <h2 id=\"breastplate\"><strong>Breastplate</strong></h2><p>Fashion trends dictated the shape and decoration of the breastplate. The low neckline and billowing chest with gathered and pleated fabric seen in this portrait from about 1515 are translated into hard steel.<br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"&lt;p&gt;Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.&lt;/p&gt;\" class=\"m-media m-media--s o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=871&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=349 300w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697 600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=930 800w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1394 1200w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1859 1600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=2324 2000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=3486 3000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=5229 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"809\"\n    height=\"940\"\n                data-pin-media=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697\"\n                 \n>\n                                                                \n                                        \n        \n        \n        \n        \n        \n            </div>\n            <figcaption>\n                                        <div class=\" f-caption\"><p>Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.</p></div>\n                                </figcaption>\n    </figure>\n"
+                }
+              ],
+              "renderedHtml": "<div\n    id=\"2050763\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=737&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=295 300w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590 600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=786 800w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1180 1200w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1573 1600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1966 2000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2949 3000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4423 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1816\"\n    height=\"1785\"\n                data-pin-media=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 98.29295154185%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050765\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"breastplate\"><strong>Breastplate</strong></h2><p>Fashion trends dictated the shape and decoration of the breastplate. The low neckline and billowing chest with gathered and pleated fabric seen in this portrait from about 1515 are translated into hard steel.<br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"&lt;p&gt;Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.&lt;/p&gt;\" class=\"m-media m-media--s o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=871&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=349 300w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697 600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=930 800w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1394 1200w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1859 1600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=2324 2000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=3486 3000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=5229 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"809\"\n    height=\"940\"\n                data-pin-media=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697\"\n                 \n>\n                                                                \n                                        \n        \n        \n        \n        \n        \n            </div>\n            <figcaption>\n                                        <div class=\" f-caption\"><p>Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.</p></div>\n                                </figcaption>\n    </figure>\n\n</div>\n"
+            }
+          ],
+          "renderedHtml": "<div\n    id=\"2050762\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050763\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=737&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=295 300w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590 600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=786 800w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1180 1200w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1573 1600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1966 2000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2949 3000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4423 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1816\"\n    height=\"1785\"\n                data-pin-media=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 98.29295154185%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050765\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"breastplate\"><strong>Breastplate</strong></h2><p>Fashion trends dictated the shape and decoration of the breastplate. The low neckline and billowing chest with gathered and pleated fabric seen in this portrait from about 1515 are translated into hard steel.<br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"&lt;p&gt;Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.&lt;/p&gt;\" class=\"m-media m-media--s o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=871&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=349 300w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697 600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=930 800w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1394 1200w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1859 1600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=2324 2000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=3486 3000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=5229 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"809\"\n    height=\"940\"\n                data-pin-media=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697\"\n                 \n>\n                                                                \n                                        \n        \n        \n        \n        \n        \n            </div>\n            <figcaption>\n                                        <div class=\" f-caption\"><p>Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.</p></div>\n                                </figcaption>\n    </figure>\n\n</div>\n\n</div>\n"
+        },
+        {
+          "id": 2050768,
+          "type": "explorer_annotation",
+          "position": 4,
+          "content": {
+            "label": "Mail Sleeves",
+            "coordinate": "[0.001, 0.02, 0.01]",
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "annotationSettings": [
+              "sizeAttenuation"
+            ],
+            "scale": 0.062,
+            "position": [
+              0.001,
+              0.02,
+              0.01
+            ],
+            "annotationColor": "#4B9CA3",
+            "annotationSize": 0.062,
+            "annotationTarget": null,
+            "showLabel": false,
+            "sizeAttenuation": false,
+            "labelText": "Mail Sleeves"
+          },
+          "children": [
+            {
+              "id": 2050769,
+              "type": "layout_block",
+              "position": 1,
+              "content": {
+                "display": "flex",
+                "padding_top": "0",
+                "padding_bottom": "0",
+                "padding_left": "0",
+                "margin_top": "0",
+                "margin_bottom": "0",
+                "margin_left": "0",
+                "margin_right": "0",
+                "flex_direction": "row",
+                "justify_content": "flex-start",
+                "align_items": "flex-start",
+                "flex_wrap": false,
+                "layout_type": "repeat(2, 1fr)",
+                "gap": "2rem",
+                "padding_right": "2rem"
+              },
+              "children": [
+                {
+                  "id": 2050770,
+                  "type": "layout_block",
+                  "position": 1,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_bottom": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "flex_direction": "row",
+                    "flex_wrap": false,
+                    "width": "60%",
+                    "align_items": "center",
+                    "justify_content": "center"
+                  },
+                  "children": [
+                    {
+                      "id": 2050771,
+                      "type": "image",
+                      "position": 1,
+                      "content": {
+                        "use_contain": true,
+                        "use_alt_background": true,
+                        "is_modal": false,
+                        "is_zoomable": false,
+                        "size": "s"
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=730&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=292 300w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584 600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=778 800w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1167 1200w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1557 1600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1946 2000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2919 3000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4378 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1918\"\n    height=\"1866\"\n                data-pin-media=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 97.288842544317%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n"
+                },
+                {
+                  "id": 2050772,
+                  "type": "layout_block",
+                  "position": 2,
+                  "content": {
+                    "layout_type": "default",
+                    "display": "flex",
+                    "gap": "1rem",
+                    "padding_top": "0",
+                    "padding_left": "0",
+                    "padding_right": "0",
+                    "margin_top": "0",
+                    "margin_bottom": "0",
+                    "margin_left": "0",
+                    "margin_right": "0",
+                    "justify_content": "flex-start",
+                    "align_items": "flex-start",
+                    "flex_wrap": false,
+                    "width": "40%",
+                    "flex_direction": "column",
+                    "padding_bottom": "2rem"
+                  },
+                  "children": [
+                    {
+                      "id": 2050773,
+                      "type": "paragraph",
+                      "position": 1,
+                      "content": {
+                        "paragraph": {
+                          "en": "<h2>Mail Sleeves</h2><p>These sleeves were tailored and sewn to the padded undergarment or doublet. When a soldier raised his arm his armpit was exposed. Mail was the ideal flexible armor for this vulnerable area. These brass rings in the center of the armpit are believed to be talismanic, meant to ward off attacks from soldiers below.<br class=\"softbreak\"></p>"
+                        }
+                      }
+                    }
+                  ],
+                  "renderedHtml": "<div class=\"paragraph-wrapper\">\n    <h2 id=\"mail-sleeves\">Mail Sleeves</h2><p>These sleeves were tailored and sewn to the padded undergarment or doublet. When a soldier raised his arm his armpit was exposed. Mail was the ideal flexible armor for this vulnerable area. These brass rings in the center of the armpit are believed to be talismanic, meant to ward off attacks from soldiers below.<br class=\"softbreak\"></p>\n\n</div>\n"
+                }
+              ],
+              "renderedHtml": "<div\n    id=\"2050770\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=730&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=292 300w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584 600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=778 800w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1167 1200w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1557 1600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1946 2000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2919 3000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4378 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1918\"\n    height=\"1866\"\n                data-pin-media=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 97.288842544317%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050772\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"mail-sleeves\">Mail Sleeves</h2><p>These sleeves were tailored and sewn to the padded undergarment or doublet. When a soldier raised his arm his armpit was exposed. Mail was the ideal flexible armor for this vulnerable area. These brass rings in the center of the armpit are believed to be talismanic, meant to ward off attacks from soldiers below.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n"
+            }
+          ],
+          "renderedHtml": "<div\n    id=\"2050769\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050770\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=730&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=292 300w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584 600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=778 800w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1167 1200w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1557 1600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1946 2000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2919 3000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4378 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1918\"\n    height=\"1866\"\n                data-pin-media=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 97.288842544317%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050772\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"mail-sleeves\">Mail Sleeves</h2><p>These sleeves were tailored and sewn to the padded undergarment or doublet. When a soldier raised his arm his armpit was exposed. Mail was the ideal flexible armor for this vulnerable area. These brass rings in the center of the armpit are believed to be talismanic, meant to ward off attacks from soldiers below.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n\n</div>\n"
+        },
+        {
+          "id": 2050792,
+          "type": "explorer_annotation",
+          "position": 5,
+          "content": {
+            "label": "Eyeball",
+            "coordinate": "[0, 0.05, -0.23]",
+            "scale": 0.022,
+            "position": [
+              0,
+              0.05,
+              -0.23
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "annotationColor": "#4B9CA3",
+            "annotationSize": 0.022,
+            "annotationTarget": null,
+            "showLabel": false,
+            "sizeAttenuation": true,
+            "labelText": "Eyeball"
           }
         }
       ],
-      "renderedHtml": "<div class=\"explorer-annotation\">...</div>"
+      "renderedHtml": "<div\n    id=\"2050749\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050750\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <div class=\"m-media m-media--s m-media--contain o-blocks__block\">\n        <script type=\"application/json\" id=\"assetLibrary-1441\">\n            {\"type\":\"sequence\",\"id\":1441,\"width\":6717,\"height\":4478,\"src\":[{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/iiEEqJ6raMdioX3ssLYX9gvtuGXqxZmEqjseF9pu.jpg\",\"frame\":0},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/I08gARVeQ5UuolD2xgKmkuUlYOObEmwQFvbK6f04.jpg\",\"frame\":1},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/x0OAgV0kNzhqzQImQ5RSihq0nRJf1SFqzIA0vKyE.jpg\",\"frame\":2},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/vzxXbmJThqx7uCpIQg8RFdKqOKqi8KetJd4SQrU8.jpg\",\"frame\":3},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/NRWf4PP4UHNmq3qzf6s3o5njN8aRFLr4SjpclCLL.jpg\",\"frame\":4},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Fks2rRhE9M7SivkyuNTdpHjAY0vrXWOKw7wIIljM.jpg\",\"frame\":5},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/jfwm5ekxnj7C5mHbRhQdaV7Vq7vEkyoonplxJ7nV.jpg\",\"frame\":6},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RiiXcEH37GACdfj6ZaCqrOGjGmNTBbcNPj3RQToq.jpg\",\"frame\":7},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RWrbqL3a91NInQvfKlr2GXv6yLVflDCqtZ34We3h.jpg\",\"frame\":8},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/41JiL1UlvJq20Mv7tOyrPJADCiDdDu9YHHSLSjnF.jpg\",\"frame\":9},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/nlCmRTr3g63yqydXDcvWwDjHNfIoYEtNVNg6khfl.jpg\",\"frame\":10},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/RmGGbJ8tP5vEzNSz16kpcUDRE2jW5iDY5AYdrAWT.jpg\",\"frame\":11},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZDFc7sFiIk79SATzmqIa0SjNAPKf3rzQgJo63UVw.jpg\",\"frame\":12},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yUBIuXrJC0rRKCThmW5X0iTgMFOW5JKDIHK4BOkD.jpg\",\"frame\":13},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JDfO8qADfdkUA8z14ydhwgAQpaXYa8gILwpMMVdW.jpg\",\"frame\":14},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/JPFiVjnmoOR60wEDv99rztg0lq0pKsHEddwLSQDY.jpg\",\"frame\":15},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2YQUuBFOcGTE8sdqaPb3dCUOX4RoikmmHexFiS8s.jpg\",\"frame\":16},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/90cyrpNgQklmnH5mmDUqorjwGhmpE79H01gbZXhf.jpg\",\"frame\":17},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8mAJ23GRK5oJvVYMPqqjHbTXJMCsGyhGuiCdtA19.jpg\",\"frame\":18},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hzTkHpJ6fO2Xibiy0qxTW9yOnLI3K2S5ROAvl4Aq.jpg\",\"frame\":19},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qwruaKpyy2Nw1DiaDst1O00SC9ZPl2LHDNCHWiGx.jpg\",\"frame\":20},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/eahvaIrjG0VComroYN8VkZP94TjJRSNrkAOjflkW.jpg\",\"frame\":21},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/fuM9FjYw7Qsj8hzMn87TwLvQiuqImIaZnHUi4LhF.jpg\",\"frame\":22},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F5mE6fJMNXFglDuWEzlEu38pAdfmFJLZzh87WEYy.jpg\",\"frame\":23},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ZjPD1Qaqve17W6oLSCuqYYH5ZqZ1YohiYdh93E8l.jpg\",\"frame\":24},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/rE7KcTd9y3a2LD5wJgfj615YLpIhQaZDc6pKcO6V.jpg\",\"frame\":25},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/HpHYjc1udfhFtrDb83EZCK22AKKgiKcwdvbAufBb.jpg\",\"frame\":26},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WYIUYkVlqGLsqi4QfQdmNPwHSRMddnKXAPvGtPKm.jpg\",\"frame\":27},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/T831czrD3WIdJBNLvPhhhqH2SLp23g8cyTkeZoqo.jpg\",\"frame\":28},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/QQxmcl7ClPZhemx8XuC3Xhu579QSReyNCMVeM8zz.jpg\",\"frame\":29},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wSH9eyHsC6AFbY9CGAszQHNYeH2V8So4LafqegS6.jpg\",\"frame\":30},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DDIdmsvCtMWyDHGgS54mUUEM9gzYW4JQ8xQO0IlS.jpg\",\"frame\":31},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/8nmTBHGyDsai9GCOPYbeRaEQuHcPGafkfA5zXiS4.jpg\",\"frame\":32},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/DygFovFgvcb8AMRjb03YgYUuAB0eVMfBuEl8bdJl.jpg\",\"frame\":33},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qzFy6JJ4TdD1B8xSDV58FuWCbN4ok7LwYtQRg5Ga.jpg\",\"frame\":34},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/da16YgyWn1t1QDHXm0KqdYrNlGxnCGkh86jxWPDv.jpg\",\"frame\":35},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/0oWiBIbdeCaxlr0iaed0OlIhoeOdDb8XVTtwp93A.jpg\",\"frame\":36},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LlFfhuySmWvcal1s6EbDrQPdX0VKGSj2YSkTxPcx.jpg\",\"frame\":37},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/puYG9I5o0o5fQi8aUlaYNwBsPEhYH7ndcR8HxPt2.jpg\",\"frame\":38},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/cHSLgjwH8AoZHFm3JT9kdOE1By8mTH5UtbFuSmV9.jpg\",\"frame\":39},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Kq65j0PeBwfrdRM8UVOo2gHDge6AOGMyTvuuGiaP.jpg\",\"frame\":40},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/XQiK6SkrLwcWQQQn5pHN1oH7bVWX5keGXQbQJL1V.jpg\",\"frame\":41},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aiu5Eb2r39yQQwNsFfKHnhkwwb6FMHVvsj5djE7U.jpg\",\"frame\":42},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pKM3nMguwsUD0DZibcPgo9PscJiv5BlKcecTqnTV.jpg\",\"frame\":43},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ku6mmO0z7zk2iLHhUIgTq8MauXQkwMEcSin0v9pE.jpg\",\"frame\":44},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uX3L9ZwzlcssDYTJYHYtxIL2WGtIO7l9ceAsTCnV.jpg\",\"frame\":45},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Qpa9GzU2P0EeJRcW6QIamd1njfnPbhCKzo3N4fDO.jpg\",\"frame\":46},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/7MiFA64AcdwMRamCKlmMimino55Cb5WnaPXBnnAw.jpg\",\"frame\":47},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/r08uBy1EvF0FdhZ4a5uwrAFqzDdTIgj4nr1Q46n5.jpg\",\"frame\":48},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yD0Y2EeRR7yefaXw4NCaMqpTv06E5bR8ohNtr05j.jpg\",\"frame\":49},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Edsi9oq7h6v268Q4rtlG2oQkw3UGiMlPYYXgalgA.jpg\",\"frame\":50},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/xqjdQ0B8S4COUdotcIcb2G9HIcFNXEjVdLU8jJJf.jpg\",\"frame\":51},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/F6Mq2Ost0Ro1E9jONNrksFU9U0AZSkLk9RQtA0Xc.jpg\",\"frame\":52},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/mz8HY84aaJ6GhRWDV7oxKTjMFnoI8axLEgFESzJx.jpg\",\"frame\":53},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/pOpPRbCxwXtABji08NeSOwazKQlwPIda97LZFDUA.jpg\",\"frame\":54},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/EnN1r2kVxGyO9jNpQTz8ql069Y2p366q8B8tbJJt.jpg\",\"frame\":55},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/aNUym3EXrBeErqlI9gheAhzDkQZ3T8W3lPqv9rRD.jpg\",\"frame\":56},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/Pvm7AlZ3dLW9WWgatAWlWAmTxl94ADDO6VeBq8Fn.jpg\",\"frame\":57},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/FVmqv9HSUNWZgQ3Z37kbJGBiWnCsMZ52xBtCja3r.jpg\",\"frame\":58},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/kJiFFz7vb1KNs7SxQDFKwO7sV07K00wDcAaa8NQK.jpg\",\"frame\":59},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/WncGnufjTTA9T2CXV7dabxWigDBzRtyRrhttcZ3S.jpg\",\"frame\":60},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/qOfUWcUqYunZ2xPMy25RZAz2QksAWUa8ifeNeJbW.jpg\",\"frame\":61},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/oj6EV2RwK2kv6PDBftrdtvwC8TVO8C7B5B6wWEC8.jpg\",\"frame\":62},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/ef7fYNAvGiSbtt625GcS2togPdYXuoqNgmjkjzCa.jpg\",\"frame\":63},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/yNBN9PB7F3XnkDSmbMQa4OaNYEov5FDcp7KXNxL9.jpg\",\"frame\":64},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4QV4ZBqA1JI0aupPys1GxoqsuEr7t9t5SgdKCaKu.jpg\",\"frame\":65},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/hcrE5tQZu1FoDxPuwSkfsJAQYWrJABNCmEi8S6Ui.jpg\",\"frame\":66},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/LV8soRQCgJO34zRpt4cujItax6YAjDmi00S3A4YZ.jpg\",\"frame\":67},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/uN5XdPtWjDhyOKyn8jvp9f4isXVm9OaS9TnPEDJb.jpg\",\"frame\":68},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/4adevJ0ll4o1Ajd5ByZFTuwruq1z63L91UZ3oe9Z.jpg\",\"frame\":69},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/2US81h5MgSzdam3xCK4ZnMaPKoEh0OhCjv2h8DWj.jpg\",\"frame\":70},{\"src\":\"https:\\/\\/artic-web-test.imgix.net\\/seq\\/wjYyV5n7kYmKhsrxdyZjPHgniCcXpPeFMReQXmBE.jpg\",\"frame\":71}]}\n        </script>\n        <div class=\"m-media__img m-media--360-embed\" data-behavior=\"fitText\">\n            <div class=\"m-viewer-360 loader\" data-cc=\"false\" data-type=\"standalone\" data-behavior=\"viewer360\" data-title=\"Inline 360\" data-id=\"assetLibrary-1441\">\n\t<img style=\"\" draggable=\"false\" class=\"m-viewer-360-image\" src=\"\" alt=\"Inline 360\" />\n\t\n\t<div class=\"m-viewer-360-control\">\n\t\t<input\n\t\t\taria-label=\"Seek\"\n\t\t\tclass=\"input360\"\n\t\t\ttype=\"range\"\n\t\t\tmin=\"0\"\n\t\t\tmax=\"\"\n\t\t\tvalue=\"\"\n\t\t\tname=\"frame\"\n\t\t/>\n\t</div>\n\n</div>\n            <div class=\"m-rotate-arrows\">\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--left\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n    <span class=\"m-rotate-arrows__text\">Rotate</span>\n    <div class=\"m-rotate-arrows__arrow m-rotate-arrows__arrow--right\">\n        <svg aria-hidden=\"true\" class=\"icon--arrow--24\"><use xlink:href=\"#icon--arrow\" /></svg>\n    </div>\n</div>\n        </div>\n            </div>\n\n</div>\n<div\n    id=\"2050752\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"helmet-with-visor\"><strong>Helmet with Visor</strong></h2><p>The shape of this multipeaked visor was designed to deflect blows or sword cuts.<br class=\"softbreak\"><br class=\"softbreak\">The helmet was originally fitted inside with a padded lining that added both comfort and protection for the wearer’s head. <br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=592&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=237 300w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473 600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=631 800w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=947 1200w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1262 1600w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1578 2000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2367 3000w, https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=3551 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"6000\"\n    height=\"4734\"\n                data-pin-media=\"https://artic-web-test.imgix.net/ca75b74c-7ab8-409a-8bab-f8b81cae1464/IM020490_062.jpg?rect=0%2C0%2C6000%2C4734&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=473\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 78.9%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n\n</div>\n\n<div\n    id=\"2050756\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050757\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=1133&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=453 300w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906 600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=1208 800w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1812 1200w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=2416 1600w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=3020 2000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=4531 3000w, https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=6796 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"3973\"\n    height=\"6000\"\n                data-pin-media=\"https://artic-web-test.imgix.net/efb12297-939b-458f-94df-562492c15b68/IM020500.jpg?rect=0%2C0%2C3973%2C6000&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=906\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 151.01938082054%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050759\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"sword\"><strong>Sword</strong></h2><p>After the initial charge resulted in a lost or broken lance, the man-at-arms might draw his sword to defend himself in closely packed battle conditions. Copper inlay of the mark of the bishop’s crosier or staff indicates that it was made in Passau, a renowned South German sword-making center.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n\n</div>\n\n<div\n    id=\"2050762\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050763\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=737&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=295 300w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590 600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=786 800w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1180 1200w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1573 1600w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1966 2000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2949 3000w, https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4423 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1816\"\n    height=\"1785\"\n                data-pin-media=\"https://artic-web-test.imgix.net/0c3d5f40-3f0e-457f-86d7-e6481b880a9c/Screenshot2025-09-16at11.22.55AM.png?rect=0%2C0%2C1816%2C1785&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=590\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 98.29295154185%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050765\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"breastplate\"><strong>Breastplate</strong></h2><p>Fashion trends dictated the shape and decoration of the breastplate. The low neckline and billowing chest with gathered and pleated fabric seen in this portrait from about 1515 are translated into hard steel.<br class=\"softbreak\"></p>\n\n</div>\n<figure data-type=\"image\" data-title=\"&lt;p&gt;Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.&lt;/p&gt;\" class=\"m-media m-media--s o-blocks__block\">\n    <div\n        class=\"m-media__img\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=871&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=349 300w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697 600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=930 800w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1394 1200w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1859 1600w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=2324 2000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=3486 3000w, https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=5229 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"809\"\n    height=\"940\"\n                data-pin-media=\"https://artic-web-test.imgix.net/f069bb66-9b51-489c-bd9f-515f95e980c4/Screenshot2025-09-16at4.02.16PM2.png?rect=0%2C0%2C809%2C940&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=697\"\n                 \n>\n                                                                \n                                        \n        \n        \n        \n        \n        \n            </div>\n            <figcaption>\n                                        <div class=\" f-caption\"><p>Follower of Giovanni di Niccolò de Luteri (Dosso Dossi) Bust-Length Portrait of a Man, 16th century.</p></div>\n                                </figcaption>\n    </figure>\n\n</div>\n\n</div>\n\n<div\n    id=\"2050769\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 2rem; padding-right: 2rem; flex-direction: row; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap\"\n>\n    <div\n    id=\"2050770\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; flex-direction: row; justify-content: center; align-items: center; flex-wrap: nowrap; width: 60%\"\n>\n    <figure data-type=\"image\" data-title=\"\" class=\"m-media m-media--s m-media--contain o-blocks__block\">\n    <div\n        class=\"m-media__img m-media__img--alt-background\"\n                        data-behavior=\"fitText \"\n        data-platform=\"\"\n                                            >\n                                                <img\n    alt=\"\"\n    class=\"  \"\n            src=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format&amp;q=1&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=750&amp;h=730&amp;blur=1200&amp;sat=20\"\n                data-srcset=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=300&amp;h=292 300w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584 600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=800&amp;h=778 800w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1200&amp;h=1167 1200w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=1600&amp;h=1557 1600w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=2000&amp;h=1946 2000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=3000&amp;h=2919 3000w, https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=4500&amp;h=4378 4500w\"\n        sizes=\"(min-width: 1640px) 724px, (min-width: 1200px) 43.75vw, (min-width: 900px) 59.38vw, (min-width: 600px) 90.63vw,  90.63vw\"\n    width=\"1918\"\n    height=\"1866\"\n                data-pin-media=\"https://artic-web-test.imgix.net/00e96fc0-cef1-407b-9608-1fcdda60c5c7/0788f894f9d97f5eccfb7b64627a563fe48756de.png?rect=0%2C0%2C1918%2C1866&amp;auto=format%2Ccompress&amp;q=80&amp;fit=crop&amp;crop=faces%2Ccenter&amp;w=600&amp;h=584\"\n                 \n>\n                                                                          <div class=\"m-media__contain--spacer\" style=\"--aspect-ratio: 97.288842544317%; padding-bottom: var(--aspect-ratio); width: 100%;\"></div>\n        \n                                        \n        \n        \n        \n        \n        \n            </div>\n    </figure>\n\n</div>\n<div\n    id=\"2050772\"\n    class=\"o-blocks o-layout_block \"\n    style=\"max-height: 100%; height: 100%; display: flex; gap: 1rem; padding-bottom: 2rem; flex-direction: column; justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap; width: 40%\"\n>\n    <div class=\"paragraph-wrapper\">\n    <h2 id=\"mail-sleeves\">Mail Sleeves</h2><p>These sleeves were tailored and sewn to the padded undergarment or doublet. When a soldier raised his arm his armpit was exposed. Mail was the ideal flexible armor for this vulnerable area. These brass rings in the center of the armpit are believed to be talismanic, meant to ward off attacks from soldiers below.<br class=\"softbreak\"></p>\n\n</div>\n\n</div>\n\n</div>\n\n"
+    },
+    {
+      "id": 2050794,
+      "type": "explorer_model",
+      "position": 2,
+      "content": {
+        "label": "Background",
+        "modelType": "2d",
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 2.68,
+        "coordinate": "[-2, 0, 0]"
+      },
+      "modelType": "2d",
+      "modelUrl": "https://artic-web-test.imgix.net/a50184cd-0142-4d11-9d68-066cc3b3f8f9/grey-gradient-background-1920-x-1080-nhkxn5fc39z7npkn.jpg?auto=compress%2Cformat&fit=min&q=80&rect=0%2C0%2C1920%2C1080"
     }
   ],
-  "timestamps": {
-    "created": "2026-03-25T16:45:13+00:00",
-    "updated": "2026-03-25T16:45:13+00:00"
+  "annotations": [],
+  "settings": {
+    "debug": false,
+    "brailleButton": true,
+    "builderEnabled": true,
+    "enableCustomBounds": true,
+    "customBounds": [
+      0,
+      0.3,
+      0.5
+    ],
+    "customBoundsOffset": [
+      0,
+      0.07,
+      0
+    ],
+    "zoomLimits": [
+      0.5,
+      2
+    ],
+    "deactivateForcefield": false,
+    "sceneSettings": {
+      "antialiasing": false,
+      "shadows": false
+    },
+    "toneMapping": "ACESFilmicToneMapping",
+    "colorSpace": "SRGB",
+    "backgroundColor": "#1a1a1a",
+    "environmentPreset": null,
+    "toneMappingExposure": 1,
+    "orbitControls": {
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "makeDefault": true
+    },
+    "camera": {
+      "position": [
+        2,
+        0,
+        0
+      ],
+      "fov": 15,
+      "near": 0.1,
+      "far": 10
+    }
   }
 }
