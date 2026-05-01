@@ -959,14 +959,22 @@ export class AnnotationManager {
       this.camera.getWorldPosition(cameraPosition);
 
       const sceneObjects = [];
+      const parentModel = annotation.parentModel;
       this.scene.traverse((obj) => {
         if (obj.isMesh) {
-          let isAnnotationPart = false;
+          // Skip debug helpers
+          if (obj.name === 'customBoundsHelper') return;
+
+          let isExcluded = false;
           obj.traverseAncestors((ancestor) => {
+            // Exclude annotation group meshes
             if (this.annotations.some((a) => a.group === ancestor))
-              isAnnotationPart = true;
+              isExcluded = true;
+            // Exclude parent model meshes so child annotations aren't self-occluded
+            if (parentModel && ancestor === parentModel)
+              isExcluded = true;
           });
-          if (!isAnnotationPart) sceneObjects.push(obj);
+          if (!isExcluded) sceneObjects.push(obj);
         }
       });
 
