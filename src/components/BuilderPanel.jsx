@@ -1,21 +1,124 @@
 import React, { useState, useEffect } from 'react';
+import * as THREE from 'three';
 
 export default function BuilderPanel({
   modelsData,
+  lightsData,
   annotationsData,
   annotationManagerRef,
+  settingsData,
+  poiCenterRef,
+  isSceneReady,
+  maxPanDistRef,
+  defaultPanDistRef,
+  defaultZoomLimitsRef,
+  zoomLimitsRef,
+  isCustomBoundsEnabledRef,
+  customBoundsOffsetRef,
+  deactivateForcefieldRef,
   scene,
+  renderer,
+  camera,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  modelsLoaded
 }) {
-  const [data, setData] = useState({ models: [], annotations: [] }); // Local state mapping
+  const [data, setData] = useState({ models: [], lights: [], annotations: [], settings: {} }); // Local state mapping
 
   useEffect(() => {
     setData({
       models: JSON.parse(JSON.stringify(modelsData || [])),
-      annotations: JSON.parse(JSON.stringify(annotationsData || []))
+      lights: JSON.parse(JSON.stringify(lightsData || [])),
+      annotations: JSON.parse(JSON.stringify(annotationsData || [])),
+      settings: JSON.parse(JSON.stringify(settingsData || {}))
     });
-  }, [modelsData, annotationsData]);
+  }, [modelsData, lightsData, annotationsData, settingsData]);
+
+  useEffect(() => {
+      if (deactivateForcefieldRef) {
+          deactivateForcefieldRef.current = data.settings?.deactivateForcefield || false;
+      }
+  }, [data.settings?.deactivateForcefield, deactivateForcefieldRef]);
+
+  const getVal = (val, def) => (val !== undefined && val !== "" && !isNaN(parseFloat(val))) ? parseFloat(val) : def;
+
+  // Re-establishing Native WebGL Sprite to avoid perspective shearing mathematically disconnected from the DOM
+  useEffect(() => {
+     if (!scene) return;
+     let helper = scene.getObjectByName('customBoundsHelper');
+      if (isOpen && data.settings?.enableCustomBounds) {
+          if (!helper || helper.type !== 'Mesh') {
+              if (helper) {
+                  scene.remove(helper);
+                  if (helper.geometry) helper.geometry.dispose();
+                  if (helper.material) helper.material.dispose();
+              }
+              const geo = new THREE.BoxGeometry(1, 1, 1);
+              const mat = new THREE.MeshBasicMaterial({
+                  color: 0xff0000,
+                  wireframe: true,
+                  depthTest: false,
+                  transparent: true,
+                  opacity: 0.5
+              });
+              const newHelper = new THREE.Mesh(geo, mat);
+              newHelper.renderOrder = 999;
+              newHelper.name = 'customBoundsHelper';
+
+              scene.add(newHelper);
+              helper = newHelper;
+          }
+
+          const bounds = data.settings.customBounds || [];
+          const defLimits = defaultPanDistRef?.current || [500, 500, 10];
+          const w = getVal(bounds[0], defLimits[0] * 2);
+          const h = getVal(bounds[1], defLimits[1] * 2);
+          const d = getVal(bounds[2], defLimits[2] * 2);
+
+          const offset = data.settings.customBoundsOffset || [0, 0, 0];
+          const offX = getVal(offset[0], 0);
+          const offY = getVal(offset[1], 0);
+          const offZ = getVal(offset[2], 0);
+
+          let cx = offX;
+          let cy = offY;
+          let cz = offZ;
+
+          if (poiCenterRef && poiCenterRef.current) {
+               cx += poiCenterRef.current.x;
+               cy += poiCenterRef.current.y;
+               cz += poiCenterRef.current.z;
+          } else if (data.models[0]) {
+               let pos = [0,0,0];
+               try { pos = Array.isArray(data.models[0].content?.position) ? data.models[0].content.position : JSON.parse(data.models[0].content?.position || "[0,0,0]"); } catch(e) {}
+               cx += pos[0];
+               cy += pos[1];
+               cz += pos[2];
+          }
+
+          // Map helper dimensions using accurate mathematical volumes (Z defaults to 0.001 minimum)
+          helper.scale.set(w, h, Math.max(0.001, d));
+          helper.position.set(cx, cy, cz);
+     } else {
+         if (helper) {
+             scene.remove(helper);
+             helper.geometry.dispose();
+             helper.material.dispose();
+         }
+     }
+  }, [data.settings, scene, data.models, isOpen, modelsLoaded]);
+
+  useEffect(() => {
+    return () => {
+        if (!scene) return;
+        const helper = scene.getObjectByName('customBoundsHelper');
+        if (helper) {
+            scene.remove(helper);
+            helper.geometry.dispose();
+            helper.material.dispose();
+        }
+    };
+  }, [scene]);
 
   const styleBlock = (
     <style>{`
@@ -92,7 +195,7 @@ export default function BuilderPanel({
         gap: 20px;
       }
 
-      .builder-section-header {
+      .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -202,6 +305,22 @@ export default function BuilderPanel({
 
       .builder-action-btn:hover {
         background: #444;
+      }
+
+      .builder-save {
+        width: 100%;
+        background: #ffffffaa;
+        color: #333;
+        border: 1px solid #333;
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        box-sizing: border-box;
+      }
+
+      .builder-save:hover {
+        background: #e5e5e5;
       }
     `}</style>
   );
@@ -333,7 +452,7 @@ export default function BuilderPanel({
           }
           if (ann.group) {
               // Add a slight bounce scale modifier to the actual root group for emphasis
-              // const activeScale = newProps.isFocused ? 1.5 : 1.0;
+              const activeScale = newProps.isFocused ? 1.5 : 1.0;
               if (ann.group.parent && ann.group.parent.scale) {
                   const parentScale = ann.group.parent.scale;
                   ann.group.scale.set(
@@ -359,20 +478,33 @@ export default function BuilderPanel({
   const handleModelChange = (id, type, axis, value) => {
     setData((prev) => {
       const next = { ...prev };
+      next.models = [...prev.models];
       const modelIndex = next.models.findIndex(m => m.id === id);
       if (modelIndex === -1) return next;
 
-      const model = next.models[modelIndex];
-      if (!model.content) model.content = {};
+      const model = { ...next.models[modelIndex] };
+      model.content = { ...model.content };
+      next.models[modelIndex] = model;
 
-      let numVal = parseFloat(value) || 0;
+      let numVal = value === '' || value === '-' || value.endsWith('.') 
+                   ? value 
+                   : (parseFloat(value) || 0);
 
       // Ensure properties exist
       if (!model.content.position) model.content.position = [0, 0, 0];
       if (!model.content.rotation) model.content.rotation = [0, 0, 0];
 
       if (type === 'position') {
-        const arr = [...model.content.position];
+        const arr = Array.isArray(model.content.position) 
+          ? [...model.content.position] 
+          : [0, 0, 0];
+          
+        if(typeof model.content.position === 'string') {
+            try {
+                const parsed = JSON.parse(model.content.position);
+                if (Array.isArray(parsed)) arr.splice(0, 3, ...parsed);
+            } catch(e) {}
+        }
         arr[axis] = numVal;
         model.content.position = arr;
         model.content.coordinate = `[${arr.join(', ')}]`;
@@ -409,35 +541,148 @@ export default function BuilderPanel({
     });
   };
 
+  const handleSettingChange = (key, value) => {
+    setData((prev) => {
+      const next = { ...prev };
+      next.settings = prev.settings ? { ...prev.settings } : {};
+      next.settings[key] = value;
+
+      if (key === 'enableCustomBounds' && maxPanDistRef && defaultPanDistRef) {
+          if (isCustomBoundsEnabledRef) isCustomBoundsEnabledRef.current = value;
+
+          if (value) {
+              if (!next.settings.customBounds) {
+                  next.settings.customBounds = [
+                      defaultPanDistRef.current[0] * 2,
+                      defaultPanDistRef.current[1] * 2,
+                      defaultPanDistRef.current[2] * 2
+                  ];
+              }
+              if (!next.settings.customBoundsOffset) {
+                  next.settings.customBoundsOffset = [0, 0, 0];
+              }
+              if (!next.settings.zoomLimits && defaultZoomLimitsRef?.current) {
+                  next.settings.zoomLimits = [
+                      defaultZoomLimitsRef.current.min || 0,
+                      defaultZoomLimitsRef.current.max || 0
+                  ];
+              }
+
+              maxPanDistRef.current = [
+                  getVal(next.settings.customBounds[0], defaultPanDistRef.current[0] * 2) / 2,
+                  getVal(next.settings.customBounds[1], defaultPanDistRef.current[1] * 2) / 2,
+                  getVal(next.settings.customBounds[2], defaultPanDistRef.current[2] * 2) / 2
+              ];
+          } else {
+               maxPanDistRef.current = defaultPanDistRef.current;
+          }
+      }
+      return next;
+    });
+  };
+
+  const handleSettingChangeArray = (key, index, value) => {
+    setData((prev) => {
+      const next = { ...prev };
+      next.settings = prev.settings ? { ...prev.settings } : {};
+      let defaultArr = [0, 0, 0];
+      if (key === 'customBounds') {
+          defaultArr = [
+              defaultPanDistRef?.current ? (defaultPanDistRef.current[0] * 2) : 1,
+              defaultPanDistRef?.current ? (defaultPanDistRef.current[1] * 2) : 1,
+              defaultPanDistRef?.current ? (defaultPanDistRef.current[2] * 2) : 1
+          ];
+      } else if (key === 'zoomLimits') {
+          defaultArr = [0, 100];
+      }
+
+      const arr = next.settings[key] ? [...next.settings[key]] : defaultArr;
+      arr[index] = parseFloat(value) || 0;
+      next.settings[key] = arr;
+
+      if (key === 'customBounds' && maxPanDistRef && defaultPanDistRef) {
+          const w = getVal(arr[0], defaultPanDistRef.current[0] * 2);
+          const h = getVal(arr[1], defaultPanDistRef.current[1] * 2);
+          const d = getVal(arr[2], defaultPanDistRef.current[2] * 2);
+          maxPanDistRef.current = [w/2, h/2, d/2];
+      }
+
+      if (key === 'zoomLimits' && zoomLimitsRef) {
+          zoomLimitsRef.current = {
+              min: arr[0] || 0,
+              max: arr[1] > 0 ? arr[1] : Infinity
+          };
+      }
+
+      if (key === 'customBoundsOffset' && customBoundsOffsetRef) {
+          customBoundsOffsetRef.current = [arr[0] || 0, arr[1] || 0, arr[2] || 0];
+      }
+
+      return next;
+    });
+  };
+
   const handleAnnotationChange = (id, type, axis, value) => {
       setData((prev) => {
           const next = { ...prev };
+          next.annotations = [...prev.annotations];
+          next.models = prev.models.map(m => ({
+              ...m,
+              children: m.children ? [...m.children] : undefined
+          }));
+          
           let ann = next.annotations.find(a => a.id === id);
-
-          if (!ann) {
+          if (ann) {
+             const idx = next.annotations.indexOf(ann);
+             ann = { ...ann, content: { ...(ann.content || {}) } };
+             next.annotations[idx] = ann;
+          } else {
               for (const model of next.models) {
                   if (model.children) {
-                      ann = model.children.find(c => c.id === id);
-                      if (ann) break;
+                      const idx = model.children.findIndex(c => c.id === id);
+                      if (idx !== -1) {
+                          ann = { ...model.children[idx], content: { ...(model.children[idx].content || {}) } };
+                          model.children[idx] = ann;
+                          break;
+                      }
                   }
               }
           }
 
           if (!ann) return next;
 
-          if (!ann.content) ann.content = {};
-
-          let numVal = parseFloat(value) || 0;
+          let numVal = value === '' || value === '-' || value.endsWith('.') 
+                       ? value 
+                       : (parseFloat(value) || 0);
           if (!ann.content.position) ann.content.position = [0, 0, 0];
 
           if (type === 'position') {
-              const arr = [...ann.content.position];
+              const arr = Array.isArray(ann.content.position) 
+                ? [...ann.content.position] 
+                : [0, 0, 0];
+                
+              if(typeof ann.content.position === 'string') {
+                  try {
+                      const parsed = JSON.parse(ann.content.position);
+                      if (Array.isArray(parsed)) arr.splice(0, 3, ...parsed);
+                  } catch(e) {}
+              }
               arr[axis] = numVal;
               ann.content.position = arr;
               ann.content.coordinate = `[${arr.join(', ')}]`;
           } else if (type === 'scale') {
               ann.content.scale = numVal;
               ann.content.annotationSize = numVal;
+          } else if (type === 'annotationZoom') {
+              const zoomVal = parseFloat(value) || 0;
+              ann.content.annotationZoom = zoomVal;
+              // Sync to AnnotationManager's internal data
+              if (annotationManagerRef?.current) {
+                  const managerAnn = annotationManagerRef.current.annotations.find(a => a.data?.id === id);
+                  if (managerAnn && managerAnn.data?.content) {
+                      managerAnn.data.content.annotationZoom = zoomVal;
+                  }
+              }
           } else if (type === 'label') {
               ann.content.label = value;
               ann.content.labelText = value;
@@ -451,6 +696,11 @@ export default function BuilderPanel({
   const handleAnnotationParentChange = (id, newParentId) => {
       setData((prev) => {
           const next = { ...prev };
+          next.annotations = [...prev.annotations];
+          next.models = prev.models.map(m => ({
+              ...m,
+              children: m.children ? [...m.children] : undefined
+          }));
 
           let targetAnn = null;
 
@@ -494,13 +744,11 @@ export default function BuilderPanel({
   const handleDeleteAnnotation = (id) => {
       setData((prev) => {
           const next = { ...prev };
-          next.annotations = next.annotations.filter(a => a.id !== id);
-          next.models = next.models.map(model => {
-              if (model.children) {
-                  model.children = model.children.filter(c => c.id !== id);
-              }
-              return model;
-          });
+          next.annotations = prev.annotations.filter(a => a.id !== id);
+          next.models = prev.models.map(model => ({
+              ...model,
+              children: model.children ? model.children.filter(c => c.id !== id) : undefined
+          }));
           return next;
       });
 
@@ -529,13 +777,208 @@ export default function BuilderPanel({
 
       setData((prev) => {
           const next = { ...prev };
-          next.annotations.push(newAnn);
+          next.annotations = [...prev.annotations, newAnn];
           return next;
       });
 
       if (annotationManagerRef && annotationManagerRef.current) {
           annotationManagerRef.current.addAnnotation(newAnn);
       }
+  };
+
+  // --- Light management ---
+  const has3DModels = data.models.some(m => (m.modelType || m.content?.modelType) !== '2d');
+
+  const updateThreeJSLight = (index, newProps) => {
+      if (!scene) return;
+      // Lights are direct children of scene — collect them in order
+      const sceneLights = [];
+      scene.children.forEach(child => {
+          if (child.isLight) sceneLights.push(child);
+      });
+      const light = sceneLights[index];
+      if (!light) return;
+
+      if (newProps.position && light.position) {
+          light.position.set(newProps.position[0], newProps.position[1], newProps.position[2]);
+      }
+      if (newProps.intensity !== undefined) light.intensity = newProps.intensity;
+      if (newProps.color !== undefined) light.color.set(newProps.color);
+      if (newProps.castShadow !== undefined && light.shadow) light.castShadow = newProps.castShadow;
+      if (newProps.angle !== undefined && light.angle !== undefined) light.angle = newProps.angle;
+      if (newProps.penumbra !== undefined && light.penumbra !== undefined) light.penumbra = newProps.penumbra;
+  };
+
+  const handleLightChange = (index, key, value) => {
+      setData((prev) => {
+          const next = { ...prev };
+          next.lights = [...prev.lights];
+          const light = { ...next.lights[index], content: { ...(next.lights[index]?.content || {}) } };
+          next.lights[index] = light;
+
+          if (key === 'lightType') {
+              light.content.lightType = value;
+              // Swap light type in scene
+              if (scene) {
+                  const sceneLights = [];
+                  scene.children.forEach(child => { if (child.isLight) sceneLights.push(child); });
+                  const oldLight = sceneLights[index];
+                  if (oldLight) {
+                      const pos = oldLight.position.clone();
+                      const color = '#' + oldLight.color.getHexString();
+                      const intensity = oldLight.intensity;
+                      scene.remove(oldLight);
+                      if (oldLight.dispose) oldLight.dispose();
+
+                      let newLight;
+                      switch (value) {
+                          case 'directional':
+                              newLight = new THREE.DirectionalLight(color, intensity);
+                              newLight.position.copy(pos);
+                              break;
+                          case 'point':
+                              newLight = new THREE.PointLight(color, intensity);
+                              newLight.position.copy(pos);
+                              break;
+                          case 'spot':
+                              newLight = new THREE.SpotLight(color, intensity);
+                              newLight.position.copy(pos);
+                              newLight.angle = light.content.angle || Math.PI / 4;
+                              newLight.penumbra = light.content.penumbra || 0.1;
+                              break;
+                          case 'ambient':
+                          default:
+                              newLight = new THREE.AmbientLight(color, intensity);
+                              break;
+                      }
+                      scene.add(newLight);
+                  }
+              }
+          } else if (key === 'intensity') {
+              const numVal = parseFloat(value) || 0;
+              light.content.intensity = numVal;
+              updateThreeJSLight(index, { intensity: numVal });
+          } else if (key === 'color') {
+              light.content.color = value;
+              updateThreeJSLight(index, { color: value });
+          } else if (key === 'castShadow') {
+              light.content.castShadow = value;
+              updateThreeJSLight(index, { castShadow: value });
+          } else if (key === 'angle') {
+              const numVal = parseFloat(value) || 0;
+              light.content.angle = numVal;
+              updateThreeJSLight(index, { angle: numVal });
+          } else if (key === 'penumbra') {
+              const numVal = parseFloat(value) || 0;
+              light.content.penumbra = numVal;
+              updateThreeJSLight(index, { penumbra: numVal });
+          }
+
+          return next;
+      });
+  };
+
+  const handleLightPositionChange = (index, axis, value) => {
+      setData((prev) => {
+          const next = { ...prev };
+          next.lights = [...prev.lights];
+          const light = { ...next.lights[index], content: { ...(next.lights[index]?.content || {}) } };
+          next.lights[index] = light;
+
+          if (!light.content.position) light.content.position = [0, 0, 0];
+          const arr = Array.isArray(light.content.position) ? [...light.content.position] : [0, 0, 0];
+          arr[axis] = parseFloat(value) || 0;
+          light.content.position = arr;
+
+          updateThreeJSLight(index, { position: arr });
+          return next;
+      });
+  };
+
+  const handleAddLight = () => {
+      const newLight = {
+          id: `light-${Date.now()}`,
+          type: 'explorer_light',
+          content: {
+              lightType: 'point',
+              position: [5, 5, 5],
+              intensity: 1,
+              color: '#ffffff'
+          }
+      };
+
+      setData((prev) => {
+          const next = { ...prev };
+          next.lights = [...prev.lights, newLight];
+          return next;
+      });
+
+      if (scene) {
+          const light = new THREE.PointLight('#ffffff', 1);
+          light.position.set(5, 5, 5);
+          scene.add(light);
+      }
+  };
+
+  const handleDeleteLight = (index) => {
+      if (scene) {
+          const sceneLights = [];
+          scene.children.forEach(child => { if (child.isLight) sceneLights.push(child); });
+          const target = sceneLights[index];
+          if (target) {
+              scene.remove(target);
+              if (target.dispose) target.dispose();
+          }
+      }
+
+      setData((prev) => {
+          const next = { ...prev };
+          next.lights = prev.lights.filter((_, i) => i !== index);
+          return next;
+      });
+  };
+
+  const handleSceneSettingChange = (key, value) => {
+      setData((prev) => {
+          const next = { ...prev };
+          next.settings = { ...prev.settings };
+          if (!next.settings.sceneSettings) next.settings.sceneSettings = {};
+          next.settings.sceneSettings = { ...next.settings.sceneSettings, [key]: value };
+
+          // Live updates to renderer
+          if (renderer) {
+              if (key === 'shadows') {
+                  renderer.shadowMap.enabled = value;
+                  renderer.shadowMap.needsUpdate = true;
+              }
+          }
+          return next;
+      });
+  };
+
+  const handleToneMappingChange = (key, value) => {
+      setData((prev) => {
+          const next = { ...prev };
+          next.settings = { ...prev.settings, [key]: value };
+
+          if (renderer) {
+              if (key === 'toneMapping') {
+                  const mappings = {
+                      'NoToneMapping': THREE.NoToneMapping,
+                      'LinearToneMapping': THREE.LinearToneMapping,
+                      'ReinhardToneMapping': THREE.ReinhardToneMapping,
+                      'CineonToneMapping': THREE.CineonToneMapping,
+                      'ACESFilmicToneMapping': THREE.ACESFilmicToneMapping,
+                      'AgXToneMapping': THREE.AgXToneMapping,
+                      'NeutralToneMapping': THREE.NeutralToneMapping
+                  };
+                  renderer.toneMapping = mappings[value] || THREE.NoToneMapping;
+              } else if (key === 'toneMappingExposure') {
+                  renderer.toneMappingExposure = parseFloat(value) || 1;
+              }
+          }
+          return next;
+      });
   };
 
   const getArrayVal = (field, arrIndex) => {
@@ -547,6 +990,29 @@ export default function BuilderPanel({
           } catch (e) {
              return 0;
           }
+      }
+      return 0;
+  };
+
+  const getArrayValWithFallback = (field, arrIndex, fallbackArr) => {
+      let val = getArrayVal(field, arrIndex);
+      if (val !== 0) return val; // Wait, 0 might be a valid override!
+
+      // Let's specifically check if the field exists at all before falling back
+      let isDefined = false;
+      if (Array.isArray(field) && field[arrIndex] !== undefined && field[arrIndex] !== null) isDefined = true;
+      else if (typeof field === 'string') {
+          try {
+              const p = JSON.parse(field);
+              if (Array.isArray(p) && p[arrIndex] !== undefined && p[arrIndex] !== null) isDefined = true;
+          } catch(e) {}
+      }
+
+      if (isDefined) return val;
+
+      if (Array.isArray(fallbackArr) && fallbackArr[arrIndex] !== undefined) {
+          // Prevent displaying infinite if it doesn't make sense in UI inputs
+          return fallbackArr[arrIndex] === Infinity ? '' : fallbackArr[arrIndex];
       }
       return 0;
   };
