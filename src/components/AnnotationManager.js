@@ -20,6 +20,8 @@ export class AnnotationManager {
       startTarget: new THREE.Vector3(),
       endPosition: new THREE.Vector3(),
       endTarget: new THREE.Vector3(),
+      startFov: null,
+      endFov: null,
       progress: 0,
       duration: 1000,
       startTime: 0,
@@ -118,6 +120,12 @@ export class AnnotationManager {
       eased
     );
 
+    // FOV tween
+    if (this.cameraAnimation.startFov !== null && this.cameraAnimation.endFov !== null) {
+      this.camera.fov = this.cameraAnimation.startFov + (this.cameraAnimation.endFov - this.cameraAnimation.startFov) * eased;
+      this.camera.updateProjectionMatrix();
+    }
+
     if (this.cameraAnimation.controls) {
       this.cameraAnimation.controls.target.lerpVectors(
         this.cameraAnimation.startTarget,
@@ -129,19 +137,28 @@ export class AnnotationManager {
 
     if (progress >= 1) {
       this.cameraAnimation.active = false;
+      this.cameraAnimation.startFov = null;
+      this.cameraAnimation.endFov = null;
     }
   }
 
-  calculateAnnotationCameraPosition(annotation) {
+  calculateAnnotationCameraPosition(annotation, targetFov = null) {
     const annotationPos = new THREE.Vector3();
     annotation.group.getWorldPosition(annotationPos);
+
+    // Temporarily apply target FOV so projection math is correct for the end state
+    const originalFov = this.camera.fov;
+    if (targetFov !== null) {
+      this.camera.fov = targetFov;
+      this.camera.updateProjectionMatrix();
+    }
 
     const canvas = this.domElement;
     const canvasWidth = canvas.clientWidth;
     const canvasHeight = canvas.clientHeight;
 
     const targetX = canvasWidth * 0.12;
-    const targetY = canvasHeight * 0.132;
+    const targetY = canvasHeight * 0.12;
 
     const targetNDC = new THREE.Vector3(
       (targetX / canvasWidth) * 2 - 1,
@@ -161,6 +178,12 @@ export class AnnotationManager {
       : annotationPos.clone();
 
     const newTarget = currentTarget.clone().sub(worldOffset);
+
+    // Restore original FOV
+    if (targetFov !== null) {
+      this.camera.fov = originalFov;
+      this.camera.updateProjectionMatrix();
+    }
 
     return {
       position: newCameraPos,
@@ -220,16 +243,6 @@ export class AnnotationManager {
     } else {
       this.domElement.style.cursor = "default";
     }
-
-    this.annotations.forEach((annotation) => {
-      if (annotation.circle && annotation.circle.userData.sprite) {
-        const currentScale = annotation.circle.userData.sprite.scale.x;
-        const targetScale =
-          annotation.circle.userData.targetScale || annotation.size;
-        const newScale = currentScale + (targetScale - currentScale) * 0.1;
-        annotation.circle.userData.sprite.scale.set(newScale, newScale, 1);
-      }
-    });
   }
 
   onPointerDown(event) {
@@ -294,6 +307,12 @@ export class AnnotationManager {
         this.cameraAnimation.startTarget.copy(
           this.cameraAnimation.controls.target
         );
+
+        // Restore original FOV
+        if (annotation.userData?.originalFov) {
+          this.cameraAnimation.startFov = this.camera.fov;
+          this.cameraAnimation.endFov = annotation.userData.originalFov;
+        }
 
         if (annotation.userData && annotation.userData.orbitPosition) {
           this.cameraAnimation.endPosition.copy(
@@ -363,9 +382,14 @@ export class AnnotationManager {
         annotation.userData.orbitPosition = this.camera.position.clone();
         annotation.userData.orbitTarget =
           this.cameraAnimation.controls.target.clone();
+        annotation.userData.originalFov = this.camera.fov;
       }
 
-      const newCameraData = this.calculateAnnotationCameraPosition(annotation);
+      // Determine target FOV
+      const annotationZoom = parseFloat(annotation.data?.content?.annotationZoom);
+      const targetFov = (annotationZoom && annotationZoom > 0) ? annotationZoom : null;
+
+      const newCameraData = this.calculateAnnotationCameraPosition(annotation, targetFov);
 
       if (this.cameraAnimation.controls) {
         this.cameraAnimation.active = true;
@@ -377,6 +401,15 @@ export class AnnotationManager {
         this.cameraAnimation.endPosition.copy(newCameraData.position);
         this.cameraAnimation.endTarget.copy(newCameraData.target);
         this.cameraAnimation.controls.enabled = false;
+
+        // FOV tween
+        if (targetFov !== null) {
+          this.cameraAnimation.startFov = this.camera.fov;
+          this.cameraAnimation.endFov = targetFov;
+        } else {
+          this.cameraAnimation.startFov = null;
+          this.cameraAnimation.endFov = null;
+        }
 
         setTimeout(() => {
           this.isToggling = false;
@@ -902,6 +935,7 @@ export class AnnotationManager {
       colorString: colorString,
       size: size,
       isActive: false,
+      parentModel: parentGroup || null,
     };
 
     focusAnchor.addEventListener("click", () =>
