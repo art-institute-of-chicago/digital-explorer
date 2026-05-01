@@ -5,10 +5,18 @@ import * as THREE from 'three';
  * Handles both array [x, y, z] and object {x, y, z} formats
  */
 export function toVector3Array(value, defaultValue = [0, 0, 0]) {
-  if (!value) return defaultValue;
+  if (value === undefined || value === null) return defaultValue;
+  if (typeof value === 'number') return [value, value, value];
   if (Array.isArray(value)) return value;
   if (typeof value === 'object' && 'x' in value) {
     return [value.x || 0, value.y || 0, value.z || 0];
+  }
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) return parsed;
+      if (typeof parsed === 'number') return [parsed, parsed, parsed];
+    } catch(e) {}
   }
   return defaultValue;
 }
