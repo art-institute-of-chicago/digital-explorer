@@ -5,7 +5,7 @@ export default function TimeoutScreen({
   onResume,
   onReset,
   rippleConfig = null,
-  timeoutDuration = 15
+  timeoutDuration = 15,
 }) {
   const canvasRef = useRef(null);
   const buttonRef = useRef(null);
@@ -193,7 +193,7 @@ export default function TimeoutScreen({
           id="timeout-heading"
           style={{
             fontSize: "6.5rem",
-            fontFamily: "'Sabon Next LT Pro', serif",
+            fontFamily: "'Sabon', serif",
             margin: 0,
             fontWeight: "400",
             letterSpacing: "-0.01em",

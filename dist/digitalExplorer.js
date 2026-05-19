@@ -45,7 +45,7 @@ function Zt(m, t, A, e, n, i) {
     const B = jt();
     B ? (r(B), console.log("✨ Explorer data successfully loaded:")) : console.warn("No explorer data found, falling back to props"), a(!1);
   }, []);
-  const f = o?.models || m || [], l = o?.lights || t || [], d = o?.annotations || A || [], h = o?.settings || e || {}, b = o?.title_data || o?.titleData || n || null, C = o?.info_card_data || i || null;
+  const f = o?.models || m || [], l = o?.lights || t || [], d = o?.annotations || A || [], h = o?.settings || e || {}, b = o?.title_data || n || null, C = o?.info_card_data || i || null;
   return {
     models: f,
     lights: l,
@@ -2569,7 +2569,9 @@ function yn({
   }, [t, A]), aA(() => {
     if (t) {
       if (o.current?.focus(), e) {
-        const f = s(m?.info_title || "Digital Explorer"), l = s(m?.info_description || ""), d = `${f}. ${l}`;
+        const f = s(
+          m?.info_title || "Digital Explorer"
+        ), l = s(m?.info_description || ""), d = `${f}. ${l}`;
         r.current.cancel();
         const h = new SpeechSynthesisUtterance(d);
         n && (h.voice = n), h.rate = 0.9, h.pitch = 1, window._latestInfoUtterance = h, r.current.speak(h);
@@ -2581,12 +2583,68 @@ function yn({
     };
   }, [t, m, e, n]);
   const a = {
-    container: { position: "absolute", top: "0", left: "0", zIndex: 20, pointerEvents: "none", width: "100%", height: "100%" },
-    baseButton: { position: "absolute", top: "35px", left: "35px", width: "50px", height: "50px", backgroundColor: "#f6f6f6", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", border: "none", zIndex: 30, pointerEvents: "auto" },
-    card: { position: "absolute", top: "60px", left: "60px", backgroundColor: "#282829", color: "white", maxWidth: "27.5%", minWidth: "450px", padding: "60px 50px", display: "flex", flexDirection: "column", pointerEvents: "auto", textAlign: "left", outline: "none" },
-    title: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: "3rem", margin: 0, fontWeight: "400", lineHeight: "1.1" },
-    description: { fontFamily: "'Sabon Next LT Pro', serif", fontSize: "1.4rem", lineHeight: "130%", marginTop: "1.5rem", opacity: "0.9" },
-    metadata: { color: "#f6f6f6", marginTop: "4rem", fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif', fontSize: "1rem", fontWeight: "500", lineHeight: "130%" }
+    container: {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      zIndex: 20,
+      pointerEvents: "none",
+      width: "100%",
+      height: "100%"
+    },
+    baseButton: {
+      position: "absolute",
+      top: "35px",
+      left: "35px",
+      width: "50px",
+      height: "50px",
+      backgroundColor: "#f6f6f6",
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      border: "none",
+      zIndex: 30,
+      pointerEvents: "auto"
+    },
+    card: {
+      position: "absolute",
+      top: "60px",
+      left: "60px",
+      backgroundColor: "#282829",
+      color: "white",
+      maxWidth: "27.5%",
+      minWidth: "450px",
+      padding: "60px 50px",
+      display: "flex",
+      flexDirection: "column",
+      pointerEvents: "auto",
+      textAlign: "left",
+      outline: "none"
+    },
+    title: {
+      fontFamily: "'Sabon', serif",
+      fontSize: "3rem",
+      margin: 0,
+      fontWeight: "400",
+      lineHeight: "1.1"
+    },
+    description: {
+      fontFamily: "'Sabon', serif",
+      fontSize: "1.4rem",
+      lineHeight: "130%",
+      marginTop: "1.5rem",
+      opacity: "0.9"
+    },
+    metadata: {
+      color: "#f6f6f6",
+      marginTop: "4rem",
+      fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+      fontSize: "1rem",
+      fontWeight: "500",
+      lineHeight: "130%"
+    }
   };
   return /* @__PURE__ */ g("div", { style: a.container, children: [
     /* @__PURE__ */ c(
@@ -2598,16 +2656,60 @@ function yn({
         "aria-expanded": t,
         "aria-controls": "info-card-content",
         "aria-label": t ? "Close information" : "Open information",
-        children: /* @__PURE__ */ c("img", { src: t ? Mn : bn, alt: "", style: { width: "100%" }, "aria-hidden": "true" })
+        children: /* @__PURE__ */ c(
+          "img",
+          {
+            src: t ? Mn : bn,
+            alt: "",
+            style: { width: "100%" },
+            "aria-hidden": "true"
+          }
+        )
       }
     ),
-    t && /* @__PURE__ */ g("section", { id: "info-card-content", ref: o, style: a.card, tabIndex: "-1", role: "dialog", "aria-labelledby": "info-title", children: [
-      /* @__PURE__ */ g("div", { children: [
-        /* @__PURE__ */ c("h2", { id: "info-title", style: a.title, dangerouslySetInnerHTML: { __html: m?.info_title || "Digital Explorer" } }),
-        /* @__PURE__ */ c("div", { style: a.description, dangerouslySetInnerHTML: { __html: m?.info_description || "" } })
-      ] }),
-      /* @__PURE__ */ c("div", { style: a.metadata, dangerouslySetInnerHTML: { __html: m?.info_credits || `Art Institute of Chicago | ${(/* @__PURE__ */ new Date()).getFullYear()}` } })
-    ] })
+    t && /* @__PURE__ */ g(
+      "section",
+      {
+        id: "info-card-content",
+        ref: o,
+        style: a.card,
+        tabIndex: "-1",
+        role: "dialog",
+        "aria-labelledby": "info-title",
+        children: [
+          /* @__PURE__ */ g("div", { children: [
+            /* @__PURE__ */ c(
+              "h2",
+              {
+                id: "info-title",
+                style: a.title,
+                dangerouslySetInnerHTML: {
+                  __html: m?.info_title || "Digital Explorer"
+                }
+              }
+            ),
+            /* @__PURE__ */ c(
+              "div",
+              {
+                style: a.description,
+                dangerouslySetInnerHTML: {
+                  __html: m?.info_description || ""
+                }
+              }
+            )
+          ] }),
+          /* @__PURE__ */ c(
+            "div",
+            {
+              style: a.metadata,
+              dangerouslySetInnerHTML: {
+                __html: m?.info_credits || `Art Institute of Chicago | ${(/* @__PURE__ */ new Date()).getFullYear()}`
+              }
+            }
+          )
+        ]
+      }
+    )
   ] });
 }
 function En({
@@ -2778,7 +2880,7 @@ function En({
                     letterSpacing: "-0.02em",
                     textShadow: "0 4px 24px rgba(0,0,0,0.5)",
                     maxWidth: "90vw",
-                    fontFamily: "'Sabon Next LT Pro'"
+                    fontFamily: "'Sabon'"
                   }
                 }
               ) : /* @__PURE__ */ c(
@@ -2791,7 +2893,7 @@ function En({
                     letterSpacing: "-0.02em",
                     textShadow: "0 4px 24px rgba(0,0,0,0.5)",
                     maxWidth: "90vw",
-                    fontFamily: "'Sabon Next LT Pro'"
+                    fontFamily: "'Sabon'"
                   },
                   children: h
                 }
@@ -2984,7 +3086,7 @@ function Cn({
                   id: "timeout-heading",
                   style: {
                     fontSize: "6.5rem",
-                    fontFamily: "'Sabon Next LT Pro', serif",
+                    fontFamily: "'Sabon', serif",
                     margin: 0,
                     fontWeight: "400",
                     letterSpacing: "-0.01em"

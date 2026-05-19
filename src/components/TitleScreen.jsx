@@ -256,7 +256,7 @@ export default function TitleScreen({
               letterSpacing: "-0.02em",
               textShadow: "0 4px 24px rgba(0,0,0,0.5)",
               maxWidth: "90vw",
-              fontFamily: "'Sabon Next LT Pro'",
+              fontFamily: "'Sabon'",
             }}
           />
         ) : (
@@ -268,7 +268,7 @@ export default function TitleScreen({
               letterSpacing: "-0.02em",
               textShadow: "0 4px 24px rgba(0,0,0,0.5)",
               maxWidth: "90vw",
-              fontFamily: "'Sabon Next LT Pro'",
+              fontFamily: "'Sabon'",
             }}
           >
             {title}
