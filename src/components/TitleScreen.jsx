@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import KennyBurns from "./KennyBurns";
 
 export default function TitleScreen({
   titleData,
@@ -11,8 +12,6 @@ export default function TitleScreen({
   const [isExiting, setIsExiting] = useState(false);
   const canvasRef = useRef(null);
   const animationIdRef = useRef(null);
-  const videoRef = useRef(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const title = titleData?.title || "Digital Explorer";
   const titleDisplay = titleData?.title_display || null;
@@ -180,43 +179,10 @@ export default function TitleScreen({
         pointerEvents: isExiting ? "none" : "auto",
       }}
     >
-      {titleMedia?.video ? (
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          aria-hidden="true"
-          onLoadedData={() => setVideoLoaded(true)}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: videoLoaded ? 1 : 0,
-            transition: "opacity 1s ease-in-out",
-          }}
-        >
-          <source src={titleMedia.video} type="video/mp4" />
-        </video>
-      ) : titleMedia ? (
-        <img
-          src={titleMedia}
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            backgroundColor: "#151515",
-          }}
-        />
+      {Array.isArray(titleMedia) && titleMedia.length > 0 ? (
+        <KennyBurns images={titleMedia.map(m => typeof m === 'string' ? m : (m?.src || ''))} />
+      ) : typeof titleMedia === "string" ? (
+        <KennyBurns images={[titleMedia]} />
       ) : null}
 
       <div
