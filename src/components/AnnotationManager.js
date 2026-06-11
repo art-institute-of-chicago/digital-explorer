@@ -823,12 +823,16 @@ export class AnnotationManager {
 
     overlay.backdropClickHandler = (e) => {
       if (e.target === overlay) {
-        if (overlay.annotationRef) {
+        if (overlay.annotationRef && !overlay._mousedownInsideContent) {
           this.toggleAnnotation(overlay.annotationRef);
         }
       }
     };
     overlay.addEventListener("click", overlay.backdropClickHandler);
+
+    overlay.addEventListener("mousedown", (e) => {
+      overlay._mousedownInsideContent = contentContainer.contains(e.target);
+    });
 
     return overlay;
   }
