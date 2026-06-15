@@ -623,7 +623,7 @@ class Gt {
         t.userData.orbitPosition
       ), this.cameraAnimation.endTarget.copy(t.userData.orbitTarget)), setTimeout(() => {
         this.cameraAnimation.controls && (this.cameraAnimation.controls.enabled = !0), this.isToggling = !1;
-      }, 200)) : this.isToggling = !1;
+      }, 1e3)) : this.isToggling = !1;
     else {
       this.onAnnotationToggle && this.onAnnotationToggle(!0);
       const n = t.data?.content?.labelText || "Unknown Annotation";
@@ -641,7 +641,7 @@ class Gt {
         this.cameraAnimation.controls.target
       ), this.cameraAnimation.endPosition.copy(s.position), this.cameraAnimation.endTarget.copy(s.target), this.cameraAnimation.controls.enabled = !1, r !== null ? (this.cameraAnimation.startFov = this.camera.fov, this.cameraAnimation.endFov = r) : (this.cameraAnimation.startFov = null, this.cameraAnimation.endFov = null), setTimeout(() => {
         this.isToggling = !1;
-      }, 200)) : this.isToggling = !1;
+      }, 1e3)) : this.isToggling = !1;
     }
   }
   createCSSClone(t) {
@@ -784,8 +784,10 @@ class Gt {
     return e.setAttribute("role", "dialog"), e.setAttribute("aria-modal", "true"), e.setAttribute("tabindex", "-1"), e.style.transition = "opacity 0.8s ease-in-out", e.style.position = "absolute", e.style.left = "12vw", e.style.top = "12vh", e.style.right = "3vw", e.style.bottom = "3vw", e.style.background = "#282829", e.style.color = "white", e.style.overflowY = "hidden", e.style.pointerEvents = "auto", e.style.zIndex = "10", e.style.opacity = "0", e.addEventListener("click", (n) => n.stopPropagation()), t.renderedHtml ? e.innerHTML = t.renderedHtml : t.children && t.children.length > 0 && (e.innerHTML = this.renderAnnotationContent(
       t.children
     )), A.appendChild(e), A.contentContainer = e, A.backdropClickHandler = (n) => {
-      n.target === A && A.annotationRef && this.toggleAnnotation(A.annotationRef);
-    }, A.addEventListener("click", A.backdropClickHandler), A;
+      n.target === A && A.annotationRef && !A._mousedownInsideContent && this.toggleAnnotation(A.annotationRef);
+    }, A.addEventListener("click", A.backdropClickHandler), A.addEventListener("mousedown", (n) => {
+      A._mousedownInsideContent = e.contains(n.target);
+    }), A;
   }
   initializeA17Behaviors(t) {
     try {
@@ -2633,14 +2635,15 @@ function En({
     description: {
       fontFamily: "'Sabon', serif",
       fontSize: "1.4rem",
+      fontWeight: "500",
       lineHeight: "130%",
-      marginTop: "1.5rem",
+      marginTop: "2rem",
       opacity: "0.9"
     },
     metadata: {
       color: "#f6f6f6",
       marginTop: "4rem",
-      fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
       fontSize: "1rem",
       fontWeight: "500",
       lineHeight: "130%"
@@ -2962,13 +2965,13 @@ function Cn({
                           transform: "translate(-50%, -50%)",
                           animation: "fadeInUp 1s ease-out 0.3s backwards",
                           fontSize: "1.25rem",
-                          fontWeight: "500",
+                          fontWeight: "600",
                           letterSpacing: "0.2em",
                           textTransform: "uppercase",
                           color: "#ffffff",
                           pointerEvents: "none",
                           textShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                          fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif'
+                          fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif'
                         },
                         children: "Explore"
                       }
@@ -3118,7 +3121,7 @@ function Bn({
                     fontSize: "1.75rem",
                     opacity: 0.7,
                     marginTop: "3rem",
-                    fontFamily: '"Ideal Sans A", Helvetica, Arial, sans-serif',
+                    fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
                     letterSpacing: "0.05em",
                     textTransform: "uppercase"
                   },
@@ -3168,11 +3171,11 @@ function Bn({
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     fontSize: "1.2rem",
-                    fontWeight: "550",
+                    fontWeight: "500",
                     letterSpacing: "0.25em",
                     textTransform: "uppercase",
                     pointerEvents: "none",
-                    fontFamily: '"Ideal Sans A", Helvetica, Arial, sans-serif',
+                    fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
                     color: "#FFFFFF"
                   },
                   children: "Explore"
@@ -4944,12 +4947,9 @@ function On({
       eventLabel: "Session Ended"
     }), h.current && l.current && l.current.position.copy(h.current), b.current && d.current && (d.current.target.copy(b.current), d.current.update()), s.current && (s.current.reset(), s.current.updateBillboards()), B(!0), oA(!1), bA(!0), IA(!1), z(!1), r.current?.focus();
   }, []), tA = ae(() => {
-    if (H.current && clearTimeout(H.current), !Z && !Y) {
-      const j = O ? 3e4 : 15e3;
-      H.current = setTimeout(() => {
-        oA(!0);
-      }, j);
-    }
+    H.current && clearTimeout(H.current), !Z && !Y && (H.current = setTimeout(() => {
+      oA(!0);
+    }, 3e4));
   }, [Z, Y, O]), NA = () => {
     oA(!1), tA();
   }, OA = () => {
@@ -5209,7 +5209,7 @@ function On({
               color: "#f6f6f6",
               padding: "12px 24px",
               borderRadius: "40px",
-              fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+              fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
               fontWeight: "700",
               zIndex: 70,
               display: "flex",
