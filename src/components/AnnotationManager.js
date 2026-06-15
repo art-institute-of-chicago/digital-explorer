@@ -327,7 +327,7 @@ export class AnnotationManager {
             this.cameraAnimation.controls.enabled = true;
           }
           this.isToggling = false;
-        }, 200);
+        }, 1000);
       } else {
         this.isToggling = false;
       }
@@ -421,7 +421,7 @@ export class AnnotationManager {
 
         setTimeout(() => {
           this.isToggling = false;
-        }, 200);
+        }, 1000);
       } else {
         this.isToggling = false;
       }

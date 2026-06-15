@@ -194,7 +194,7 @@ export default function App({
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
 
     if (!showTitleScreen && !showTimeoutScreen) {
-      const delay = isVOModeActive ? 30000 : 15000;
+      const delay = isVOModeActive ? 30000 : 30000;
 
       inactivityTimerRef.current = setTimeout(() => {
         setShowTimeoutScreen(true);
@@ -210,7 +210,7 @@ export default function App({
   const handleExploreClick = () => {
     setIsTitleExiting(true);
     if (renderer && scene && camera) renderer.render(scene, camera);
-    
+
     sendGAEvent({
       eventCategory: 'Explorer',
       eventAction: 'start session',
