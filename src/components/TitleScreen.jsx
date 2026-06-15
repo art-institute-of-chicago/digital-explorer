@@ -283,13 +283,13 @@ export default function TitleScreen({
               transform: "translate(-50%, -50%)",
               animation: "fadeInUp 1s ease-out 0.3s backwards",
               fontSize: "1.25rem",
-              fontWeight: "500",
+              fontWeight: "600",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               color: "#ffffff",
               pointerEvents: "none",
               textShadow: "0 2px 8px rgba(0,0,0,0.2)",
-              fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+              fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
             }}
           >
             Explore

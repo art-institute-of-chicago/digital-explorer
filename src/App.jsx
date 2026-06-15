@@ -673,7 +673,7 @@ export default function App({
             color: "#f6f6f6",
             padding: "12px 24px",
             borderRadius: "40px",
-            fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+            fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
             fontWeight: "700",
             zIndex: 70,
             display: "flex",

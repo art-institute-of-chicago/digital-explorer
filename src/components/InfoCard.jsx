@@ -120,14 +120,15 @@ export default function InfoCard({
     description: {
       fontFamily: "'Sabon', serif",
       fontSize: "1.4rem",
+      fontWeight: "500",
       lineHeight: "130%",
-      marginTop: "1.5rem",
+      marginTop: "2rem",
       opacity: "0.9",
     },
     metadata: {
       color: "#f6f6f6",
       marginTop: "4rem",
-      fontFamily: '"Ideal Sans A", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
       fontSize: "1rem",
       fontWeight: "500",
       lineHeight: "130%",

@@ -16,7 +16,10 @@ fontObservers({
 fontObservers({
   name: 'sans-serif',
   variants: [
-    { name: 'Ideal Sans A' },
+    { name: 'Ideal Sans A', weight: '400', style: 'normal' },
+    { name: 'Ideal Sans A', weight: '500', style: 'normal' },
+    { name: 'Ideal Sans A', weight: '600', style: 'normal' },
+    { name: 'Ideal Sans A', weight: '700', style: 'normal' },
     { name: 'Ideal Sans B', weight: '400', style: 'italic' },
   ]
 });

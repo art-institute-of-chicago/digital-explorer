@@ -208,7 +208,7 @@ export default function TimeoutScreen({
             fontSize: "1.75rem",
             opacity: 0.7,
             marginTop: "3rem",
-            fontFamily: '"Ideal Sans A", Helvetica, Arial, sans-serif',
+            fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
             letterSpacing: "0.05em",
             textTransform: "uppercase",
           }}
@@ -251,11 +251,11 @@ export default function TimeoutScreen({
             left: "50%",
             transform: "translate(-50%, -50%)",
             fontSize: "1.2rem",
-            fontWeight: "550",
+            fontWeight: "500",
             letterSpacing: "0.25em",
             textTransform: "uppercase",
             pointerEvents: "none",
-            fontFamily: '"Ideal Sans A", Helvetica, Arial, sans-serif',
+            fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
             color: "#FFFFFF",
           }}
         >
