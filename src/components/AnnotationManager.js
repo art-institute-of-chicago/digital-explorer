@@ -535,35 +535,35 @@ export class AnnotationManager {
     const index = this.annotations.findIndex((a) => a.data && a.data.id === id);
     if (index !== -1) {
       const ann = this.annotations[index];
-      
+
       // Remove from 3D scene
       if (ann.group && ann.group.parent) {
         ann.group.parent.remove(ann.group);
       }
-      
+
       // Remove icon DOM elements
       if (ann.iconElement && ann.iconElement.parentNode) {
         ann.iconElement.parentNode.removeChild(ann.iconElement);
       }
-      
+
       if (ann.labelElement && ann.labelElement.parentNode) {
         ann.labelElement.parentNode.removeChild(ann.labelElement);
       }
-      
+
       if (ann.focusAnchor && ann.focusAnchor.parentNode) {
         ann.focusAnchor.parentNode.removeChild(ann.focusAnchor);
       }
-      
+
       // Remove dialog overlay
       if (ann.overlay && ann.overlay.parentNode) {
         ann.overlay.parentNode.removeChild(ann.overlay);
       }
-      
+
       // Remove CSS clone (close button)
       if (ann.cssClone && ann.cssClone.parentNode) {
         ann.cssClone.parentNode.removeChild(ann.cssClone);
       }
-      
+
       this.annotations.splice(index, 1);
     }
   }
@@ -989,7 +989,7 @@ export class AnnotationManager {
           const currentTargetScale = annotation.circle.userData.targetScale || annotation.size;
           const hoverMultiplier = currentTargetScale / annotation.size;
           const targetPixelSize = basePixelSize * hoverMultiplier;
-          
+
           if (!annotation.circle.userData.currentPixelSize) {
             annotation.circle.userData.currentPixelSize = targetPixelSize;
           }
@@ -1008,11 +1008,11 @@ export class AnnotationManager {
           // CONSTANT WORLD SIZE LOGIC (native sizeAttenuation is true)
           const targetScale = annotation.circle.userData.targetScale || annotation.size;
           const currentScale = annotation.circle.userData.sprite.scale.x;
-          
+
           // Interpolate directly on the sprite scale
           const newScale = currentScale + (targetScale - currentScale) * 0.1;
           annotation.circle.userData.sprite.scale.set(newScale, newScale, 1);
-          
+
           if (annotation.rippleSprites) {
              annotation.rippleSprites.forEach(r => { r.userData.baseScale = newScale; });
           }
