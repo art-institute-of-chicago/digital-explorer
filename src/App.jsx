@@ -194,7 +194,7 @@ export default function App({
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
 
     if (!showTitleScreen && !showTimeoutScreen) {
-      const delay = isVOModeActive ? 30000 : 30000;
+      const delay = isVOModeActive ? 60000 : 60000;
 
       inactivityTimerRef.current = setTimeout(() => {
         setShowTimeoutScreen(true);
