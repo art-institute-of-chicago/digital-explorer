@@ -11,6 +11,43 @@ export function useControls(containerRef, renderer, settings, models) {
   useEffect(() => {
     if (!containerRef.current || !renderer) return;
 
+    // Really awesome fix here I love safari!
+    // .-.
+
+    // Tell browser not to do anything we've got it from here
+    const canvas = renderer.domElement;
+    canvas.style.touchAction = 'none';
+
+    let pinchBase = 1;
+
+    // When the gesture starts let's capture the distance from the model
+    canvas.addEventListener('gesturestart', (e) => {
+      e.stopPropagation();
+      pinchBase = camera.position.distanceTo(controls.target);
+    });
+
+    // As it's changing we'll take the scale from gesturechange
+    // and create a new position to go to
+    canvas.addEventListener('gesturechange', (e) => {
+      e.preventDefault();
+
+      // Normalize pinch values
+      const dist = Math.max(controls.minDistance,
+        Math.min(controls.maxDistance, pinchBase / e.scale));
+
+      // And then take that dist value we made and apply it to the camera position
+      const dir = new THREE.Vector3()
+        .subVectors(camera.position, controls.target).normalize();
+      camera.position.copy(controls.target).addScaledVector(dir, dist);
+
+      // Update the position and voilà we've zoomed
+      controls.update();
+    });
+
+    // After your pinch is done we prevent any scale value from the event being cast
+    // this was added because without it a weird jump happened in the render flow
+    canvas.addEventListener('gestureend', (e) => e.stopPropagation());
+
     const cameraSettings = settings.camera || { position: [0, 0, 5], fov: 75, near: 0.1, far: 2000 };
     const cameraPosition = toVector3Array(cameraSettings.position, [0, 0, 5]);
     const camera = new THREE.PerspectiveCamera(
@@ -26,7 +63,7 @@ export function useControls(containerRef, renderer, settings, models) {
 
     // Use MapControls for 2D, OrbitControls for 3D
     const ControlClass = is2D ? MapControls : OrbitControls;
-    const controls = new ControlClass(camera, renderer.domElement);
+    const controls = new ControlClass(camera, canvas);
 
     let orbitTarget = new THREE.Vector3(0, 0, 0);
     if (settings.orbitControls?.target) {
