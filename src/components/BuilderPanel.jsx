@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
 
 export default function BuilderPanel({
@@ -24,6 +24,7 @@ export default function BuilderPanel({
   modelsLoaded
 }) {
   const [data, setData] = useState({ models: [], lights: [], annotations: [], settings: {} }); // Local state mapping
+  const dragRef = useRef({ active: false, annotationId: null, annotation: null, plane: new THREE.Plane() });
 
   useEffect(() => {
     setData({
@@ -119,6 +120,166 @@ export default function BuilderPanel({
         }
     };
   }, [scene]);
+
+  // Bulk position update for drag (avoids 3 separate state updates per frame)
+  const handleAnnotationPositionBulk = useCallback((id, newPosition) => {
+    setData((prev) => {
+      const next = { ...prev };
+      next.annotations = [...prev.annotations];
+      next.models = prev.models.map(m => ({
+        ...m,
+        children: m.children ? [...m.children] : undefined
+      }));
+
+      let ann = next.annotations.find(a => a.id === id);
+      if (ann) {
+        const idx = next.annotations.indexOf(ann);
+        ann = { ...ann, content: { ...(ann.content || {}) } };
+        next.annotations[idx] = ann;
+      } else {
+        for (const model of next.models) {
+          if (model.children) {
+            const idx = model.children.findIndex(c => c.id === id);
+            if (idx !== -1) {
+              ann = { ...model.children[idx], content: { ...(model.children[idx].content || {}) } };
+              model.children[idx] = ann;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!ann) return prev;
+      ann.content.position = [newPosition[0], newPosition[1], newPosition[2]];
+      ann.content.coordinate = `[${newPosition.map(v => v.toFixed(2)).join(', ')}]`;
+      return next;
+    });
+  }, []);
+
+  // --- Annotation Drag in 3D Scene ---
+  useEffect(() => {
+    if (!isOpen || !renderer || !camera) return;
+
+    const canvas = renderer.domElement;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let dragMoved = false;
+
+    const screenToNdc = (event) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+    };
+
+    const getAnnotationAtPointer = (event) => {
+      screenToNdc(event);
+      const am = annotationManagerRef?.current;
+      if (!am) return null;
+      const clickables = am.annotations.map(a => a.clickable).filter(c => c);
+      if (clickables.length === 0) return null;
+      const intersects = raycaster.intersectObjects(clickables);
+      if (intersects.length > 0) {
+        return am.annotations.find(a => a.clickable === intersects[0].object) || null;
+      }
+      return null;
+    };
+
+    const onPointerDown = (event) => {
+      if (event.button !== 0) return;
+      const ann = getAnnotationAtPointer(event);
+      if (!ann || ann.isActive) return;
+
+      dragMoved = false;
+      const worldPos = new THREE.Vector3();
+      ann.group.getWorldPosition(worldPos);
+
+      const cameraDir = new THREE.Vector3();
+      camera.getWorldDirection(cameraDir);
+      const dragPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(cameraDir, worldPos);
+
+      // Capture click offset so annotation doesn't jump
+      const startIntersection = new THREE.Vector3();
+      raycaster.ray.intersectPlane(dragPlane, startIntersection);
+
+      dragRef.current = {
+        active: true,
+        annotationId: ann.data?.id,
+        annotation: ann,
+        plane: dragPlane,
+        startWorldPos: worldPos.clone(),
+        startIntersection: startIntersection,
+      };
+
+      canvas.setPointerCapture(event.pointerId);
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    };
+
+    const onPointerMove = (event) => {
+      if (!dragRef.current.active) return;
+
+      screenToNdc(event);
+      const intersection = new THREE.Vector3();
+      const hit = raycaster.ray.intersectPlane(dragRef.current.plane, intersection);
+      if (!hit) return;
+
+      dragMoved = true;
+      const ann = dragRef.current.annotation;
+      if (!ann || !ann.group) return;
+
+      // Apply world-space delta, then convert to local
+      const delta = intersection.clone().sub(dragRef.current.startIntersection);
+      const newWorldPos = dragRef.current.startWorldPos.clone().add(delta);
+      const localPos = ann.group.parent
+        ? ann.group.parent.worldToLocal(newWorldPos.clone())
+        : newWorldPos;
+
+      ann.group.position.copy(localPos);
+      annotationManagerRef?.current?.updatePositions();
+      handleAnnotationPositionBulk(dragRef.current.annotationId, localPos.toArray());
+    };
+
+    const onPointerUp = (event) => {
+      if (!dragRef.current.active) return;
+      dragRef.current.active = false;
+      canvas.releasePointerCapture(event.pointerId);
+
+      // Restore cursor
+      canvas.style.cursor = '';
+    };
+
+    const onLostCapture = () => {
+      if (dragRef.current.active) {
+        dragRef.current.active = false;
+        canvas.style.cursor = '';
+      }
+    };
+
+    // Capture phase fires before AnnotationManager's bubble-phase handlers
+    canvas.addEventListener('pointerdown', onPointerDown, true);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('lostpointercapture', onLostCapture);
+
+    const onPointerMoveCapture = (event) => {
+      if (!dragRef.current.active) return;
+      // Show grabbing cursor during drag
+      if (canvas.style.cursor !== 'grabbing') canvas.style.cursor = 'grabbing';
+    };
+    canvas.addEventListener('pointermove', onPointerMoveCapture);
+
+    return () => {
+      canvas.removeEventListener('pointerdown', onPointerDown, true);
+      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener('pointermove', onPointerMoveCapture);
+      canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('lostpointercapture', onLostCapture);
+      if (dragRef.current.active) {
+        dragRef.current.active = false;
+      }
+    };
+  }, [isOpen, renderer, camera, annotationManagerRef, handleAnnotationPositionBulk]);
 
   const styleBlock = (
     <style>{`
