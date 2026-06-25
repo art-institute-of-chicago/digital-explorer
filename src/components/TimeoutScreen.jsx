@@ -64,9 +64,17 @@ export default function TimeoutScreen({
       powerPreference: "high-performance",
     });
 
-    const size = 275;
-    renderer.setSize(size, size);
+    const size = Math.round(window.innerWidth * 0.20);
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    renderer.setSize(size, size, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const raf = requestAnimationFrame(() => {
+      const actual = canvas.clientWidth || size;
+      renderer.setSize(actual, actual, false);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
@@ -88,12 +96,19 @@ export default function TimeoutScreen({
 
     // --- Create the main button mesh ---
     const buttonCanvas = document.createElement("canvas");
-    buttonCanvas.width = 256;
-    buttonCanvas.height = 256;
+    buttonCanvas.width = size;
+    buttonCanvas.height = size;
     const ctx = buttonCanvas.getContext("2d", { alpha: true });
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
+    const half = size / 2;
+    const radius = half * 0.9375; // 120/128 ratio
     ctx.fillStyle = "#4B9CA3";
     ctx.beginPath();
-    ctx.arc(128, 128, 120, 0, Math.PI * 2);
+    ctx.arc(half, half, radius, 0, Math.PI * 2);
     ctx.fill();
 
     const texture = new THREE.CanvasTexture(buttonCanvas);
@@ -145,6 +160,7 @@ export default function TimeoutScreen({
       buttonMaterial.dispose();
       texture.dispose();
       renderer.dispose();
+      cancelAnimationFrame(raf);
     };
   }, [
     rippleConfig,
@@ -175,6 +191,7 @@ export default function TimeoutScreen({
         textAlign: "center",
         backdropFilter: "blur(10px)",
         userSelect: "none",
+        padding: "2rem",
       }}
     >
       <div aria-live="polite" className="sr-only">
@@ -182,39 +199,38 @@ export default function TimeoutScreen({
           `Timeout warning. Resetting in ${secondsLeft} seconds.`}
       </div>
 
-      <div
+      <h2
+        id="timeout-heading"
         style={{
-          marginBottom: "40px",
-          display: "flex",
-          flexDirection: "column",
+          fontSize: "8.75rem",
+          fontFamily: "'Sabon'",
+          margin: 0,
+          marginBottom: "4%",
+          fontWeight: "400",
+          letterSpacing: "-0.02em",
+          textShadow: "0 4px 24px rgba(0,0,0,0.5)",
         }}
       >
-        <h2
-          id="timeout-heading"
-          style={{
-            fontSize: "6.5rem",
-            fontFamily: "'Sabon', serif",
-            margin: 0,
-            fontWeight: "400",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Are you still there?
-        </h2>
+        Are you still there?
+      </h2>
 
-        <div
-          aria-hidden="true"
-          style={{
-            fontSize: "1.75rem",
-            opacity: 0.7,
-            marginTop: "3rem",
-            fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-          }}
-        >
-          {formattedTime()}
-        </div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "40%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          fontSize: "1.75rem",
+          fontWeight: "500",
+          letterSpacing: "18%",
+          textTransform: "uppercase",
+          color: "#ffffff",
+          textShadow: "0 2px 8px rgba(0,0,0,0.2)",
+          fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
+        }}
+      >
+        {formattedTime()}
       </div>
 
       <button
@@ -228,8 +244,8 @@ export default function TimeoutScreen({
           border: "none",
           padding: 0,
           position: "relative",
-          width: "525px",
-          height: "525px",
+          width: "20vw",
+          height: "20vw",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
@@ -241,7 +257,7 @@ export default function TimeoutScreen({
         <canvas
           ref={canvasRef}
           aria-hidden="true"
-          style={{ width: "275px", height: "275px", display: "block" }}
+          style={{ width: "100%", height: "100%", display: "block" }}
         />
 
         <div
@@ -250,13 +266,14 @@ export default function TimeoutScreen({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            fontSize: "1.2rem",
+            fontSize: "1.75rem",
             fontWeight: "500",
-            letterSpacing: "0.25em",
+            letterSpacing: "18%",
             textTransform: "uppercase",
             pointerEvents: "none",
-            fontFamily: '"Ideal Sans A", "Ideal Sans B", Helvetica, Arial, sans-serif',
+            fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
             color: "#FFFFFF",
+            textShadow: "0 2px 8px rgba(0,0,0,0.2)",
           }}
         >
           Explore

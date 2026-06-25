@@ -34,9 +34,19 @@ export default function TitleScreen({
       powerPreference: "high-performance",
     });
 
-    const size = 275;
-    renderer.setSize(size, size);
+    // Measure actual rendered size after layout (canvas CSS fills the button)
+    const size = Math.round(window.innerWidth * 0.15);
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    renderer.setSize(size, size, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Re-sync after layout settles (Safari flex sizing differs from Chrome)
+    const raf = requestAnimationFrame(() => {
+      const actual = canvas.clientWidth || size;
+      renderer.setSize(actual, actual, false);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
@@ -58,17 +68,19 @@ export default function TitleScreen({
 
     // --- Create the main button mesh ---
     const buttonCanvas = document.createElement("canvas");
-    buttonCanvas.width = 256;
-    buttonCanvas.height = 256;
+    buttonCanvas.width = size;
+    buttonCanvas.height = size;
     const ctx = buttonCanvas.getContext("2d", { alpha: true });
 
-    ctx.clearRect(0, 0, 256, 256);
+    ctx.clearRect(0, 0, size, size);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
+    const half = size / 2;
+    const radius = half * 0.9375; // 120/128 ratio
     ctx.fillStyle = "#4B9CA3";
     ctx.beginPath();
-    ctx.arc(128, 128, 120, 0, Math.PI * 2);
+    ctx.arc(half, half, radius, 0, Math.PI * 2);
     ctx.fill();
 
     const texture = new THREE.CanvasTexture(buttonCanvas);
@@ -130,6 +142,7 @@ export default function TitleScreen({
       buttonMaterial.dispose();
       texture.dispose();
       renderer.dispose();
+      cancelAnimationFrame(raf);
     };
   }, [
     isVisible,
@@ -217,11 +230,12 @@ export default function TitleScreen({
             dangerouslySetInnerHTML={{ __html: titleDisplay }}
             style={{
               animation: "fadeInUp 1s ease-out",
-              fontSize: "6rem",
+              fontSize: "8.75rem",
               fontWeight: "400",
               letterSpacing: "-0.02em",
               textShadow: "0 4px 24px rgba(0,0,0,0.5)",
               maxWidth: "90vw",
+              marginBottom: "4%",
               fontFamily: "'Sabon'",
             }}
           />
@@ -229,11 +243,12 @@ export default function TitleScreen({
           <h2
             style={{
               animation: "fadeInUp 1s ease-out",
-              fontSize: "6rem",
+              fontSize: "8.75rem",
               fontWeight: "400",
               letterSpacing: "-0.02em",
               textShadow: "0 4px 24px rgba(0,0,0,0.5)",
               maxWidth: "90vw",
+              marginBottom: "4%",
               fontFamily: "'Sabon'",
             }}
           >
@@ -247,8 +262,8 @@ export default function TitleScreen({
           disabled={!isSceneReady}
           style={{
             position: "relative",
-            width: "525px",
-            height: "525px",
+            width: "20vw",
+            height: "20vw",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -271,6 +286,8 @@ export default function TitleScreen({
             aria-hidden="true"
             style={{
               display: "block",
+              width: "100%",
+              height: "100%",
               transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
             }}
           />
@@ -282,9 +299,9 @@ export default function TitleScreen({
               left: "50%",
               transform: "translate(-50%, -50%)",
               animation: "fadeInUp 1s ease-out 0.3s backwards",
-              fontSize: "1.25rem",
-              fontWeight: "600",
-              letterSpacing: "0.2em",
+              fontSize: "1.75rem",
+              fontWeight: "500",
+              letterSpacing: "18%",
               textTransform: "uppercase",
               color: "#ffffff",
               pointerEvents: "none",

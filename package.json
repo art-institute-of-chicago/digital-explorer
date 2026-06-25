@@ -58,5 +58,7 @@
   ],
   "author": "Trevin Alonzo",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "digital-explorer": "file:.yalc/digital-explorer"
+  }
 }
