@@ -2629,7 +2629,7 @@ function En({
       left: "60px",
       backgroundColor: "#282829",
       color: "white",
-      maxWidth: "27.5%",
+      maxWidth: "28vw",
       minWidth: "450px",
       padding: "60px 50px",
       display: "flex",
@@ -2640,22 +2640,22 @@ function En({
     },
     title: {
       fontFamily: "'Sabon', serif",
-      fontSize: "3rem",
+      fontSize: "3.9rem",
       margin: 0,
       fontWeight: "400",
       lineHeight: "1.1"
     },
     description: {
       fontFamily: "'Sabon', serif",
-      fontSize: "1.4rem",
+      fontSize: "1.66rem",
       fontWeight: "500",
       lineHeight: "130%",
-      marginTop: "2rem",
+      marginTop: "1.75rem",
       opacity: "0.9"
     },
     metadata: {
       color: "#f6f6f6",
-      marginTop: "4rem",
+      marginTop: "6rem",
       fontFamily: '"Ideal Sans A", "Ideal Sans B", "Helvetica Neue", Arial, sans-serif',
       fontSize: "1rem",
       fontWeight: "500",
